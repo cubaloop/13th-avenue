@@ -906,19 +906,40 @@ img {
 
 .brand-showcase-card {
   border: 1px solid var(--border-color);
-  padding: 36px 28px;
+  padding: 28px 22px;
   text-align: center;
   border-radius: var(--rounded-default);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 480px;
+  height: 490px;
   position: relative;
   overflow: hidden;
   background-color: #ffffff !important;
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   box-shadow: var(--shadow-sm);
+}
+
+.brand-card-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: 0;
+  opacity: 0.78;
+  filter: contrast(1.12) saturate(1.10) brightness(1.02);
+  image-rendering: -webkit-optimize-contrast;
+  transition: transform 0.5s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.brand-showcase-card:hover .brand-card-bg-img {
+  transform: scale(1.03);
+  opacity: 0.86;
 }
 
 .brand-showcase-card::before {
@@ -928,20 +949,31 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.88);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.36) 0%,
+    rgba(255, 255, 255, 0.22) 48%,
+    rgba(255, 255, 255, 0.52) 100%
+  );
   z-index: 1;
+  pointer-events: none;
 }
 
 .brand-showcase-header {
   position: relative;
   z-index: 2;
-  color: #52525b;
+  color: #3f3f46;
+  background-color: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  padding: 14px 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .brand-card-emblem {
-  width: 54px;
-  height: 54px;
-  margin: 0 auto 12px auto;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 8px auto;
   border-radius: 50%;
   border: 1px solid #d4d4d8;
   background-color: #ffffff;
@@ -949,38 +981,40 @@ img {
   align-items: center;
   justify-content: center;
   font-family: var(--font-serif);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  color: #71717a;
+  color: #52525b;
   letter-spacing: 0.05em;
   box-shadow: var(--shadow-sm);
 }
 
 .brand-card-logo {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 8px;
-  color: #52525b !important;
+  margin-bottom: 6px;
+  color: #3f3f46 !important;
 }
 
 .brand-card-logo.gold-logo {
-  color: #52525b !important;
+  color: #3f3f46 !important;
 }
 
 .brand-showcase-desc {
-  font-size: 13px;
-  color: #71717a;
-  margin-bottom: 20px;
+  font-size: 12.5px;
+  color: #52525b;
+  font-weight: 500;
+  margin-bottom: 0;
+  line-height: 1.45;
 }
 
 .brand-links-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -988,16 +1022,24 @@ img {
 }
 
 .brand-links-list li a {
-  color: #52525b;
-  font-size: 14.5px;
-  font-weight: 500;
-  border-bottom: 1px dashed #a1a1aa;
-  padding-bottom: 2px;
+  display: inline-block;
+  color: #3f3f46;
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(3px);
+  font-size: 13.5px;
+  font-weight: 600;
+  border: 1px solid rgba(212, 212, 216, 0.7);
+  border-radius: 999px;
+  padding: 5px 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: var(--transition-fast);
 }
 
 .brand-links-list li a:hover {
   color: var(--accent-pink);
-  border-bottom-color: var(--accent-pink);
+  background-color: #ffffff;
+  border-color: var(--accent-pink);
+  transform: translateY(-1px);
 }
 
 .brand-showcase-footer {
@@ -1007,8 +1049,8 @@ img {
 
 .btn-brand-explore {
   display: inline-block;
-  background-color: #ffffff;
-  color: #52525b;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #3f3f46;
   border: 1px solid #d4d4d8;
   font-size: 11px;
   font-weight: 700;
@@ -1016,13 +1058,14 @@ img {
   letter-spacing: 0.1em;
   padding: 12px 28px;
   border-radius: var(--rounded-sm);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition: var(--transition-fast);
 }
 
 .btn-brand-explore:hover {
-  background-color: #f4f4f5;
-  color: #3f3f46;
-  border-color: #a1a1aa;
+  background-color: #ffffff;
+  color: var(--accent-pink);
+  border-color: var(--accent-pink);
 }
 
 /* --- Trending Left-to-Right Horizontal Distribution (Requirement 6) --- */
@@ -2216,6 +2259,7 @@ a[href*="wishlist=true"] {
   background-color: #ffffff;
 }
 
+.footer-accordion-header,
 .footer-accordion-btn {
   width: 100%;
   display: flex;
@@ -2235,52 +2279,111 @@ a[href*="wishlist=true"] {
   transition: background-color 0.15s ease;
 }
 
+.footer-accordion-header:hover,
 .footer-accordion-btn:hover {
   background-color: #f9fafb;
 }
 
+.footer-accordion-header i,
 .footer-accordion-btn .acc-chevron {
   font-size: 13px;
   color: #6b7280;
   transition: transform 0.25s ease;
 }
 
+.footer-accordion-item.active .footer-accordion-header i,
+.footer-accordion-item.open .footer-accordion-header i,
+.footer-accordion-item.active .footer-accordion-btn .acc-chevron,
 .footer-accordion-item.open .footer-accordion-btn .acc-chevron {
   transform: rotate(180deg);
 }
 
 .footer-accordion-content {
   display: none;
-  padding: 4px 20px 20px 20px;
+  padding: 6px 24px 24px 24px;
   background-color: #ffffff;
   color: #6b7280;
   font-size: 13px;
   line-height: 1.7;
+  text-align: left;
 }
 
+.footer-accordion-item.active .footer-accordion-content,
 .footer-accordion-item.open .footer-accordion-content {
   display: block;
+  animation: footerAccFadeIn 0.22s ease;
 }
 
+@keyframes footerAccFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer-acc-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 640px) {
+  .footer-acc-info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.footer-acc-info-block {
+  background-color: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.footer-acc-info-block h5 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #4b5563;
+  margin: 0 0 6px 0;
+}
+
+.footer-acc-info-block p {
+  font-size: 12.5px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.footer-accordion-content ul,
 .footer-accordion-links {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 10px 20px;
 }
 
+.footer-accordion-content ul li a,
 .footer-accordion-links li a {
-  color: #6b7280;
-  text-decoration: none;
-  font-size: 13px;
+  color: #4b5563;
+  text-decoration: underline;
+  font-size: 12.5px;
+  font-weight: 500;
   transition: color 0.15s ease;
 }
 
+.footer-accordion-content ul li a:hover,
 .footer-accordion-links li a:hover {
-  color: #374151;
-  text-decoration: underline;
+  color: var(--accent-pink);
 }
 
 /* Image 1 Bottom: Country Box & Minimalist Social Media Icons on White Background */

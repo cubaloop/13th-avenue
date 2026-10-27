@@ -976,6 +976,24 @@ function renderAllDynamicComponents() {
             <i class="fas fa-chevron-down"></i>
           </button>
           <div class="footer-accordion-content">
+            <div class="footer-acc-info-grid">
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Expédition & Livraison" : "Shipping & Delivery"}</h5>
+                <p>${isFrFooter ? "Livraison Express 24h aux Émirats Arabes Unis (Gratuite dès 150 AED d'achat, sinon 25 AED). Livraison internationale et CCG sous 2 à 5 jours ouvrables avec suivi en direct." : "Express Next-Day Delivery across the UAE (Free on orders over 150 AED, flat rate 25 AED). GCC & International shipping within 2–5 business days with real-time tracking."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Retours & Échanges Gratuits" : "Returns & Exchanges"}</h5>
+                <p>${isFrFooter ? "Vous disposez de 14 jours après réception pour retourner ou échanger tout article non porté dans son emballage d'origine. Ramassage retour gratuit aux ÉAU." : "Enjoy a hassle-free 14-day return and exchange policy on all unworn items in their original packaging, including complimentary return pickup across the UAE."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Guide des Tailles & Perruques" : "Size & Wig Care Guide"}</h5>
+                <p>${isFrFooter ? "Nos coupes Miss Chloé vont du XS au XL. Nos perruques Nella Hair sont 100% cheveux humains Remy avec bonnets ajustables HD Lace sans colle." : "Miss Chloé apparel ranges from XS to XL with tailored modest fits. Nella Hair wigs are 100% Virgin Remy Human Hair with adjustable glueless HD lace caps."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Service Client 24/7" : "24/7 Customer Care"}</h5>
+                <p>${isFrFooter ? "Notre équipe dédiée est disponible 7j/7 de 9h00 à 21h00 (GST) par e-mail à support@13thavenue.com ou via notre assistance en direct." : "Our dedicated concierge team is available Monday – Sunday, 9:00 AM – 9:00 PM (GST) via support@13thavenue.com or live support."}</p>
+              </div>
+            </div>
             <ul>
               <li><a href="#" onclick="openSupportModal(); return false;">${trans.contactUs}</a></li>
               <li><a href="#" onclick="openInfoPolicyModal('faq'); return false;">${trans.faqs}</a></li>
@@ -994,6 +1012,29 @@ function renderAllDynamicComponents() {
             <i class="fas fa-chevron-down"></i>
           </button>
           <div class="footer-accordion-content">
+            <p style="margin-bottom:14px;">
+              ${isFrFooter
+                ? "Basée à Dubaï, 13th Avenue Lifestyle Brand House réunit sous un même toit des maisons de mode, de haute coiffure, de beauté biologique et d'art de vivre pour toute la famille, alliant savoir-faire artisanal et élégance contemporaine."
+                : "Headquartered in Dubai, UAE, 13th Avenue Lifestyle Brand House brings together curated fashion, couture human hair, organic beauty, and family lifestyle under one roof — uniting timeless elegance with uncompromising quality."}
+            </p>
+            <div class="footer-acc-info-grid">
+              <div class="footer-acc-info-block">
+                <h5>Miss Chloé</h5>
+                <p>${isFrFooter ? "Prêt-à-porter féminin, robes de soirée, abayas sur mesure, ensembles coordonnés et maroquinerie." : "Contemporary modest fashion, evening dresses, tailored abayas, coordinates, shoes, and leather handbags."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>Nella Hair Couture</h5>
+                <p>${isFrFooter ? "Perruques HD Lace 100% cheveux humains vierges Remy, frontales sans colle, extensions et soins capillaires." : "100% Virgin Remy Human Hair HD lace frontals, glueless closure wigs, clip-in extensions, and styling tools."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>COCO Beauty</h5>
+                <p>${isFrFooter ? "Soins du visage biologiques, maquillage de luxe, gommages corporels botaniques et parfums d'Oud." : "Organic facial skincare, luxury makeup, botanical bath & body scrubs, beauty devices, and Oud fragrances."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>COCO Mini & Wedding</h5>
+                <p>${isFrFooter ? "Barboteuses en coton bio (0-24M), mode enfant, peluches douces et collection mariée d'exception." : "Organic cotton baby rompers (0–24M), kids' fashion, plush gifts, and breathtaking bridal gowns & veils."}</p>
+              </div>
+            </div>
             <ul>
               <li><a href="all-collections.html">${trans.ourBrands}</a></li>
               <li><a href="category.html?brand=Miss Chloé">Miss Chloé</a></li>
@@ -1012,12 +1053,29 @@ function renderAllDynamicComponents() {
             <i class="fas fa-chevron-down"></i>
           </button>
           <div class="footer-accordion-content">
+            <div class="footer-acc-info-grid">
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Confidentialité & Protection des Données" : "Privacy & Data Protection"}</h5>
+                <p>${isFrFooter ? "Vos informations personnelles sont chiffrées (SSL 256 bits) et traitées dans le strict respect des normes internationales de confidentialité." : "Your personal details are protected with 256-bit SSL encryption and processed strictly to fulfill your orders and personalize your experience."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Méthodologie de Paiement" : "Payment Methodology"}</h5>
+                <p>${isFrFooter ? "Paiements sécurisés 3D Secure par Visa, Mastercard, Maestro, AMEX, Apple Pay, PayPal, ainsi qu'en 4 fois sans frais via Tamara et Tabby." : "We support 3D Secure checkout via Visa, Mastercard, Maestro, AMEX, Apple Pay, PayPal, and split-in-4 interest-free payments with Tamara & Tabby."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Conditions Générales de Vente" : "Terms & Conditions"}</h5>
+                <p>${isFrFooter ? "Tous les prix affichés incluent la TVA applicable. Chaque commande fait l'objet d'un contrôle qualité rigoureux avant expédition." : "All displayed prices include applicable VAT. Every item undergoes strict quality inspection prior to dispatch from our Dubai fulfillment center."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Siège & Contact Officiel" : "Headquarters & Contact"}</h5>
+                <p>${trans.contactAddress} — ${trans.contactHours} | <a href="mailto:${fData.contactEmail}" style="color:#4b5563;">${fData.contactEmail}</a></p>
+              </div>
+            </div>
             <ul>
               <li><a href="#" onclick="openInfoPolicyModal('privacy'); return false;">${trans.privacyPolicy}</a></li>
               <li><a href="#" onclick="openInfoPolicyModal('terms'); return false;">${trans.termsConditions}</a></li>
               <li><a href="#" onclick="openInfoPolicyModal('cookies'); return false;">${trans.cookiePolicy}</a></li>
               <li><a href="mailto:${fData.contactEmail}">${fData.contactEmail}</a></li>
-              <li><span>${trans.contactAddress} (${trans.contactHours})</span></li>
             </ul>
           </div>
         </div>
@@ -1029,6 +1087,16 @@ function renderAllDynamicComponents() {
             <i class="fas fa-chevron-down"></i>
           </button>
           <div class="footer-accordion-content">
+            <div class="footer-acc-info-grid">
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Espace Client & Commandes" : "Member Account & Orders"}</h5>
+                <p>${isFrFooter ? "Connectez-vous ou créez un compte gratuit pour suivre vos colis en temps réel, consulter votre historique d'achats et gérer vos retours." : "Sign in or create a complimentary account to track active shipments in real time, view your complete order history, and manage returns effortlessly."}</p>
+              </div>
+              <div class="footer-acc-info-block">
+                <h5>${isFrFooter ? "Coordonnées & Paiement Rapide" : "Saved Details & Fast Checkout"}</h5>
+                <p>${isFrFooter ? "Enregistrez vos adresses de livraison et préférences de devise (AED, USD, EUR) pour un passage en caisse instantané sur toutes nos marques." : "Save your preferred delivery addresses and currency settings (AED, USD, EUR) for instant one-click checkout across all 13th Avenue brands."}</p>
+              </div>
+            </div>
             <ul>
               <li><a href="#" onclick="handleAccountAction('signin'); return false;">${trans.signInBtn}</a></li>
               <li><a href="#" onclick="handleAccountAction('create'); return false;">${trans.createAccountBtn}</a></li>
@@ -1087,7 +1155,9 @@ function renderAllDynamicComponents() {
 window.toggleFooterAccordion = function(id) {
   const item = document.getElementById(id);
   if (!item) return;
-  item.classList.toggle("active");
+  const isNowActive = !item.classList.contains("active");
+  item.classList.toggle("active", isNowActive);
+  item.classList.toggle("open", isNowActive);
 };
 
 // Lightweight Info Policy Modal for Footer Links

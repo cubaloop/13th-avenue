@@ -86,28 +86,58 @@ function runInitPageLogic() {
   updateHeaderCounts();
   renderCartDrawer();
   
-  // Event Delegation for In-Page Product Edits
-  document.addEventListener("click", (e) => {
+  // Event Delegation for In-Page Product Edits (Momentos Spa Live Editor Style)
+  document.addEventListener("click", async (e) => {
     const editBtn = e.target.closest(".admin-edit-btn");
     if (editBtn) {
       e.preventDefault();
-      const pid = Number(editBtn.dataset.id);
+      e.stopPropagation();
+      const pid = editBtn.dataset.id;
       if (window.openInPageProductModal) {
         window.openInPageProductModal(pid);
       }
+      return;
+    }
+
+    const photoBtn = e.target.closest(".admin-photo-btn");
+    if (photoBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const pid = photoBtn.dataset.id;
+      if (window.openQuickProductPhotoChanger) {
+        window.openQuickProductPhotoChanger(pid);
+      } else if (window.openInPageProductModal) {
+        window.openInPageProductModal(pid);
+      }
+      return;
     }
     
     const deleteBtn = e.target.closest(".admin-delete-btn");
     if (deleteBtn) {
       e.preventDefault();
-      const pid = Number(deleteBtn.dataset.id);
-      if (confirm(`Are you sure you want to delete Product #${pid}?`)) {
-        const idx = products.findIndex(p => p.id === pid);
+      e.stopPropagation();
+      const pid = deleteBtn.dataset.id;
+      if (confirm(`¿Estás seguro de eliminar el Producto #${pid}? Se eliminará en vivo de la tienda.`)) {
+        const idx = products.findIndex(p => String(p.id) === String(pid));
         if (idx > -1) {
           products.splice(idx, 1);
           localStorage.setItem("avenue13_products_draft", JSON.stringify(products));
-          alert("Product deleted from browser draft. Save changes to make it permanent!");
-          window.location.reload();
+          if (window.supabaseClient) {
+            try {
+              await window.supabaseClient.from("products").delete().eq("id", String(pid));
+            } catch (err) {
+              console.warn("Supabase delete product warning:", err);
+            }
+          }
+          if (window.showMomentosToast) {
+            window.showMomentosToast("🗑️ Producto eliminado en vivo de la tienda y Supabase");
+          }
+          if (document.getElementById("trending-products-grid")) {
+            renderProductGrid(products.slice(0, 10), "trending-products-grid");
+          }
+          if (document.getElementById("category-products-grid")) {
+            applyFiltersAndRender();
+          }
         }
       }
     }
@@ -815,12 +845,13 @@ function renderProductGrid(itemsList, containerId) {
         ${isSale ? `<span class="product-tag sale-tag">Sale</span>` : ''}
         ${isAdmin ? `
           <div class="admin-card-controls">
-            <button class="admin-edit-btn" data-id="${p.id}" title="Edit Product"><i class="fas fa-pencil-alt"></i></button>
-            <button class="admin-delete-btn" data-id="${p.id}" title="Delete Product"><i class="far fa-trash-can"></i></button>
+            <button class="admin-edit-btn" data-id="${p.id}" title="Editar Producto"><i class="fas fa-pencil-alt"></i></button>
+            <button class="admin-photo-btn" data-id="${p.id}" title="Cambiar Foto del Producto"><i class="fas fa-camera"></i></button>
+            <button class="admin-delete-btn" data-id="${p.id}" title="Eliminar Producto"><i class="far fa-trash-can"></i></button>
           </div>
         ` : ''}
         <a href="product.html?id=${p.id}">
-          <img src="${p.image}" alt="${p.name}">
+          <img src="${p.image}" alt="${p.name}" data-product-img-id="${p.id}">
         </a>
         <button class="quick-add-cart-btn" data-id="${p.id}" title="Quick Add to Bag">
           <i class="fas fa-shopping-bag"></i>
@@ -848,6 +879,10 @@ function renderProductGrid(itemsList, containerId) {
     `;
     container.appendChild(card);
   });
+
+  if (typeof window.bindMomentosLiveEditorElements === "function") {
+    window.bindMomentosLiveEditorElements();
+  }
 
   container.querySelectorAll(".quick-add-cart-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -1278,7 +1313,7 @@ function initCheckoutPage() {
       const selectedMethod = document.querySelector('input[name="payment-method"]:checked')?.id || "pay-card";
       
       processPayment(selectedMethod, orderDetails)
-        .then((res) => {
+        .then(async (res) => {
           // Log order details in database
           let ordersList = JSON.parse(localStorage.getItem("avenue13_orders")) || [];
           
@@ -1292,22 +1327,28 @@ function initCheckoutPage() {
           // Push order to Supabase Cloud Database if connected
           if (typeof window.supabaseClient !== "undefined" && window.supabaseClient) {
             const emailInput = document.getElementById("email-address");
-            window.supabaseClient.from('orders').insert([{
-              order_number: orderDetails.orderNumber,
-              customer_name: orderDetails.address.name,
-              customer_email: emailInput ? emailInput.value : "customer@13thavenue.com",
-              customer_phone: orderDetails.address.phone,
-              shipping_address: orderDetails.address,
-              items: orderDetails.items,
-              subtotal: orderDetails.totals.subtotal,
-              discount: orderDetails.totals.discount,
-              total: orderDetails.totals.total,
-              currency: "AED",
-              status: "Pending Delivery"
-            }]).then(({ error }) => {
-              if (error) console.warn("Supabase order insert warning:", error);
-              else console.log("⚡ Order logged live to Supabase Cloud!");
-            });
+            try {
+              await Promise.allSettled([
+                window.supabaseClient.from('orders').insert([{
+                  order_number: orderDetails.orderNumber,
+                  customer_name: orderDetails.address.name,
+                  customer_email: emailInput ? emailInput.value : "customer@13thavenue.com",
+                  customer_phone: orderDetails.address.phone,
+                  shipping_address: orderDetails.address,
+                  items: orderDetails.items,
+                  subtotal: orderDetails.totals.subtotal,
+                  discount: orderDetails.totals.discount,
+                  total: orderDetails.totals.total,
+                  currency: "AED",
+                  status: "Pending Delivery"
+                }]),
+                window.supabaseClient.from('site_settings').upsert([
+                  { key: 'real_orders', value: ordersList }
+                ])
+              ]);
+            } catch (e) {
+              console.warn("Supabase order sync warning:", e);
+            }
           }
           
           // Trigger admin panel order notification badge

@@ -422,31 +422,44 @@
 
       <!-- TAB 1: DASHBOARD STATS -->
       <div id="tab-dashboard" class="tab-content active">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+          <div style="display:flex; align-items:center; gap:8px; font-size:12px; color:#10b981; font-weight:700; background:#ecfdf5; border:1px solid #a7f3d0; padding:6px 12px; border-radius:20px;">
+            <span style="width:8px; height:8px; border-radius:50%; background:#10b981; display:inline-block;"></span>
+            Recording Real-Time Store Statistics
+          </div>
+          <button class="btn-admin" style="font-size:11px; color:#ef4444; border-color:#fca5a5;" onclick="resetAllRealStatistics()">
+            <i class="fas fa-rotate-left"></i> Reset All Statistics to Zero
+          </button>
+        </div>
+
         <div class="admin-card-grid">
           <div class="stat-card">
             <div class="stat-title">Total Sales (AED)</div>
-            <div class="stat-value" id="stat-sales">142,850 AED</div>
-            <div class="stat-trend"><i class="fas fa-arrow-up"></i> +12% this month</div>
+            <div class="stat-value" id="stat-sales">0.00 AED</div>
+            <div class="stat-trend" id="stat-sales-trend" style="color: var(--admin-text-muted)"><i class="fas fa-circle-check" style="color:#10b981;"></i> Live revenue counter</div>
           </div>
           <div class="stat-card">
             <div class="stat-title">Orders</div>
-            <div class="stat-value" id="stat-orders">342</div>
-            <div class="stat-trend"><i class="fas fa-arrow-up"></i> +8% this week</div>
+            <div class="stat-value" id="stat-orders">0</div>
+            <div class="stat-trend" id="stat-orders-trend" style="color: var(--admin-text-muted)"><i class="fas fa-receipt"></i> Real completed checkouts</div>
           </div>
           <div class="stat-card">
             <div class="stat-title">Avg. Order Value</div>
-            <div class="stat-value" id="stat-aov">417.69 AED</div>
-            <div class="stat-trend" style="color: var(--admin-text-muted)">Stable</div>
+            <div class="stat-value" id="stat-aov">0.00 AED</div>
+            <div class="stat-trend" id="stat-aov-trend" style="color: var(--admin-text-muted)">Calculated from real orders</div>
           </div>
           <div class="stat-card">
             <div class="stat-title">Total Visitors</div>
-            <div class="stat-value" id="stat-visitors">12,480</div>
-            <div class="stat-trend"><i class="fas fa-arrow-up"></i> +15% this month</div>
+            <div class="stat-value" id="stat-visitors">0</div>
+            <div class="stat-trend" id="stat-visitors-trend" style="color: var(--admin-text-muted)"><i class="fas fa-users" style="color:#10b981;"></i> 0 page views recorded</div>
           </div>
         </div>
 
         <div class="admin-card">
-          <h3 style="margin-top:0; margin-bottom:20px;">Sales Analytics (AED)</h3>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="margin:0;">Real Sales Analytics — Last 7 Days (AED)</h3>
+            <span style="font-size:12px; color:var(--admin-text-muted);" id="chart-subtitle-range">Live Daily Revenue</span>
+          </div>
           <div style="height: 300px; position: relative;">
             <canvas id="salesChart"></canvas>
           </div>
@@ -862,6 +875,25 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
       }
     }
 
+    // --- One-time Clean Reset of Legacy Mock Data ---
+    function ensureCleanRealStatsBaseline() {
+      if (localStorage.getItem("avenue13_stats_cleaned_v1") !== "true") {
+        localStorage.removeItem("avenue13_orders");
+        localStorage.removeItem("avenue13_registered_users");
+        localStorage.removeItem("avenue13_analytics");
+        localStorage.removeItem("admin_new_order_placed");
+        localStorage.setItem("avenue13_stats_cleaned_v1", "true");
+      } else {
+        // Also strip out any legacy 'client_test' fake user if present
+        let uList = JSON.parse(localStorage.getItem("avenue13_registered_users")) || [];
+        if (uList.some(u => u.username === "client_test")) {
+          uList = uList.filter(u => u.username !== "client_test");
+          localStorage.setItem("avenue13_registered_users", JSON.stringify(uList));
+        }
+      }
+    }
+    ensureCleanRealStatsBaseline();
+
     // --- Dynamic User Account Manager Logic ---
     function renderUsersTable() {
       const tbody = document.getElementById("users-table-body");
@@ -869,12 +901,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
       tbody.innerHTML = "";
 
       let usersList = JSON.parse(localStorage.getItem("avenue13_registered_users")) || [];
-      if (usersList.length === 0) {
-        usersList = [
-          { username: "client_test", email: "client@test.com", password: "password123", role: "Customer", lastLogin: "2026-07-10 16:42", wishlist: [1, 2] }
-        ];
-        localStorage.setItem("avenue13_registered_users", JSON.stringify(usersList));
-      }
+      usersList = usersList.filter(u => u.username !== "client_test");
 
       // Root Admin Row (read-only)
       const adminTr = document.createElement("tr");
@@ -889,6 +916,17 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
       `;
       tbody.appendChild(adminTr);
 
+      if (usersList.length === 0) {
+        const emptyTr = document.createElement("tr");
+        emptyTr.innerHTML = `
+          <td colspan="7" style="text-align:center; padding:24px; color:var(--admin-text-muted); font-size:12px;">
+            No external customer accounts registered yet. New customer sign-ups will appear here in real time.
+          </td>
+        `;
+        tbody.appendChild(emptyTr);
+        return;
+      }
+
       // Customer Rows
       usersList.forEach((u, index) => {
         const tr = document.createElement("tr");
@@ -900,7 +938,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
           <td>${u.lastLogin || 'Never'}</td>
           <td>
             <span style="font-size:11px; color:#475569;">
-              <i class="fas fa-heart" style="color:#ef4444; margin-right:4px;"></i> ${u.wishlist ? u.wishlist.length : 0} Favorites
+              Registered User
             </span>
           </td>
           <td style="text-align:center;">
@@ -948,9 +986,11 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
       renderUsersTable();
     };
 
-    // --- Tab 1: Dashboard Chart initialization ---
+    // --- Tab 1: Dashboard Chart & Real Stats Initialization ---
     async function initDashboard() {
-      // Hydrate products directly from Supabase database
+      ensureCleanRealStatsBaseline();
+
+      // Hydrate products & real analytics/orders directly from Supabase database
       if (window.supabaseClient) {
         try {
           const { data: sData, error: sErr } = await window.supabaseClient.from('products').select('*');
@@ -972,6 +1012,33 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
             }));
             console.log("⚡ Admin hydrated from Supabase:", localProducts.length, "products");
           }
+
+          // Hydrate real_analytics and real_orders from site_settings
+          const { data: stData, error: stErr } = await window.supabaseClient
+            .from('site_settings')
+            .select('key, value')
+            .in('key', ['real_analytics', 'real_orders']);
+
+          if (!stErr && Array.isArray(stData)) {
+            stData.forEach(row => {
+              if (row.key === 'real_analytics' && row.value) {
+                const localAn = JSON.parse(localStorage.getItem('avenue13_analytics') || '{}');
+                const merged = {
+                  totalVisitors: Math.max(Number(row.value.totalVisitors || 0), Number(localAn.totalVisitors || 0)),
+                  pageViews: Math.max(Number(row.value.pageViews || 0), Number(localAn.pageViews || 0)),
+                  dailyVisits: { ...(row.value.dailyVisits || {}), ...(localAn.dailyVisits || {}) },
+                  startedAt: row.value.startedAt || localAn.startedAt || new Date().toISOString().slice(0, 10)
+                };
+                localStorage.setItem('avenue13_analytics', JSON.stringify(merged));
+              }
+              if (row.key === 'real_orders' && Array.isArray(row.value)) {
+                const localOrds = JSON.parse(localStorage.getItem('avenue13_orders') || '[]');
+                if (row.value.length > localOrds.length) {
+                  localStorage.setItem('avenue13_orders', JSON.stringify(row.value));
+                }
+              }
+            });
+          }
         } catch (e) {
           console.warn("Admin Supabase hydration:", e);
         }
@@ -979,7 +1046,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
 
       renderCatalogTable();
       initContentEditForm();
-      initSalesChart();
+      refreshRealDashboardStats();
       
       // Check for new orders notification badge
       if (localStorage.getItem("admin_new_order_placed") === "true") {
@@ -988,28 +1055,112 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
       }
       
       // Load saved github credentials
-      document.getElementById("github-token").value = localStorage.getItem("github_pat") || "";
-      document.getElementById("github-repo").value = localStorage.getItem("github_repo") || "";
-      document.getElementById("github-branch").value = localStorage.getItem("github_branch") || "main";
+      const ghToken = document.getElementById("github-token");
+      const ghRepo = document.getElementById("github-repo");
+      const ghBranch = document.getElementById("github-branch");
+      if (ghToken) ghToken.value = localStorage.getItem("github_pat") || "";
+      if (ghRepo) ghRepo.value = localStorage.getItem("github_repo") || "";
+      if (ghBranch) ghBranch.value = localStorage.getItem("github_branch") || "main";
     }
 
-    function initSalesChart() {
-      const ctx = document.getElementById('salesChart').getContext('2d');
-      // Destroy existing chart if any to prevent canvas overlay bugs
+    function refreshRealDashboardStats() {
+      const ordersList = JSON.parse(localStorage.getItem("avenue13_orders") || "[]");
+      const analytics = JSON.parse(localStorage.getItem("avenue13_analytics") || '{"totalVisitors":0,"pageViews":0,"dailyVisits":{}}');
+
+      const totalOrders = ordersList.length;
+      const totalSales = ordersList.reduce((acc, ord) => {
+        const ordTotal = ord.totals && ord.totals.total !== undefined ? Number(ord.totals.total) : Number(ord.total || 0);
+        return acc + (isNaN(ordTotal) ? 0 : ordTotal);
+      }, 0);
+      const aov = totalOrders > 0 ? (totalSales / totalOrders) : 0;
+      const totalVisitors = Number(analytics.totalVisitors || 0);
+      const pageViews = Number(analytics.pageViews || 0);
+
+      const salesEl = document.getElementById("stat-sales");
+      const ordersEl = document.getElementById("stat-orders");
+      const aovEl = document.getElementById("stat-aov");
+      const visitorsEl = document.getElementById("stat-visitors");
+      const visitorsTrendEl = document.getElementById("stat-visitors-trend");
+
+      if (salesEl) salesEl.textContent = `${totalSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED`;
+      if (ordersEl) ordersEl.textContent = String(totalOrders);
+      if (aovEl) aovEl.textContent = `${aov.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED`;
+      if (visitorsEl) visitorsEl.textContent = totalVisitors.toLocaleString('en-US');
+      if (visitorsTrendEl) {
+        visitorsTrendEl.innerHTML = `<i class="fas fa-users" style="color:#10b981;"></i> ${pageViews.toLocaleString('en-US')} total page views`;
+      }
+
+      initSalesChart(ordersList);
+    }
+
+    window.resetAllRealStatistics = async function() {
+      if (!confirm("Are you sure you want to reset all Sales, Orders, and Visitor statistics to 0?")) return;
+      const freshAnalytics = {
+        totalVisitors: 0,
+        pageViews: 0,
+        dailyVisits: {},
+        startedAt: new Date().toISOString().slice(0, 10)
+      };
+      localStorage.setItem("avenue13_orders", JSON.stringify([]));
+      localStorage.setItem("avenue13_analytics", JSON.stringify(freshAnalytics));
+      localStorage.removeItem("admin_new_order_placed");
+
+      if (window.supabaseClient) {
+        try {
+          await window.supabaseClient.from('site_settings').upsert([
+            { key: 'real_analytics', value: freshAnalytics },
+            { key: 'real_orders', value: [] }
+          ]);
+        } catch (e) {
+          console.warn("Supabase reset stats warning:", e);
+        }
+      }
+
+      refreshRealDashboardStats();
+      renderOrdersTable();
+      alert("✅ All statistics and order logs have been reset to 0. Real-time tracking is active from this moment.");
+    };
+
+    function initSalesChart(ordersList = null) {
+      const canvas = document.getElementById('salesChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
       if (window.myChart) window.myChart.destroy();
+
+      const orders = ordersList || JSON.parse(localStorage.getItem("avenue13_orders") || "[]");
+
+      // Build last 7 days labels and buckets
+      const labels = [];
+      const dailyTotals = [];
+      const today = new Date();
+
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        const isoDate = d.toISOString().slice(0, 10);
+        const labelStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        labels.push(labelStr);
+
+        const daySum = orders
+          .filter(o => (o.date || '').slice(0, 10) === isoDate)
+          .reduce((sum, o) => sum + (Number(o.totals?.total || o.total) || 0), 0);
+        dailyTotals.push(Number(daySum.toFixed(2)));
+      }
       
       window.myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['July 5', 'July 6', 'July 7', 'July 8', 'July 9', 'July 10', 'July 11'],
+          labels: labels,
           datasets: [{
-            label: 'Sales (AED)',
-            data: [12000, 19000, 15000, 22000, 18000, 24000, 32000],
+            label: 'Real Sales (AED)',
+            data: dailyTotals,
             borderColor: '#FF007F',
-            backgroundColor: 'rgba(255, 0, 127, 0.05)',
+            backgroundColor: 'rgba(255, 0, 127, 0.08)',
             borderWidth: 3,
             fill: true,
-            tension: 0.3
+            tension: 0.3,
+            pointRadius: 4,
+            pointBackgroundColor: '#FF007F'
           }]
         },
         options: {
@@ -1019,7 +1170,11 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
             legend: { display: false }
           },
           scales: {
-            y: { grid: { color: '#f1f5f9' } },
+            y: {
+              beginAtZero: true,
+              suggestedMax: 500,
+              grid: { color: '#f1f5f9' }
+            },
             x: { grid: { display: false } }
           }
         }
@@ -1497,19 +1652,31 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
       });
     }
 
-    window.toggleOrderStatus = function(index) {
+    window.toggleOrderStatus = async function(index) {
       let ordersList = JSON.parse(localStorage.getItem("avenue13_orders")) || [];
       if (ordersList[index]) {
         ordersList[index].status = ordersList[index].status === "Completed" ? "Pending Delivery" : "Completed";
         localStorage.setItem("avenue13_orders", JSON.stringify(ordersList));
         renderOrdersTable();
+        refreshRealDashboardStats();
+        if (window.supabaseClient) {
+          try {
+            await window.supabaseClient.from('site_settings').upsert([{ key: 'real_orders', value: ordersList }]);
+          } catch (e) {}
+        }
       }
     };
 
-    window.clearAllSalesOrders = function() {
+    window.clearAllSalesOrders = async function() {
       if (confirm("Are you sure you want to clear all order logs?")) {
-        localStorage.removeItem("avenue13_orders");
+        localStorage.setItem("avenue13_orders", JSON.stringify([]));
         renderOrdersTable();
+        refreshRealDashboardStats();
+        if (window.supabaseClient) {
+          try {
+            await window.supabaseClient.from('site_settings').upsert([{ key: 'real_orders', value: [] }]);
+          } catch (e) {}
+        }
       }
     };
 

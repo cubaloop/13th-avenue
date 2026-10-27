@@ -362,25 +362,50 @@ function renderAllDynamicComponents() {
             <span class="action-label">${trans.shopAll}</span>
           </a>
 
+          ${localStorage.getItem("admin_logged_in") === "true" ? `
+            <button type="button" onclick="window.openMomentosAdminModal('stats')" class="momentos-header-admin-pill" title="Abrir Panel de Administración y Estadísticas Reales">
+              <i class="fas fa-crown"></i>
+              <span>Admin</span>
+            </button>
+          ` : ''}
+
           <!-- Account/Login Dropdown Trigger -->
           <div class="account-menu-dropdown-container">
             <button class="action-icon-btn" id="account-dropdown-trigger" title="${trans.login}">
               <i class="far fa-user"></i>
-              <span class="action-label">${trans.login}</span>
+              <span class="action-label">${localStorage.getItem("admin_logged_in") === "true" ? "Admin" : (localStorage.getItem("user_logged_in") || trans.login)}</span>
             </button>
             
             <!-- Login/Account Popover Box (Mockup 9) -->
             <div class="account-popover-box" id="account-popover-box">
-              <a href="#" class="btn-signin-popover" onclick="handleAccountAction('signin')">${trans.signInBtn}</a>
-              <a href="#" class="btn-create-popover" onclick="handleAccountAction('create')">${trans.createAccountBtn}</a>
-              <hr class="popover-divider">
-              <ul class="popover-links-list">
-                <li><a href="#" onclick="handleAccountAction('account')"><span style="margin-right:8px; font-size:14px;">田</span> ${trans.accountTitle}</a></li>
-                <li><a href="#" onclick="handleAccountAction('orders')"><span style="margin-right:8px; font-size:14px;">📦</span> ${trans.orderHistory}</a></li>
-                <li><a href="#" onclick="handleAccountAction('details')"><span style="margin-right:8px; font-size:14px;">👤</span> ${trans.myDetails}</a></li>
-                <li><a href="#" onclick="handleAccountAction('returns')"><span style="margin-right:8px; font-size:14px;">↺</span> ${trans.returnsInfo}</a></li>
-                <li><a href="#" onclick="handleAccountAction('delivery')"><span style="margin-right:8px; font-size:14px;">🚚</span> ${trans.deliveryInfo}</a></li>
-              </ul>
+              ${localStorage.getItem("admin_logged_in") === "true" ? `
+                <div style="padding:8px 12px; background:#fef3c7; border:1px solid #fde68a; border-radius:6px; margin-bottom:10px; font-size:11px; color:#92400e; font-weight:700; text-align:center;">
+                  👑 Sesión Administrador Activa
+                </div>
+                <a href="#" class="btn-signin-popover" style="background:#d97706 !important; color:#fff !important; border-color:#d97706 !important;" onclick="window.toggleMomentosEditMode(); return false;">
+                  ✏️ ${localStorage.getItem("avenue13_live_edit_mode") !== "false" ? "Modo Editor: ACTIVO" : "Activar Modo Editor"}
+                </a>
+                <a href="#" class="btn-create-popover" onclick="window.openMomentosAdminModal('stats'); return false;">📊 Panel y Estadísticas</a>
+                <hr class="popover-divider">
+                <ul class="popover-links-list">
+                  <li><a href="#" onclick="window.openInPageProductModal(null); return false;"><span style="margin-right:8px; font-size:14px;">➕</span> Nuevo Producto</a></li>
+                  <li><a href="#" onclick="window.openMomentosAdminModal('catalog'); return false;"><span style="margin-right:8px; font-size:14px;">🛍️</span> Gestionar Catálogo</a></li>
+                  <li><a href="#" onclick="window.openMomentosAdminModal('banners'); return false;"><span style="margin-right:8px; font-size:14px;">🖼️</span> Cambiar Imágenes / Banners</a></li>
+                  <li><a href="admin.html"><span style="margin-right:8px; font-size:14px;">⚙️</span> Consola Avanzada (admin.html)</a></li>
+                  <li><a href="#" style="color:#ef4444; font-weight:700;" onclick="window.logoutAdminInPage(); return false;"><span style="margin-right:8px; font-size:14px;">🚪</span> Cerrar Sesión Admin</a></li>
+                </ul>
+              ` : `
+                <a href="#" class="btn-signin-popover" onclick="handleAccountAction('signin')">${trans.signInBtn}</a>
+                <a href="#" class="btn-create-popover" onclick="handleAccountAction('create')">${trans.createAccountBtn}</a>
+                <hr class="popover-divider">
+                <ul class="popover-links-list">
+                  <li><a href="#" onclick="handleAccountAction('account')"><span style="margin-right:8px; font-size:14px;">田</span> ${trans.accountTitle}</a></li>
+                  <li><a href="#" onclick="handleAccountAction('orders')"><span style="margin-right:8px; font-size:14px;">📦</span> ${trans.orderHistory}</a></li>
+                  <li><a href="#" onclick="handleAccountAction('details')"><span style="margin-right:8px; font-size:14px;">👤</span> ${trans.myDetails}</a></li>
+                  <li><a href="#" onclick="handleAccountAction('returns')"><span style="margin-right:8px; font-size:14px;">↺</span> ${trans.returnsInfo}</a></li>
+                  <li><a href="#" onclick="handleAccountAction('delivery')"><span style="margin-right:8px; font-size:14px;">🚚</span> ${trans.deliveryInfo}</a></li>
+                </ul>
+              `}
             </div>
           </div>
 
@@ -2010,9 +2035,12 @@ window.submitSignIn = function() {
   if (user === "admin") {
     if (pass === "avenue13") {
       localStorage.setItem("admin_logged_in", "true");
-      alert("Welcome back, Administrator!");
+      localStorage.setItem("avenue13_live_edit_mode", "true");
       closeAuthModal();
-      window.location.href = "admin.html";
+      if (window.showMomentosToast) {
+        window.showMomentosToast("👑 Modo Administrador y Edición en Vivo Activado");
+      }
+      setTimeout(() => window.location.reload(), 250);
     } else {
       alert("Invalid admin password.");
     }
@@ -2026,10 +2054,8 @@ window.submitSignIn = function() {
   if (registeredUser) {
     if (registeredUser.password === pass) {
       localStorage.setItem("user_logged_in", registeredUser.username);
-      // Load user's saved wishlist into session wishlist
       localStorage.setItem("avenue13_wishlist", JSON.stringify(registeredUser.wishlist || []));
       
-      // Update last login date
       registeredUser.lastLogin = new Date().toISOString().slice(0, 16).replace("T", " ");
       localStorage.setItem("avenue13_registered_users", JSON.stringify(usersList));
       
@@ -2080,7 +2106,6 @@ window.submitRegister = function() {
     return;
   }
   
-  // Register user
   const newUser = {
     username: user,
     email: email,
@@ -2102,11 +2127,8 @@ window.submitRegister = function() {
 // --- Recently Viewed Products Logic ---
 function trackProductVisit(productId) {
   let viewed = JSON.parse(localStorage.getItem("recently_viewed_ids")) || [];
-  // Remove if already exists
   viewed = viewed.filter(id => id !== productId);
-  // Add to front
   viewed.unshift(productId);
-  // Limit to 6 items
   if (viewed.length > 6) viewed.pop();
   localStorage.setItem("recently_viewed_ids", JSON.stringify(viewed));
 }
@@ -2118,9 +2140,8 @@ function openRecentlyViewedDrawer() {
   const trans = t[currentLocale.language];
   const viewedIds = JSON.parse(localStorage.getItem("recently_viewed_ids")) || [];
   
-  // Find products details from global array
   const viewedProducts = viewedIds
-    .map(id => typeof products !== "undefined" ? products.find(p => p.id === id) : null)
+    .map(id => typeof products !== "undefined" ? products.find(p => String(p.id) === String(id)) : null)
     .filter(p => p !== null && p !== undefined);
 
   const overlay = document.createElement("div");
@@ -2172,12 +2193,12 @@ window.closeRecentlyViewedDrawer = function() {
 };
 
 function updateHeaderCountsGlobal() {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  const cart = JSON.parse(localStorage.getItem("avenue13_cart") || localStorage.getItem("cart") || "[]");
+  const wishlist = JSON.parse(localStorage.getItem("avenue13_wishlist") || localStorage.getItem("wishlist") || "[]");
 
   const cartBadge = document.getElementById("cart-badge");
   if (cartBadge) {
-    const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
     cartBadge.textContent = totalQty;
     cartBadge.style.display = totalQty > 0 ? "flex" : "none";
   }
@@ -2187,83 +2208,1060 @@ function updateHeaderCountsGlobal() {
     wishlistBadge.textContent = wishlist.length;
     wishlistBadge.style.display = wishlist.length > 0 ? "flex" : "none";
   }
-
-  const mobWishlistBadge = document.querySelector(".mobile-wishlist-badge");
-  if (mobWishlistBadge) {
-    mobWishlistBadge.textContent = wishlist.length;
-    mobWishlistBadge.style.display = wishlist.length > 0 ? "inline-block" : "none";
-  }
 }
 
-// Make globally accessible
 window.formatPrice = formatPrice;
 window.trackProductVisit = trackProductVisit;
 window.updateHeaderCountsGlobal = updateHeaderCountsGlobal;
 
-// Run initialization
-initLocalization();
-
-function runOnInit() {
-  renderAllDynamicComponents();
-  initAdminInPageSystem();
+// ============================================================================
+// REAL-TIME STORE ANALYTICS & CLEAN BASELINE (Starts from 0 now)
+// ============================================================================
+function ensureCleanRealStatsBaselineGlobal() {
+  if (localStorage.getItem("avenue13_stats_cleaned_v1") !== "true") {
+    localStorage.removeItem("avenue13_orders");
+    localStorage.removeItem("avenue13_registered_users");
+    localStorage.removeItem("avenue13_analytics");
+    localStorage.removeItem("admin_new_order_placed");
+    localStorage.setItem("avenue13_stats_cleaned_v1", "true");
+  } else {
+    let uList = JSON.parse(localStorage.getItem("avenue13_registered_users") || "[]");
+    if (uList.some(u => u.username === "client_test")) {
+      uList = uList.filter(u => u.username !== "client_test");
+      localStorage.setItem("avenue13_registered_users", JSON.stringify(uList));
+    }
+  }
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", runOnInit);
-} else {
-  runOnInit();
+function trackRealSiteVisit() {
+  ensureCleanRealStatsBaselineGlobal();
+  const today = new Date().toISOString().slice(0, 10);
+  let analytics = {
+    totalVisitors: 0,
+    pageViews: 0,
+    dailyVisits: {},
+    startedAt: today
+  };
+  try {
+    const saved = localStorage.getItem("avenue13_analytics");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && typeof parsed === "object") {
+        analytics = {
+          totalVisitors: Number(parsed.totalVisitors || 0),
+          pageViews: Number(parsed.pageViews || 0),
+          dailyVisits: parsed.dailyVisits || {},
+          startedAt: parsed.startedAt || today
+        };
+      }
+    }
+  } catch (e) {}
+
+  analytics.pageViews += 1;
+  if (!sessionStorage.getItem("avenue13_visit_counted")) {
+    analytics.totalVisitors += 1;
+    analytics.dailyVisits[today] = Number(analytics.dailyVisits[today] || 0) + 1;
+    sessionStorage.setItem("avenue13_visit_counted", "true");
+  }
+
+  localStorage.setItem("avenue13_analytics", JSON.stringify(analytics));
+
+  if (typeof window.supabaseClient !== "undefined" && window.supabaseClient) {
+    window.supabaseClient
+      .from("site_settings")
+      .upsert([{ key: "real_analytics", value: analytics }])
+      .catch(() => {});
+  }
 }
 
-function initAdminInPageSystem() {
+// ============================================================================
+// HTML5 CANVAS IMAGE COMPRESSION ENGINE (Rule 6.2 - Mobile & Desktop Ready)
+// ============================================================================
+window.compressImageWithCanvas = function(file, maxDimension = 1200, quality = 0.86) {
+  return new Promise((resolve, reject) => {
+    if (!file) return reject(new Error("No file provided"));
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(img, 0, 0, width, height);
+        const compressedDataUrl = canvas.toDataURL("image/jpeg", quality);
+        resolve(compressedDataUrl);
+      };
+      img.onerror = () => resolve(e.target.result);
+      img.src = e.target.result;
+    };
+    reader.onerror = (err) => reject(err);
+    reader.readAsDataURL(file);
+  });
+};
+
+// ============================================================================
+// MOMENTOS SPA IDENTICAL IN-PAGE LIVE EDITOR SYSTEM
+// ============================================================================
+function getSavedCustomTexts() {
+  try {
+    return JSON.parse(localStorage.getItem("avenue13_custom_texts") || "{}");
+  } catch (e) {
+    return {};
+  }
+}
+
+function getSavedCustomImages() {
+  try {
+    return JSON.parse(localStorage.getItem("avenue13_custom_images") || "{}");
+  } catch (e) {
+    return {};
+  }
+}
+
+async function syncCustomOverridesToSupabase() {
+  if (typeof window.supabaseClient === "undefined" || !window.supabaseClient) return;
+  try {
+    const customTexts = getSavedCustomTexts();
+    const customImages = getSavedCustomImages();
+    await window.supabaseClient.from("site_settings").upsert([
+      { key: "custom_texts", value: customTexts },
+      { key: "custom_images", value: customImages }
+    ]);
+  } catch (e) {
+    console.warn("Supabase custom overrides sync warning:", e);
+  }
+}
+
+window.showMomentosToast = function(msg) {
+  const existing = document.getElementById("momentos-live-toast");
+  if (existing) existing.remove();
+  const toast = document.createElement("div");
+  toast.id = "momentos-live-toast";
+  toast.className = "momentos-live-toast";
+  toast.innerHTML = `<i class="fas fa-check-circle" style="font-size:15px;"></i> <span>${msg}</span>`;
+  document.body.appendChild(toast);
+  setTimeout(() => {
+    if (toast.parentNode) toast.remove();
+  }, 3400);
+};
+
+// Assign deterministic data-edit-key & data-img-key to all page elements and apply saved overrides
+window.bindMomentosLiveEditorElements = function() {
+  const customTexts = getSavedCustomTexts();
+  const customImages = getSavedCustomImages();
+
+  // 1. Deterministic Text Selectors Map
+  const textBindings = [
+    { selector: ".brand-logo span", prefix: "header_logo_sub", label: "Subtítulo del Logo" },
+    { selector: ".hero-slider .slide .slide-title", prefix: "hero_slide_title", label: "Título Principal del Banner" },
+    { selector: ".hero-slider .slide .btn-premium", prefix: "hero_slide_btn", label: "Botón del Banner" },
+    { selector: ".section-header .section-title", prefix: "section_title", label: "Título de Sección" },
+    { selector: ".section-header .section-subtitle", prefix: "section_subtitle", label: "Subtítulo de Sección" },
+    { selector: ".brand-showcase-card .brand-card-emblem", prefix: "brand_emblem", label: "Emblema de Marca" },
+    { selector: ".brand-showcase-card .brand-card-logo", prefix: "brand_logo_title", label: "Nombre de Marca" },
+    { selector: ".brand-showcase-card .brand-showcase-desc", prefix: "brand_desc", label: "Descripción de Marca", multiline: true },
+    { selector: ".brand-showcase-card .brand-links-list li a", prefix: "brand_link", label: "Enlace de Categoría de Marca" },
+    { selector: ".brand-showcase-card .btn-brand-explore", prefix: "brand_explore_btn", label: "Botón Explorar Marca" },
+    { selector: ".footer-hero-about h2", prefix: "footer_about_title", label: "Título About Us" },
+    { selector: ".footer-hero-about .about-subtitle", prefix: "footer_about_sub", label: "Subtítulo About Us" },
+    { selector: ".footer-hero-about p:not(.about-subtitle)", prefix: "footer_about_text", label: "Párrafo About Us", multiline: true },
+    { selector: ".footer-newsletter-section h2", prefix: "footer_news_title", label: "Título Suscripción" },
+    { selector: ".footer-newsletter-section .newsletter-subtitle", prefix: "footer_news_sub", label: "Subtítulo Suscripción", multiline: true },
+    { selector: ".footer-newsletter-section .btn-subscribe", prefix: "footer_news_btn", label: "Botón Subscribe" },
+    { selector: ".footer-newsletter-section .subscribe-policy-text", prefix: "footer_news_policy", label: "Texto Políticas Subscribe", multiline: true },
+    { selector: ".footer-accordion-header span", prefix: "footer_acc_title", label: "Título Acordeón Footer" },
+    { selector: ".footer-acc-info-block h5", prefix: "footer_info_h5", label: "Subtítulo Bloque Info" },
+    { selector: ".footer-acc-info-block p", prefix: "footer_info_p", label: "Texto Bloque Info", multiline: true },
+    { selector: "#category-display-title", prefix: "cat_page_title", label: "Título de Categoría" }
+  ];
+
+  textBindings.forEach(group => {
+    document.querySelectorAll(group.selector).forEach((el, idx) => {
+      const key = `${group.prefix}_${idx}`;
+      if (!el.dataset.editKey) {
+        el.dataset.editKey = key;
+        el.dataset.editLabel = `${group.label} #${idx + 1}`;
+        el.dataset.editMultiline = group.multiline ? "true" : "false";
+        el.dataset.defaultText = el.textContent.trim();
+        if (el.tagName === "A") {
+          el.dataset.defaultHref = el.getAttribute("href") || "";
+        }
+      }
+      // Apply saved text override if present
+      if (customTexts[key] !== undefined && customTexts[key] !== null) {
+        if (typeof customTexts[key] === "object") {
+          if (customTexts[key].text !== undefined) el.textContent = customTexts[key].text;
+          if (customTexts[key].href && el.tagName === "A") el.setAttribute("href", customTexts[key].href);
+        } else {
+          el.textContent = customTexts[key];
+        }
+      }
+    });
+  });
+
+  // 2. Deterministic Image & Background Selectors Map
+  // 2a. Hero Banner Slides
+  document.querySelectorAll(".hero-slider .slide").forEach((slideEl, idx) => {
+    const imgKey = `hero_slide_img_${idx}`;
+    const imgEl = slideEl.querySelector(".slide-img");
+    if (imgEl && !imgEl.dataset.imgKey) {
+      imgEl.dataset.imgKey = imgKey;
+      imgEl.dataset.defaultSrc = imgEl.getAttribute("src") || "";
+    }
+    if (customImages[imgKey] && imgEl) {
+      imgEl.src = customImages[imgKey];
+    }
+
+    // Inject floating "Cambiar Foto Banner" button for Admin in Edit Mode
+    if (!slideEl.querySelector(".momentos-img-edit-btn")) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "momentos-img-edit-btn momentos-slide-img-btn";
+      btn.innerHTML = `<i class="fas fa-camera"></i> <span>Cambiar Imagen Banner #${idx + 1}</span>`;
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.openMomentosImageChanger(imgKey, `Banner Principal #${idx + 1}`, imgEl ? imgEl.src : "", (newUrl) => {
+          if (imgEl) imgEl.src = newUrl;
+        }, imgEl ? imgEl.dataset.defaultSrc : "");
+      });
+      slideEl.appendChild(btn);
+    }
+  });
+
+  // 2b. Brand Architecture Cards (4 Background Cards)
+  document.querySelectorAll(".brand-showcase-card").forEach((cardEl, idx) => {
+    const imgKey = `brand_card_bg_${idx}`;
+    const bgImgEl = cardEl.querySelector(".brand-card-bg-img");
+    if (!cardEl.dataset.imgKey) {
+      cardEl.dataset.imgKey = imgKey;
+      cardEl.dataset.defaultSrc = bgImgEl ? bgImgEl.getAttribute("src") : "";
+    }
+    if (customImages[imgKey]) {
+      if (bgImgEl) bgImgEl.src = customImages[imgKey];
+      cardEl.style.backgroundImage = `url('${customImages[imgKey]}')`;
+    }
+
+    if (!cardEl.querySelector(".momentos-img-edit-btn")) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "momentos-img-edit-btn momentos-brand-img-btn";
+      btn.innerHTML = `<i class="fas fa-camera"></i> <span>Cambiar Fondo</span>`;
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const currentSrc = bgImgEl ? bgImgEl.src : "";
+        window.openMomentosImageChanger(imgKey, `Fondo Tarjeta de Marca #${idx + 1}`, currentSrc, (newUrl) => {
+          if (bgImgEl) bgImgEl.src = newUrl;
+          cardEl.style.backgroundImage = `url('${newUrl}')`;
+        }, cardEl.dataset.defaultSrc || "");
+      });
+      cardEl.appendChild(btn);
+    }
+  });
+
+  // Update count badge on toolbar if present
+  updateMomentosToolbarBadge();
+};
+
+function updateMomentosToolbarBadge() {
+  const badge = document.getElementById("momentos-overrides-count");
+  if (!badge) return;
+  const count = Object.keys(getSavedCustomTexts()).length + Object.keys(getSavedCustomImages()).length;
+  badge.textContent = count;
+  badge.style.display = count > 0 ? "inline-flex" : "none";
+}
+
+// Open Inline Text Editor Modal (Identical UX to EditableText.jsx in Momentos Spa)
+window.openMomentosInlineTextEditor = function(targetEl) {
+  const existing = document.getElementById("momentos-inline-editor-overlay");
+  if (existing) existing.remove();
+
+  const key = targetEl.dataset.editKey;
+  const label = targetEl.dataset.editLabel || "Texto de la página";
+  const isMultiline = targetEl.dataset.editMultiline === "true";
+  const defaultText = targetEl.dataset.defaultText || "";
+  const currentText = targetEl.textContent.trim();
+  const isLink = targetEl.tagName === "A";
+  const currentHref = isLink ? (targetEl.getAttribute("href") || "") : "";
+  const customTexts = getSavedCustomTexts();
+  const hasOverride = customTexts[key] !== undefined;
+
+  const overlay = document.createElement("div");
+  overlay.id = "momentos-inline-editor-overlay";
+  overlay.className = "momentos-inline-overlay";
+
+  overlay.innerHTML = `
+    <div class="momentos-inline-card">
+      <div class="momentos-inline-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="momentos-inline-badge">✏️ Editando: ${label}</span>
+          ${hasOverride ? `<span class="momentos-inline-custom-tag">Personalizado</span>` : ""}
+        </div>
+        <button type="button" class="momentos-inline-close" id="momentos-txt-cancel-top"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="momentos-inline-body">
+        <label class="momentos-field-label">Contenido del Texto</label>
+        ${isMultiline ? `
+          <textarea id="momentos-txt-input" rows="4" class="momentos-field-input">${currentText}</textarea>
+        ` : `
+          <input type="text" id="momentos-txt-input" class="momentos-field-input" value="${currentText.replace(/"/g, '&quot;')}">
+        `}
+
+        ${isLink ? `
+          <label class="momentos-field-label" style="margin-top:12px;">Enlace de Destino (URL / Categoría)</label>
+          <input type="text" id="momentos-href-input" class="momentos-field-input" value="${currentHref.replace(/"/g, '&quot;')}" placeholder="Ej. category.html?brand=Miss Chloé">
+        ` : ""}
+      </div>
+
+      <div class="momentos-inline-footer">
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="momentos-btn-save" id="momentos-txt-save">
+            <i class="fas fa-check"></i> Listo y Guardar
+          </button>
+          <button type="button" class="momentos-btn-cancel" id="momentos-txt-cancel">
+            Cancelar
+          </button>
+        </div>
+        ${hasOverride ? `
+          <button type="button" class="momentos-btn-reset" id="momentos-txt-reset" title="Restaurar al texto original por defecto">
+            <i class="fas fa-rotate-left"></i> Original
+          </button>
+        ` : ""}
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const inputEl = document.getElementById("momentos-txt-input");
+  if (inputEl) {
+    inputEl.focus();
+    if (inputEl.select && !isMultiline) inputEl.select();
+  }
+
+  const saveHandler = async () => {
+    const newVal = inputEl ? inputEl.value.trim() : currentText;
+    const hrefInput = document.getElementById("momentos-href-input");
+    const newHref = hrefInput ? hrefInput.value.trim() : currentHref;
+
+    targetEl.textContent = newVal;
+    if (isLink && newHref) {
+      targetEl.setAttribute("href", newHref);
+    }
+
+    const allTexts = getSavedCustomTexts();
+    if (isLink) {
+      allTexts[key] = { text: newVal, href: newHref };
+    } else {
+      allTexts[key] = newVal;
+    }
+    localStorage.setItem("avenue13_custom_texts", JSON.stringify(allTexts));
+    updateMomentosToolbarBadge();
+    overlay.remove();
+    window.showMomentosToast("✅ Texto actualizado y guardado en vivo");
+    await syncCustomOverridesToSupabase();
+  };
+
+  document.getElementById("momentos-txt-save").addEventListener("click", saveHandler);
+  document.getElementById("momentos-txt-cancel").addEventListener("click", () => overlay.remove());
+  document.getElementById("momentos-txt-cancel-top").addEventListener("click", () => overlay.remove());
+
+  if (inputEl && !isMultiline) {
+    inputEl.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter") {
+        ev.preventDefault();
+        saveHandler();
+      } else if (ev.key === "Escape") {
+        overlay.remove();
+      }
+    });
+  }
+
+  const resetBtn = document.getElementById("momentos-txt-reset");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", async () => {
+      targetEl.textContent = defaultText;
+      if (isLink && targetEl.dataset.defaultHref) {
+        targetEl.setAttribute("href", targetEl.dataset.defaultHref);
+      }
+      const allTexts = getSavedCustomTexts();
+      delete allTexts[key];
+      localStorage.setItem("avenue13_custom_texts", JSON.stringify(allTexts));
+      updateMomentosToolbarBadge();
+      overlay.remove();
+      window.showMomentosToast("↺ Texto restaurado al original");
+      await syncCustomOverridesToSupabase();
+    });
+  }
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+};
+
+// Open Inline Image Changer Modal (Hero Banners, Brand Architecture Backgrounds, etc.)
+window.openMomentosImageChanger = function(imgKey, label, currentSrc, onApplyCallback, defaultSrc = "") {
+  const existing = document.getElementById("momentos-inline-editor-overlay");
+  if (existing) existing.remove();
+
+  const customImages = getSavedCustomImages();
+  const hasOverride = customImages[imgKey] !== undefined;
+
+  const overlay = document.createElement("div");
+  overlay.id = "momentos-inline-editor-overlay";
+  overlay.className = "momentos-inline-overlay";
+
+  overlay.innerHTML = `
+    <div class="momentos-inline-card" style="max-width:460px;">
+      <div class="momentos-inline-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="momentos-inline-badge">📷 Cambiar Imagen: ${label}</span>
+          ${hasOverride ? `<span class="momentos-inline-custom-tag">Personalizada</span>` : ""}
+        </div>
+        <button type="button" class="momentos-inline-close" id="momentos-img-cancel-top"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="momentos-inline-body">
+        <div style="display:flex; gap:14px; align-items:center; margin-bottom:14px;">
+          <img id="momentos-img-preview" src="${currentSrc}" style="width:90px; height:90px; object-fit:cover; border-radius:10px; border:1px solid #e2e8f0; background:#f8fafc;">
+          <div style="flex:1;">
+            <input type="file" id="momentos-img-file" accept="image/*" style="display:none;">
+            <button type="button" class="momentos-btn-upload" onclick="document.getElementById('momentos-img-file').click()">
+              <i class="fas fa-cloud-arrow-up"></i> Subir Foto desde Celular / PC
+            </button>
+            <div style="font-size:11px; color:#64748b; margin-top:6px; line-height:1.3;">
+              Compresión automática HD (Canvas Engine) para carga instantánea.
+            </div>
+          </div>
+        </div>
+
+        <label class="momentos-field-label">O pega la ruta / URL de la imagen</label>
+        <input type="text" id="momentos-img-url-input" class="momentos-field-input" value="${currentSrc.startsWith('data:') ? '' : currentSrc}" placeholder="Ej. assets/hero_fashion.png o https://...">
+      </div>
+
+      <div class="momentos-inline-footer">
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="momentos-btn-save" id="momentos-img-save">
+            <i class="fas fa-check"></i> Aplicar Imagen
+          </button>
+          <button type="button" class="momentos-btn-cancel" id="momentos-img-cancel">
+            Cancelar
+          </button>
+        </div>
+        ${hasOverride && defaultSrc ? `
+          <button type="button" class="momentos-btn-reset" id="momentos-img-reset">
+            <i class="fas fa-rotate-left"></i> Original
+          </button>
+        ` : ""}
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  let pendingDataUrl = currentSrc;
+  const fileInput = document.getElementById("momentos-img-file");
+  const previewEl = document.getElementById("momentos-img-preview");
+  const urlInput = document.getElementById("momentos-img-url-input");
+
+  fileInput.addEventListener("change", async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    try {
+      const compressed = await window.compressImageWithCanvas(file, 1400, 0.88);
+      pendingDataUrl = compressed;
+      previewEl.src = compressed;
+      urlInput.value = "(Imagen subida desde tu dispositivo)";
+    } catch (err) {
+      console.error("Image compression error:", err);
+    }
+  });
+
+  urlInput.addEventListener("input", () => {
+    const val = urlInput.value.trim();
+    if (val && !val.startsWith("(Imagen")) {
+      pendingDataUrl = val;
+      previewEl.src = val;
+    }
+  });
+
+  document.getElementById("momentos-img-save").addEventListener("click", async () => {
+    if (!pendingDataUrl) return;
+    onApplyCallback(pendingDataUrl);
+    const allImages = getSavedCustomImages();
+    allImages[imgKey] = pendingDataUrl;
+    localStorage.setItem("avenue13_custom_images", JSON.stringify(allImages));
+    updateMomentosToolbarBadge();
+    overlay.remove();
+    window.showMomentosToast("📷 Imagen actualizada en vivo en la página y Supabase");
+    await syncCustomOverridesToSupabase();
+  });
+
+  const resetBtn = document.getElementById("momentos-img-reset");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", async () => {
+      onApplyCallback(defaultSrc);
+      const allImages = getSavedCustomImages();
+      delete allImages[imgKey];
+      localStorage.setItem("avenue13_custom_images", JSON.stringify(allImages));
+      updateMomentosToolbarBadge();
+      overlay.remove();
+      window.showMomentosToast("↺ Imagen restaurada a la original");
+      await syncCustomOverridesToSupabase();
+    });
+  }
+
+  document.getElementById("momentos-img-cancel").addEventListener("click", () => overlay.remove());
+  document.getElementById("momentos-img-cancel-top").addEventListener("click", () => overlay.remove());
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+};
+
+// Quick 1-click Product Photo Changer directly on product card
+window.openQuickProductPhotoChanger = function(productId) {
+  const prod = products.find(p => String(p.id) === String(productId));
+  if (!prod) return;
+
+  window.openMomentosImageChanger(`product_img_${prod.id}`, prod.name, prod.image, async (newUrl) => {
+    prod.image = newUrl;
+    localStorage.setItem("avenue13_products_draft", JSON.stringify(products));
+    document.querySelectorAll(`img[data-product-img-id="${prod.id}"]`).forEach(img => {
+      img.src = newUrl;
+    });
+    if (window.supabaseClient) {
+      try {
+        await window.supabaseClient.from("products").upsert([{
+          id: String(prod.id),
+          name: prod.name,
+          brand: prod.brand,
+          price: Number(prod.price),
+          original_price: prod.originalPrice || prod.price,
+          category: prod.category,
+          subcategory: prod.subcategory,
+          image: prod.image,
+          description: prod.description,
+          sizes: prod.sizes || ["One Size"],
+          colors: prod.colors || [],
+          in_stock: prod.inStock !== false,
+          rating: Number(prod.rating || 5.0)
+        }]);
+      } catch (e) {
+        console.warn("Supabase quick product image update warning:", e);
+      }
+    }
+  });
+};
+
+// Toggle Live Edit Mode ON / OFF (Momentos Spa Style)
+window.toggleMomentosEditMode = function(forceState) {
   const isAdmin = localStorage.getItem("admin_logged_in") === "true";
   if (!isAdmin) return;
 
-  // Add active styling class to body
-  document.body.classList.add("admin-inpage-active");
+  const current = localStorage.getItem("avenue13_live_edit_mode") !== "false";
+  const next = typeof forceState === "boolean" ? forceState : !current;
+  localStorage.setItem("avenue13_live_edit_mode", next ? "true" : "false");
 
-  // 1. Inject Admin Sticky Top Bar
-  const adminBar = document.createElement("div");
-  adminBar.className = "admin-inpage-bar";
-  adminBar.innerHTML = `
-    <div class="admin-bar-title">
-      <i class="fas fa-pencil-alt"></i> 13th Avenue In-Page Editor
-    </div>
-    <div class="admin-bar-actions">
-      <a href="admin.html" class="admin-bar-btn"><i class="fas fa-chart-pie"></i> Admin Dashboard</a>
-      <button class="admin-bar-btn" onclick="window.openInPageProductModal(null)"><i class="fas fa-plus"></i> Add Product</button>
-      <button class="admin-bar-btn save-btn" onclick="window.openInPagePublishPanel()"><i class="fas fa-cloud-arrow-up"></i> Save & Publish</button>
-      <button class="admin-bar-btn logout-btn" onclick="window.logoutAdminInPage()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  document.body.classList.toggle("momentos-edit-mode", next);
+  renderMomentosFloatingToolbar();
+  renderAllDynamicComponents();
+  window.bindMomentosLiveEditorElements();
+
+  if (next) {
+    window.showMomentosToast("✏️ Modo Editor Activo: Toca cualquier texto o imagen para editarlo");
+  } else {
+    window.showMomentosToast("👁️ Vista Previa Normal Activa");
+  }
+};
+
+// Render the Momentos Spa Floating Bottom-Left Live Editor Toolbar
+function renderMomentosFloatingToolbar() {
+  const existing = document.getElementById("momentos-live-toolbar");
+  if (existing) existing.remove();
+
+  const isAdmin = localStorage.getItem("admin_logged_in") === "true";
+  if (!isAdmin) return;
+
+  const isEditingMode = localStorage.getItem("avenue13_live_edit_mode") !== "false";
+  document.body.classList.toggle("momentos-edit-mode", isEditingMode);
+
+  const count = Object.keys(getSavedCustomTexts()).length + Object.keys(getSavedCustomImages()).length;
+
+  const toolbar = document.createElement("div");
+  toolbar.id = "momentos-live-toolbar";
+  toolbar.className = "momentos-live-toolbar";
+
+  toolbar.innerHTML = `
+    <button type="button" class="momentos-main-toggle-pill ${isEditingMode ? 'active' : ''}" onclick="window.toggleMomentosEditMode()" title="${isEditingMode ? 'Desactivar Modo Edición Visual' : 'Activar Modo Edición Visual Directa'}">
+      <span class="momentos-pill-icon"><i class="fas fa-pencil-alt"></i></span>
+      <span>${isEditingMode ? 'Modo Editor Activo' : 'Editar Página en Vivo'}</span>
+      <span id="momentos-overrides-count" class="momentos-pill-badge" style="display:${count > 0 ? 'inline-flex' : 'none'};">${count}</span>
+    </button>
+
+    ${isEditingMode ? `
+      <div class="momentos-secondary-bar">
+        <div class="momentos-hint-pill">
+          <span class="momentos-pulse-dot"></span>
+          <span>Toca cualquier texto o imagen con borde naranja para editarlo</span>
+        </div>
+
+        <button type="button" class="momentos-action-pill add-prod" onclick="window.openInPageProductModal(null)" title="Crear nuevo producto en la tienda">
+          <i class="fas fa-plus"></i>
+          <span>Nuevo Producto</span>
+        </button>
+
+        <button type="button" class="momentos-action-pill stats-btn" onclick="window.openMomentosAdminModal('stats')" title="Ver Estadísticas Reales, Pedidos y Catálogo">
+          <i class="fas fa-chart-pie"></i>
+          <span>Panel y Estadísticas</span>
+        </button>
+
+        <button type="button" class="momentos-action-pill save-btn" onclick="window.saveAllMomentosChangesLive()" title="Guardar todos los cambios en Supabase">
+          <i class="fas fa-check"></i>
+          <span>Guardar</span>
+        </button>
+
+        <button type="button" class="momentos-action-pill exit-btn" onclick="window.toggleMomentosEditMode(false)" title="Ocultar bordes de edición">
+          <i class="fas fa-times"></i>
+          <span>Vista Normal</span>
+        </button>
+
+        <button type="button" class="momentos-action-pill logout-btn" onclick="window.logoutAdminInPage()" title="Cerrar sesión de Administrador">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    ` : `
+      <div class="momentos-secondary-bar">
+        <button type="button" class="momentos-action-pill stats-btn" onclick="window.openMomentosAdminModal('stats')">
+          <i class="fas fa-chart-pie"></i>
+          <span>Panel Admin</span>
+        </button>
+        <button type="button" class="momentos-action-pill logout-btn" onclick="window.logoutAdminInPage()" title="Cerrar sesión de Administrador">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    `}
+  `;
+
+  document.body.appendChild(toolbar);
+}
+
+window.saveAllMomentosChangesLive = async function() {
+  await syncCustomOverridesToSupabase();
+  if (typeof window.supabaseClient !== "undefined" && window.supabaseClient && Array.isArray(window.products)) {
+    try {
+      const formatted = window.products.map(p => ({
+        id: String(p.id),
+        name: p.name,
+        brand: p.brand,
+        price: Number(p.price),
+        original_price: p.originalPrice || null,
+        category: p.category,
+        subcategory: p.subcategory,
+        image: p.image,
+        description: p.description,
+        sizes: p.sizes || ["One Size"],
+        colors: p.colors || [],
+        in_stock: p.inStock !== false,
+        rating: Number(p.rating || 5.0)
+      }));
+      await window.supabaseClient.from("products").upsert(formatted);
+    } catch (e) {
+      console.warn("Supabase products bulk save warning:", e);
+    }
+  }
+  window.showMomentosToast("✨ ¡Todos los textos, imágenes y productos han sido guardados con éxito!");
+};
+
+// Global Click Interceptor when Momentos Edit Mode is Active
+let momentosClickListenerAttached = false;
+function attachMomentosGlobalClickListener() {
+  if (momentosClickListenerAttached) return;
+  momentosClickListenerAttached = true;
+
+  document.addEventListener("click", (e) => {
+    const isAdmin = localStorage.getItem("admin_logged_in") === "true";
+    const isEditMode = localStorage.getItem("avenue13_live_edit_mode") !== "false";
+    if (!isAdmin || !isEditMode) return;
+
+    // Ignore clicks inside editor modals, toolbars, or admin buttons
+    if (
+      e.target.closest("#momentos-live-toolbar") ||
+      e.target.closest("#momentos-inline-editor-overlay") ||
+      e.target.closest("#admin-inpage-modal-overlay") ||
+      e.target.closest("#momentos-admin-dashboard-overlay") ||
+      e.target.closest(".admin-card-controls") ||
+      e.target.closest(".momentos-img-edit-btn") ||
+      e.target.closest(".momentos-header-admin-pill") ||
+      e.target.closest("#account-dropdown-trigger") ||
+      e.target.closest("#account-popover-box") ||
+      e.target.closest(".slider-controls") ||
+      e.target.closest(".trending-nav-btn")
+    ) {
+      return;
+    }
+
+    const editableEl = e.target.closest("[data-edit-key]");
+    if (editableEl) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.openMomentosInlineTextEditor(editableEl);
+    }
+  }, true);
+}
+
+// ============================================================================
+// IN-PAGE FULL ADMIN DASHBOARD & REAL STATISTICS MODAL (Momentos Spa Style)
+// ============================================================================
+window.openMomentosAdminModal = function(initialTab = "stats") {
+  const existing = document.getElementById("momentos-admin-dashboard-overlay");
+  if (existing) existing.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "momentos-admin-dashboard-overlay";
+  overlay.className = "momentos-inline-overlay";
+
+  overlay.innerHTML = `
+    <div class="momentos-dashboard-modal">
+      <div class="momentos-dashboard-header">
+        <div>
+          <div style="font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; color:#d97706;">13TH AVENUE • LIVE ADMIN SUITE</div>
+          <h3 style="margin:2px 0 0 0; font-family:var(--font-serif); font-size:20px; color:#0f172a;">Panel de Control y Estadísticas Reales</h3>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <a href="admin.html" class="momentos-btn-cancel" style="text-decoration:none; font-size:11px; display:inline-flex; align-items:center; gap:6px;">
+            <i class="fas fa-up-right-from-square"></i> Vista Completa
+          </a>
+          <button type="button" class="momentos-inline-close" onclick="document.getElementById('momentos-admin-dashboard-overlay').remove()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="momentos-dashboard-tabs">
+        <button type="button" class="momentos-dash-tab" data-tab="stats" onclick="window.switchMomentosDashTab('stats')">
+          <i class="fas fa-chart-line"></i> Estadísticas Reales y Pedidos
+        </button>
+        <button type="button" class="momentos-dash-tab" data-tab="catalog" onclick="window.switchMomentosDashTab('catalog')">
+          <i class="fas fa-bag-shopping"></i> Catálogo (${typeof products !== 'undefined' ? products.length : 0})
+        </button>
+        <button type="button" class="momentos-dash-tab" data-tab="banners" onclick="window.switchMomentosDashTab('banners')">
+          <i class="fas fa-images"></i> Banners y Fondos
+        </button>
+        <button type="button" class="momentos-dash-tab" data-tab="users" onclick="window.switchMomentosDashTab('users')">
+          <i class="fas fa-users"></i> Clientes y Nube
+        </button>
+      </div>
+
+      <div class="momentos-dashboard-body" id="momentos-dashboard-body"></div>
     </div>
   `;
-  document.body.insertBefore(adminBar, document.body.firstChild);
+
+  document.body.appendChild(overlay);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+
+  window.switchMomentosDashTab(initialTab);
+};
+
+window.switchMomentosDashTab = function(tabName) {
+  document.querySelectorAll(".momentos-dash-tab").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.tab === tabName);
+  });
+
+  const body = document.getElementById("momentos-dashboard-body");
+  if (!body) return;
+
+  if (tabName === "stats") {
+    const ordersList = JSON.parse(localStorage.getItem("avenue13_orders") || "[]");
+    const analytics = JSON.parse(localStorage.getItem("avenue13_analytics") || '{"totalVisitors":0,"pageViews":0,"dailyVisits":{}}');
+    const totalOrders = ordersList.length;
+    const totalSales = ordersList.reduce((acc, o) => acc + (Number(o.totals?.total || o.total) || 0), 0);
+    const aov = totalOrders > 0 ? (totalSales / totalOrders) : 0;
+    const visitors = Number(analytics.totalVisitors || 0);
+    const views = Number(analytics.pageViews || 0);
+
+    body.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700;">
+          <span class="momentos-pulse-dot"></span> Contabilizando estadísticas reales en tiempo real (desde 0)
+        </div>
+        <button type="button" class="momentos-btn-reset" style="border:1px solid #fca5a5; padding:6px 12px; border-radius:8px; color:#dc2626; font-weight:700;" onclick="window.resetMomentosRealStatsInPage()">
+          <i class="fas fa-rotate-left"></i> Reiniciar Estadísticas a Cero
+        </button>
+      </div>
+
+      <div class="momentos-stats-grid">
+        <div class="momentos-stat-box">
+          <div class="momentos-stat-label">Ventas Reales (AED)</div>
+          <div class="momentos-stat-val">${totalSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED</div>
+          <div class="momentos-stat-sub">Ingresos confirmados</div>
+        </div>
+        <div class="momentos-stat-box">
+          <div class="momentos-stat-label">Pedidos Totales</div>
+          <div class="momentos-stat-val">${totalOrders}</div>
+          <div class="momentos-stat-sub">Órdenes registradas</div>
+        </div>
+        <div class="momentos-stat-box">
+          <div class="momentos-stat-label">Ticket Promedio (AOV)</div>
+          <div class="momentos-stat-val">${aov.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} AED</div>
+          <div class="momentos-stat-sub">Promedio por compra</div>
+        </div>
+        <div class="momentos-stat-box">
+          <div class="momentos-stat-label">Visitantes Reales</div>
+          <div class="momentos-stat-val">${visitors.toLocaleString('en-US')}</div>
+          <div class="momentos-stat-sub">${views.toLocaleString('en-US')} páginas vistas</div>
+        </div>
+      </div>
+
+      <h4 style="margin:22px 0 10px 0; font-size:13px; text-transform:uppercase; letter-spacing:0.05em; color:#334155;">Historial de Pedidos Reales (${totalOrders})</h4>
+      ${ordersList.length === 0 ? `
+        <div style="text-align:center; padding:36px 20px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:12px; color:#64748b; font-size:13px;">
+          <i class="fas fa-receipt" style="font-size:26px; margin-bottom:8px; display:block; color:#94a3b8;"></i>
+          Aún no se han registrado pedidos. Las compras reales aparecerán aquí automáticamente.
+        </div>
+      ` : `
+        <div style="overflow-x:auto; border:1px solid #e2e8f0; border-radius:10px;">
+          <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:left;">
+            <thead>
+              <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0; color:#475569;">
+                <th style="padding:10px 12px;">Orden</th>
+                <th style="padding:10px 12px;">Fecha</th>
+                <th style="padding:10px 12px;">Cliente</th>
+                <th style="padding:10px 12px;">Total</th>
+                <th style="padding:10px 12px;">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${ordersList.map(o => `
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                  <td style="padding:10px 12px; font-weight:700;">#${o.orderNumber}</td>
+                  <td style="padding:10px 12px;">${o.date || ''}</td>
+                  <td style="padding:10px 12px;">${o.address?.name || 'Cliente'} (${o.address?.phone || ''})</td>
+                  <td style="padding:10px 12px; font-weight:700;">${Number(o.totals?.total || o.total || 0).toFixed(2)} AED</td>
+                  <td style="padding:10px 12px;"><span style="background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700;">${o.status || 'Pending'}</span></td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `}
+    `;
+  } else if (tabName === "catalog") {
+    body.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; flex-wrap:wrap;">
+        <input type="text" id="momentos-cat-search" class="momentos-field-input" style="max-width:320px;" placeholder="Buscar producto por nombre o marca..." oninput="window.filterMomentosModalCatalog(this.value)">
+        <button type="button" class="momentos-btn-save" onclick="window.openInPageProductModal(null)">
+          <i class="fas fa-plus"></i> Añadir Nuevo Producto
+        </button>
+      </div>
+      <div id="momentos-modal-catalog-list" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:12px;"></div>
+    `;
+    window.filterMomentosModalCatalog("");
+  } else if (tabName === "banners") {
+    const customImages = getSavedCustomImages();
+    const bannerItems = [
+      { key: "hero_slide_img_0", title: "Banner Principal #1 (Moda)", fallback: "assets/hero_fashion.png" },
+      { key: "hero_slide_img_1", title: "Banner Principal #2 (Nella Hair)", fallback: "assets/hero_beauty.png" },
+      { key: "hero_slide_img_2", title: "Banner Principal #3 (COCO)", fallback: "assets/hero_lifestyle.png" },
+      { key: "brand_card_bg_0", title: "Fondo Marca 1: Miss Chloé", fallback: "assets/emerald_dress.png" },
+      { key: "brand_card_bg_1", title: "Fondo Marca 2: Nella Hair", fallback: "assets/lace_wig.png" },
+      { key: "brand_card_bg_2", title: "Fondo Marca 3: COCO Beauty", fallback: "assets/coco_candle.png" },
+      { key: "brand_card_bg_3", title: "Fondo Marca 4: COCO Mini", fallback: "assets/cat_lifestyle.png" }
+    ];
+
+    body.innerHTML = `
+      <p style="font-size:12px; color:#64748b; margin-top:0; margin-bottom:16px;">
+        Cambia cualquiera de los banners principales o las fotos de fondo de las tarjetas de marca directamente desde aquí o tocando el botón <strong>📷 Cambiar Fondo</strong> en la página:
+      </p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(210px, 1fr)); gap:14px;">
+        ${bannerItems.map(item => {
+          const src = customImages[item.key] || item.fallback;
+          return `
+            <div style="border:1px solid #e2e8f0; border-radius:12px; overflow:hidden; background:#fff; display:flex; flex-direction:column;">
+              <img src="${src}" style="width:100%; height:130px; object-fit:cover; background:#f1f5f9;">
+              <div style="padding:12px; display:flex; flex-direction:column; gap:8px; flex:1; justify-content:space-between;">
+                <div style="font-size:12px; font-weight:700; color:#0f172a;">${item.title}</div>
+                <button type="button" class="momentos-btn-upload" style="width:100%; justify-content:center;" onclick="window.openMomentosImageChanger('${item.key}', '${item.title}', '${src}', () => { window.bindMomentosLiveEditorElements(); window.switchMomentosDashTab('banners'); }, '${item.fallback}')">
+                  <i class="fas fa-camera"></i> Cambiar Foto
+                </button>
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    `;
+  } else if (tabName === "users") {
+    const usersList = (JSON.parse(localStorage.getItem("avenue13_registered_users") || "[]")).filter(u => u.username !== "client_test");
+    body.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px; padding:14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">
+        <div>
+          <div style="font-weight:700; font-size:13px; color:#0f172a;">☁️ Sincronización Dual-Layer con Supabase</div>
+          <div style="font-size:11px; color:#64748b;">Guarda todos tus cambios en la nube o descarga una copia de seguridad en JSON.</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="momentos-btn-save" onclick="window.saveAllMomentosChangesLive()">
+            <i class="fas fa-cloud-arrow-up"></i> Sincronizar Nube
+          </button>
+          <button type="button" class="momentos-btn-cancel" onclick="window.downloadMomentosBackupJSON()">
+            <i class="fas fa-download"></i> Backup JSON
+          </button>
+        </div>
+      </div>
+
+      <h4 style="margin:16px 0 10px 0; font-size:13px; text-transform:uppercase; color:#334155;">Cuentas de Clientes Registrados (${usersList.length})</h4>
+      ${usersList.length === 0 ? `
+        <div style="text-align:center; padding:30px; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:10px; color:#64748b; font-size:12px;">
+          No hay cuentas de clientes externas registradas todavía.
+        </div>
+      ` : `
+        <div style="overflow-x:auto; border:1px solid #e2e8f0; border-radius:10px;">
+          <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:left;">
+            <thead>
+              <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+                <th style="padding:10px 12px;">Usuario</th>
+                <th style="padding:10px 12px;">Email</th>
+                <th style="padding:10px 12px;">Último Acceso</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${usersList.map(u => `
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                  <td style="padding:10px 12px; font-weight:700;">${u.username}</td>
+                  <td style="padding:10px 12px;">${u.email}</td>
+                  <td style="padding:10px 12px;">${u.lastLogin || '-'}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `}
+    `;
+  }
+};
+
+window.filterMomentosModalCatalog = function(query = "") {
+  const container = document.getElementById("momentos-modal-catalog-list");
+  if (!container || typeof products === "undefined") return;
+  const q = query.toLowerCase().trim();
+  const list = products.filter(p =>
+    !q ||
+    (p.name || "").toLowerCase().includes(q) ||
+    (p.brand || "").toLowerCase().includes(q) ||
+    (p.category || "").toLowerCase().includes(q)
+  );
+
+  container.innerHTML = list.map(p => `
+    <div style="display:flex; gap:10px; align-items:center; padding:10px; border:1px solid #e2e8f0; border-radius:10px; background:#fff;">
+      <img src="${p.image}" style="width:52px; height:66px; object-fit:cover; border-radius:6px; background:#f8fafc;">
+      <div style="flex:1; min-width:0;">
+        <div style="font-size:10px; font-weight:700; color:#64748b; text-transform:uppercase;">${p.brand}</div>
+        <div style="font-size:12px; font-weight:700; color:#0f172a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${p.name}</div>
+        <div style="font-size:12px; font-weight:800; color:#db2777;">${p.price} AED</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <button type="button" class="momentos-btn-cancel" style="padding:5px 8px; font-size:11px;" onclick="window.openInPageProductModal(${JSON.stringify(p.id).replace(/"/g, "'")})"><i class="fas fa-pencil-alt"></i></button>
+        <button type="button" class="momentos-btn-cancel" style="padding:5px 8px; font-size:11px; color:#dc2626;" onclick="document.querySelector('.admin-delete-btn[data-id=\\'${p.id}\\']')?.click()"><i class="far fa-trash-can"></i></button>
+      </div>
+    </div>
+  `).join("");
+};
+
+window.resetMomentosRealStatsInPage = async function() {
+  if (!confirm("¿Confirmas reiniciar a CERO todas las estadísticas de ventas, pedidos y visitantes?")) return;
+  const freshAnalytics = {
+    totalVisitors: 0,
+    pageViews: 0,
+    dailyVisits: {},
+    startedAt: new Date().toISOString().slice(0, 10)
+  };
+  localStorage.setItem("avenue13_orders", JSON.stringify([]));
+  localStorage.setItem("avenue13_analytics", JSON.stringify(freshAnalytics));
+  localStorage.removeItem("admin_new_order_placed");
+
+  if (typeof window.supabaseClient !== "undefined" && window.supabaseClient) {
+    try {
+      await window.supabaseClient.from("site_settings").upsert([
+        { key: "real_analytics", value: freshAnalytics },
+        { key: "real_orders", value: [] }
+      ]);
+    } catch (e) {}
+  }
+
+  window.switchMomentosDashTab("stats");
+  window.showMomentosToast("✅ Estadísticas limpiadas a 0. Registrando métricas reales desde ahora.");
+};
+
+window.downloadMomentosBackupJSON = function() {
+  const backup = {
+    exportedAt: new Date().toISOString(),
+    products: typeof products !== "undefined" ? products : [],
+    customTexts: getSavedCustomTexts(),
+    customImages: getSavedCustomImages(),
+    analytics: JSON.parse(localStorage.getItem("avenue13_analytics") || "{}"),
+    orders: JSON.parse(localStorage.getItem("avenue13_orders") || "[]")
+  };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `13th-avenue-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+};
+
+function initAdminInPageSystem() {
+  window.bindMomentosLiveEditorElements();
+  attachMomentosGlobalClickListener();
+
+  const isAdmin = localStorage.getItem("admin_logged_in") === "true";
+  if (!isAdmin) return;
+
+  if (localStorage.getItem("avenue13_live_edit_mode") === null) {
+    localStorage.setItem("avenue13_live_edit_mode", "true");
+  }
+
+  renderMomentosFloatingToolbar();
 }
 
 // Logout in-page admin
 window.logoutAdminInPage = function() {
-  if (confirm("Are you sure you want to sign out from admin mode?")) {
+  if (confirm("¿Deseas cerrar la sesión de Administrador?")) {
     localStorage.removeItem("admin_logged_in");
-    alert("Admin signed out.");
+    localStorage.removeItem("avenue13_live_edit_mode");
+    document.body.classList.remove("momentos-edit-mode");
     window.location.reload();
   }
 };
 
-// Open dynamic edit/add modal
+// Open dynamic edit/add product modal (with HTML5 Canvas compression & live Supabase upsert)
 window.openInPageProductModal = function(productId) {
-  // Remove existing modals
   const existing = document.getElementById("admin-inpage-modal-overlay");
   if (existing) existing.remove();
 
-  // Find product if editing
   let p = null;
-  if (productId !== null) {
-    p = products.find(prod => prod.id === productId);
+  if (productId !== null && productId !== undefined) {
+    p = products.find(prod => String(prod.id) === String(productId));
     if (!p) {
       alert("Product not found!");
       return;
     }
   }
 
-  // Create form modal HTML
   const overlay = document.createElement("div");
   overlay.id = "admin-inpage-modal-overlay";
   overlay.className = "admin-inpage-overlay";
@@ -2271,19 +3269,19 @@ window.openInPageProductModal = function(productId) {
   overlay.innerHTML = `
     <div class="admin-inpage-modal">
       <div class="admin-inpage-modal-header">
-        <h3>${p ? 'Edit Product Details' : 'Add New Product'}</h3>
-        <button onclick="document.getElementById('admin-inpage-modal-overlay').remove()"><i class="fas fa-times"></i></button>
+        <h3>${p ? '✏️ Editar Producto en Vivo' : '➕ Añadir Nuevo Producto'}</h3>
+        <button type="button" onclick="document.getElementById('admin-inpage-modal-overlay').remove()"><i class="fas fa-times"></i></button>
       </div>
       <div class="admin-inpage-modal-body">
-        <form id="inpage-product-form" style="display:flex; flex-direction:column; gap:16px;">
-          <div style="display:flex; gap:16px;">
-            <div style="flex:1;">
-              <label class="locale-label" style="margin-bottom:6px;">Product Name</label>
-              <input type="text" id="inpage-p-name" value="${p ? p.name : ''}" required style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
+        <form id="inpage-product-form" style="display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; gap:14px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:200px;">
+              <label class="locale-label" style="margin-bottom:6px;">Nombre del Producto</label>
+              <input type="text" id="inpage-p-name" value="${p ? p.name.replace(/"/g, '&quot;') : ''}" required style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a; border-radius:6px;">
             </div>
             <div style="width:180px;">
-              <label class="locale-label" style="margin-bottom:6px;">Brand</label>
-              <select id="inpage-p-brand" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
+              <label class="locale-label" style="margin-bottom:6px;">Marca</label>
+              <select id="inpage-p-brand" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a; border-radius:6px;">
                 <option value="Miss Chloé" ${p && p.brand === 'Miss Chloé' ? 'selected' : ''}>Miss Chloé</option>
                 <option value="Nella Hair Couture" ${p && p.brand === 'Nella Hair Couture' ? 'selected' : ''}>Nella Hair Couture</option>
                 <option value="COCO Beauty" ${p && p.brand === 'COCO Beauty' ? 'selected' : ''}>COCO Beauty</option>
@@ -2294,10 +3292,10 @@ window.openInPageProductModal = function(productId) {
             </div>
           </div>
 
-          <div style="display:flex; gap:16px;">
-            <div style="flex:1;">
-              <label class="locale-label" style="margin-bottom:6px;">Category</label>
-              <select id="inpage-p-cat" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
+          <div style="display:flex; gap:14px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:150px;">
+              <label class="locale-label" style="margin-bottom:6px;">Categoría</label>
+              <select id="inpage-p-cat" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a; border-radius:6px;">
                 <option value="Fashion" ${p && p.category === 'Fashion' ? 'selected' : ''}>Fashion</option>
                 <option value="Hair & Wigs" ${p && p.category === 'Hair & Wigs' ? 'selected' : ''}>Hair & Wigs</option>
                 <option value="Beauty" ${p && p.category === 'Beauty' ? 'selected' : ''}>Beauty</option>
@@ -2306,59 +3304,66 @@ window.openInPageProductModal = function(productId) {
                 <option value="Exclusive Collections" ${p && p.category === 'Exclusive Collections' ? 'selected' : ''}>Exclusive Collections</option>
               </select>
             </div>
-            <div style="flex:1;">
-              <label class="locale-label" style="margin-bottom:6px;">Subcategory</label>
-              <input type="text" id="inpage-p-sub" value="${p && p.subcategory ? p.subcategory : ''}" placeholder="e.g. Dresses, Wigs" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
+            <div style="flex:1; min-width:150px;">
+              <label class="locale-label" style="margin-bottom:6px;">Subcategoría</label>
+              <input type="text" id="inpage-p-sub" value="${p && p.subcategory ? p.subcategory : ''}" placeholder="Ej. Dresses, Wigs, Skincare" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a; border-radius:6px;">
             </div>
           </div>
 
-          <div style="display:flex; gap:16px;">
+          <div style="display:flex; gap:14px;">
             <div style="flex:1;">
-              <label class="locale-label" style="margin-bottom:6px;">Price (AED)</label>
-              <input type="number" id="inpage-p-price" value="${p ? p.price : ''}" required style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
+              <label class="locale-label" style="margin-bottom:6px;">Precio (AED)</label>
+              <input type="number" step="0.01" id="inpage-p-price" value="${p ? p.price : ''}" required style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a; border-radius:6px;">
             </div>
             <div style="flex:1;">
-              <label class="locale-label" style="margin-bottom:6px;">Original Price (AED)</label>
-              <input type="number" id="inpage-p-orig" value="${p ? p.originalPrice : ''}" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
+              <label class="locale-label" style="margin-bottom:6px;">Precio Anterior (Opcional AED)</label>
+              <input type="number" step="0.01" id="inpage-p-orig" value="${p && p.originalPrice ? p.originalPrice : ''}" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a; border-radius:6px;">
             </div>
           </div>
 
           <div>
-            <label class="locale-label" style="margin-bottom:6px;">Image Upload / Path</label>
-            <div style="display:flex; gap:10px; align-items:center;">
-              <input type="text" id="inpage-p-image" value="${p ? p.image : ''}" required style="flex:1; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
+            <label class="locale-label" style="margin-bottom:6px;">Fotografía del Producto (Subir desde Celular/PC o URL)</label>
+            <div style="display:flex; gap:12px; align-items:center;">
+              <img id="inpage-p-preview" src="${p ? p.image : 'assets/cat_exclusive.png'}" style="width:56px; height:72px; object-fit:cover; border-radius:6px; border:1px solid #cbd5e1;">
+              <input type="text" id="inpage-p-image" value="${p ? p.image : ''}" required style="flex:1; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a; border-radius:6px;">
               <input type="file" id="inpage-p-file" accept="image/*" style="display:none;" onchange="handleInPageImageUpload(this)">
-              <button type="button" onclick="document.getElementById('inpage-p-file').click()" style="padding:10px; background-color:#334155; color:white; border:none; cursor:pointer;"><i class="fas fa-upload"></i> Upload</button>
+              <button type="button" onclick="document.getElementById('inpage-p-file').click()" style="padding:10px 14px; background-color:#d97706; color:white; border:none; border-radius:6px; cursor:pointer; font-weight:700; font-size:12px;"><i class="fas fa-camera"></i> Subir Foto</button>
             </div>
           </div>
 
           <div>
-            <label class="locale-label" style="margin-bottom:6px;">Description</label>
-            <textarea id="inpage-p-desc" required style="width:100%; padding:10px; border:1px solid var(--border-color); height:70px; resize:vertical; background-color:white; color:#0f172a;">${p ? p.description : ''}</textarea>
+            <label class="locale-label" style="margin-bottom:6px;">Descripción</label>
+            <textarea id="inpage-p-desc" required style="width:100%; padding:10px; border:1px solid var(--border-color); height:70px; resize:vertical; background-color:white; color:#0f172a; border-radius:6px;">${p ? p.description : ''}</textarea>
           </div>
 
-          <div style="display:flex; gap:16px;">
+          <div style="display:flex; gap:14px;">
             <div style="flex:1;">
-              <label class="locale-label" style="margin-bottom:6px;">Sizes (comma separated)</label>
-              <input type="text" id="inpage-p-sizes" value="${p ? p.sizes.join(', ') : 'XS, S, M, L'}" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
+              <label class="locale-label" style="margin-bottom:6px;">Tallas (separadas por coma)</label>
+              <input type="text" id="inpage-p-sizes" value="${p && p.sizes ? p.sizes.join(', ') : 'XS, S, M, L'}" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a; border-radius:6px;">
             </div>
             <div style="width:100px;">
               <label class="locale-label" style="margin-bottom:6px;">Rating</label>
-              <input type="number" id="inpage-p-rating" step="0.1" min="0" max="5" value="${p ? p.rating : '4.5'}" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
+              <input type="number" id="inpage-p-rating" step="0.1" min="0" max="5" value="${p ? p.rating : '5.0'}" style="width:100%; padding:10px; border:1px solid var(--border-color); background-color:white; color:#0f172a; border-radius:6px;">
             </div>
           </div>
 
-          <button type="submit" class="btn-premium" style="margin-top:10px; padding:14px; background:#ff007f; border:none; width:100%; font-size:12px; color:white;">${p ? 'Save Changes' : 'Create Product'}</button>
+          <button type="submit" id="inpage-p-submit-btn" class="btn-premium" style="margin-top:6px; padding:14px; background:#db2777 !important; border:none; width:100%; font-size:12px; color:white !important; font-weight:800; border-radius:8px; cursor:pointer;">
+            <i class="fas fa-check"></i> ${p ? 'Guardar Cambios en Vivo' : 'Crear y Publicar Producto'}
+          </button>
         </form>
       </div>
     </div>
   `;
   document.body.appendChild(overlay);
 
-  // Form Submit Handler
-  document.getElementById("inpage-product-form").addEventListener("submit", (e) => {
+  document.getElementById("inpage-product-form").addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+    const submitBtn = document.getElementById("inpage-p-submit-btn");
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Guardando en Vivo...`;
+    }
+
     const name = document.getElementById("inpage-p-name").value.trim();
     const brand = document.getElementById("inpage-p-brand").value;
     const category = document.getElementById("inpage-p-cat").value;
@@ -2368,10 +3373,10 @@ window.openInPageProductModal = function(productId) {
     const image = document.getElementById("inpage-p-image").value.trim();
     const description = document.getElementById("inpage-p-desc").value.trim();
     const sizes = document.getElementById("inpage-p-sizes").value.split(",").map(s => s.trim()).filter(Boolean);
-    const rating = Number(document.getElementById("inpage-p-rating").value) || 4.5;
+    const rating = Number(document.getElementById("inpage-p-rating").value) || 5.0;
 
+    let targetProd = p;
     if (p) {
-      // Modify existing
       p.name = name;
       p.brand = brand;
       p.category = category;
@@ -2382,11 +3387,9 @@ window.openInPageProductModal = function(productId) {
       p.description = description;
       p.sizes = sizes;
       p.rating = rating;
-      alert("Product updated in browser drafts!");
     } else {
-      // Add new
-      const newId = products.reduce((max, prod) => prod.id > max ? prod.id : max, 0) + 1;
-      const newProduct = {
+      const newId = products.reduce((max, prod) => (Number(prod.id) || 0) > max ? Number(prod.id) : max, 0) + 1;
+      targetProd = {
         id: newId,
         name,
         brand,
@@ -2396,206 +3399,72 @@ window.openInPageProductModal = function(productId) {
         originalPrice,
         rating,
         reviews: 0,
-        sizes,
+        sizes: sizes.length ? sizes : ["One Size"],
         colors: [{ name: "Default", hex: "#111111" }],
         image,
         description,
+        inStock: true,
         features: ["Premium Collection"]
       };
-      products.push(newProduct);
-      alert(`Product #${newId} created successfully in browser drafts!`);
+      products.unshift(targetProd);
     }
 
-    // Save browser draft immediately
     localStorage.setItem("avenue13_products_draft", JSON.stringify(products));
+
+    if (typeof window.supabaseClient !== "undefined" && window.supabaseClient) {
+      try {
+        await window.supabaseClient.from("products").upsert([{
+          id: String(targetProd.id),
+          name: targetProd.name,
+          brand: targetProd.brand,
+          price: Number(targetProd.price),
+          original_price: targetProd.originalPrice || targetProd.price,
+          category: targetProd.category,
+          subcategory: targetProd.subcategory,
+          image: targetProd.image,
+          description: targetProd.description,
+          sizes: targetProd.sizes,
+          colors: targetProd.colors || [{ name: "Default", hex: "#111111" }],
+          in_stock: true,
+          rating: Number(targetProd.rating || 5.0)
+        }]);
+      } catch (err) {
+        console.warn("Supabase product save warning:", err);
+      }
+    }
+
     overlay.remove();
-    window.location.reload();
+    window.showMomentosToast(`✅ Producto "${targetProd.name}" guardado en vivo`);
+
+    if (typeof renderProductGrid === "function" && document.getElementById("trending-products-grid")) {
+      renderProductGrid(products.slice(0, 10), "trending-products-grid");
+    }
+    if (typeof applyFiltersAndRender === "function" && document.getElementById("category-products-grid")) {
+      applyFiltersAndRender();
+    }
+    if (typeof initProductDetailPage === "function" && document.getElementById("detail-title")) {
+      initProductDetailPage();
+    }
+    if (document.getElementById("momentos-modal-catalog-list")) {
+      window.filterMomentosModalCatalog(document.getElementById("momentos-cat-search")?.value || "");
+    }
   });
 };
 
-// Handle in-page base64 image conversion & local file save
-window.handleInPageImageUpload = function(input) {
-  const file = input.files[0];
+// Handle in-page image upload with HTML5 Canvas compression
+window.handleInPageImageUpload = async function(input) {
+  const file = input.files && input.files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const base64 = e.target.result;
-    
-    // Attempt local server upload
-    fetch("/api/upload-image", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ filename: file.name, data: base64 })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === "success") {
-        document.getElementById("inpage-p-image").value = data.path;
-      } else {
-        document.getElementById("inpage-p-image").value = base64; // fallback
-      }
-    })
-    .catch(err => {
-      console.warn("Could not save image to local server assets/ directory, using Base64 instead.");
-      document.getElementById("inpage-p-image").value = base64;
-    });
-  };
-  reader.readAsDataURL(file);
-};
-
-// Open dynamic Save & Publish Side Panel
-window.openInPagePublishPanel = function() {
-  const existing = document.getElementById("admin-inpage-sidebar-overlay");
-  if (existing) existing.remove();
-
-  const savedToken = localStorage.getItem("github_pat") || "";
-  const savedRepo = localStorage.getItem("github_repo") || "";
-  const savedBranch = localStorage.getItem("github_branch") || "main";
-
-  const panel = document.createElement("div");
-  panel.id = "admin-inpage-sidebar-overlay";
-  panel.className = "admin-inpage-sidebar";
-  panel.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:20px;">
-      <h3 style="margin:0; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#0f172a;">Save & Publish Changes</h3>
-      <button onclick="document.getElementById('admin-inpage-sidebar-overlay').classList.remove('active'); setTimeout(() => document.getElementById('admin-inpage-sidebar-overlay').remove(), 300)" style="border:none; background:none; font-size:18px; cursor:pointer; color:#0f172a;"><i class="fas fa-times"></i></button>
-    </div>
-    
-    <div style="flex:1; display:flex; flex-direction:column; gap:20px;">
-      <!-- Local Sync option -->
-      <div style="background:#f8fafc; border:1px solid var(--border-color); padding:16px; border-radius:6px; color:#0f172a;">
-        <h4 style="margin:0 0 6px 0; font-size:11px; text-transform:uppercase; font-weight:700;">Local Server Save</h4>
-        <p style="font-size:10px; color:var(--text-muted); margin:0 0 12px 0; line-height:1.4;">Write draft products database directly to files on your local hard drive.</p>
-        <button id="inpage-sync-local-btn" class="btn-premium" style="width:100%; padding:10px; font-size:10px; background:#0f172a; border:none; color:white;" onclick="inpagePublishLocal()">Save to Disk</button>
-      </div>
-
-      <!-- Cloud Sync option -->
-      <div style="background:#fdf2f8; border:1px solid #fbcfe8; padding:16px; border-radius:6px; color:#0f172a;">
-        <h4 style="margin:0 0 6px 0; font-size:11px; text-transform:uppercase; color:#db2777; font-weight:700;">Publish to Netlify / GitHub</h4>
-        <p style="font-size:10px; color:var(--text-muted); margin:0 0 12px 0; line-height:1.4;">Commit and push code directly to the Netlify-connected repository to redeploy live site.</p>
-        
-        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
-          <div>
-            <label class="locale-label" style="font-size:9px; margin-bottom:3px; color:#64748b;">GitHub PAT Token</label>
-            <input type="password" id="inpage-git-token" value="${savedToken}" placeholder="ghp_..." style="width:100%; padding:6px 10px; font-size:11px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
-          </div>
-          <div>
-            <label class="locale-label" style="font-size:9px; margin-bottom:3px; color:#64748b;">Repository Path</label>
-            <input type="text" id="inpage-git-repo" value="${savedRepo}" placeholder="username/repository" style="width:100%; padding:6px 10px; font-size:11px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
-          </div>
-          <div>
-            <label class="locale-label" style="font-size:9px; margin-bottom:3px; color:#64748b;">Branch</label>
-            <input type="text" id="inpage-git-branch" value="${savedBranch}" placeholder="main" style="width:100%; padding:6px 10px; font-size:11px; border:1px solid var(--border-color); background-color:white; color:#0f172a;">
-          </div>
-        </div>
-
-        <button id="inpage-sync-cloud-btn" class="btn-premium" style="width:100%; padding:10px; font-size:10px; background:#ff007f; border:none; color:white;" onclick="inpagePublishCloud()">Publish Live</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(panel);
-  
-  // Slide in panel
-  setTimeout(() => panel.classList.add("active"), 10);
-};
-
-// Publish Local handler
-window.inpagePublishLocal = function() {
-  const btn = document.getElementById("inpage-sync-local-btn");
-  const oldText = btn.innerHTML;
-  btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Saving...";
-  btn.disabled = true;
-
-  fetch("/api/save-products", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(products)
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.status === "success") {
-      alert("Success! Changes saved directly to products.js file on your local machine.");
-    } else {
-      throw new Error(data.message);
-    }
-  })
-  .catch(err => {
-    alert("Local save failed: " + err.message + "\n(Verify local python server.py is active!)");
-  })
-  .finally(() => {
-    btn.innerHTML = oldText;
-    btn.disabled = false;
-  });
-};
-
-// Publish Cloud handler
-window.inpagePublishCloud = function() {
-  const token = document.getElementById("inpage-git-token").value.trim();
-  const repo = document.getElementById("inpage-git-repo").value.trim();
-  const branch = document.getElementById("inpage-git-branch").value.trim() || "main";
-
-  if (!token || !repo) {
-    alert("Please fill in GitHub PAT and Repository parameters first.");
-    return;
+  try {
+    const compressedBase64 = await window.compressImageWithCanvas(file, 1000, 0.86);
+    const preview = document.getElementById("inpage-p-preview");
+    if (preview) preview.src = compressedBase64;
+    const imgInput = document.getElementById("inpage-p-image");
+    if (imgInput) imgInput.value = compressedBase64;
+  } catch (e) {
+    console.error("Image upload compression error:", e);
   }
-
-  // Save inputs
-  localStorage.setItem("github_pat", token);
-  localStorage.setItem("github_repo", repo);
-  localStorage.setItem("github_branch", branch);
-
-  const btn = document.getElementById("inpage-sync-cloud-btn");
-  const oldText = btn.innerHTML;
-  btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Committing...";
-  btn.disabled = true;
-
-  const content = `const products = ${JSON.stringify(products, null, 2)};\n\nif (typeof module !== 'undefined' && module.exports) {\n  module.exports = products;\n}\n`;
-
-  // Fetch file sha and commit to Github
-  const url = `https://api.github.com/repos/${repo}/contents/products.js`;
-  const headers = {
-    "Authorization": `Bearer ${token}`,
-    "Accept": "application/vnd.github.v3+json",
-    "Content-Type": "application/json"
-  };
-
-  fetch(`${url}?ref=${branch}`, { headers })
-    .then(res => {
-      if (res.status === 404) return null;
-      if (!res.ok) throw new Error("Could not contact GitHub repository. Verify your PAT and Repo name.");
-      return res.json();
-    })
-    .then(fileInfo => {
-      const sha = fileInfo ? fileInfo.sha : null;
-      const body = {
-        message: "admin: update products.js database via in-page editor",
-        content: btoa(unescape(encodeURIComponent(content))),
-        branch
-      };
-      if (sha) body.sha = sha;
-
-      return fetch(url, {
-        method: "PUT",
-        headers,
-        body: JSON.stringify(body)
-      });
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.content) {
-        alert("Success! Products list pushed directly to GitHub repository and synchronized with Supabase.");
-      } else {
-        throw new Error(data.message || "Unknown Git API response");
-      }
-    })
-    .catch(err => {
-      alert("Cloud Sync failed: " + err.message);
-    })
-    .finally(() => {
-      btn.innerHTML = oldText;
-      btn.disabled = false;
-    });
 };
 
 // Global Mobile Drawer Close Handler
@@ -2610,7 +3479,7 @@ window.closeMobileDrawer = function() {
   if (menuIcon) menuIcon.className = "fas fa-bars";
 };
 
-// Global Support Modal Handler
+// Global Support Modal Handler (Rule 5: WhatsApp icon ONLY, zero text)
 window.openSupportModal = function() {
   const existing = document.getElementById("support-modal-overlay");
   if (existing) existing.remove();
@@ -2663,14 +3532,18 @@ window.closeSupportModal = function() {
   if (overlay) overlay.remove();
 };
 
-// Supabase Live Store Data Hydration
+// Supabase Live Store Data Hydration (Products + Custom Texts + Custom Images + Real Analytics)
 async function fetchSupabaseLiveStoreData() {
   if (typeof window.supabaseClient !== "undefined" && window.supabaseClient) {
     try {
-      const { data: pData, error: pErr } = await window.supabaseClient.from('products').select('*');
-      if (!pErr && pData && pData.length > 0) {
-        window.products = pData.map(item => ({
-          id: item.id,
+      const [prodRes, settingsRes] = await Promise.allSettled([
+        window.supabaseClient.from("products").select("*"),
+        window.supabaseClient.from("site_settings").select("key, value").in("key", ["custom_texts", "custom_images", "real_analytics", "real_orders"])
+      ]);
+
+      if (prodRes.status === "fulfilled" && !prodRes.value.error && Array.isArray(prodRes.value.data) && prodRes.value.data.length > 0) {
+        const mapped = prodRes.value.data.map(item => ({
+          id: isNaN(Number(item.id)) ? item.id : Number(item.id),
           name: item.name,
           brand: item.brand,
           price: Number(item.price),
@@ -2684,9 +3557,37 @@ async function fetchSupabaseLiveStoreData() {
           inStock: item.in_stock !== false,
           rating: Number(item.rating || 5.0)
         }));
-        console.log("⚡ Supabase products loaded into memory:", window.products.length);
-        if (typeof renderCategoryPage === "function") renderCategoryPage();
-        if (typeof renderProductDetail === "function") renderProductDetail();
+        window.products = mapped;
+        if (typeof products !== "undefined" && Array.isArray(products)) {
+          products.length = 0;
+          products.push(...mapped);
+        }
+        if (typeof renderProductGrid === "function" && document.getElementById("trending-products-grid")) {
+          renderProductGrid(products.slice(0, 10), "trending-products-grid");
+        }
+        if (typeof applyFiltersAndRender === "function" && document.getElementById("category-products-grid")) {
+          applyFiltersAndRender();
+        }
+      }
+
+      if (settingsRes.status === "fulfilled" && !settingsRes.value.error && Array.isArray(settingsRes.value.data)) {
+        settingsRes.value.data.forEach(row => {
+          if (row.key === "custom_texts" && row.value && typeof row.value === "object") {
+            const merged = { ...row.value, ...getSavedCustomTexts() };
+            localStorage.setItem("avenue13_custom_texts", JSON.stringify(merged));
+          }
+          if (row.key === "custom_images" && row.value && typeof row.value === "object") {
+            const merged = { ...row.value, ...getSavedCustomImages() };
+            localStorage.setItem("avenue13_custom_images", JSON.stringify(merged));
+          }
+          if (row.key === "real_orders" && Array.isArray(row.value)) {
+            const localOrds = JSON.parse(localStorage.getItem("avenue13_orders") || "[]");
+            if (row.value.length > localOrds.length) {
+              localStorage.setItem("avenue13_orders", JSON.stringify(row.value));
+            }
+          }
+        });
+        window.bindMomentosLiveEditorElements();
       }
     } catch (e) {
       console.warn("Supabase live hydration error:", e);
@@ -2705,19 +3606,25 @@ function startWakeLockPulse() {
   setInterval(pulse, 5 * 60 * 1000);
 }
 
-// Automatic initialization on script load
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", async () => {
-    await fetchSupabaseLiveStoreData();
-    initLocalization();
-    renderAllDynamicComponents();
-    startWakeLockPulse();
-  });
-} else {
-  fetchSupabaseLiveStoreData().then(() => {
-    initLocalization();
-    renderAllDynamicComponents();
-    startWakeLockPulse();
-  });
+// Run initialization cleanly once
+let avenue13Bootstrapped = false;
+async function bootstrapAvenue13App() {
+  if (avenue13Bootstrapped) return;
+  avenue13Bootstrapped = true;
+
+  trackRealSiteVisit();
+  initLocalization();
+  renderAllDynamicComponents();
+  initAdminInPageSystem();
+  startWakeLockPulse();
+  await fetchSupabaseLiveStoreData();
+  initAdminInPageSystem();
 }
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bootstrapAvenue13App);
+} else {
+  bootstrapAvenue13App();
+}
+
 

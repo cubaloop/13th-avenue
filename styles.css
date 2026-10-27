@@ -3317,5 +3317,567 @@ body.admin-inpage-active {
   }
 }
 
+/* ==========================================================================
+   MOMENTOS SPA LIVE IN-PAGE EDITOR & ADMIN SUITE STYLES
+   ========================================================================== */
+
+/* Header Golden Admin Pill */
+.momentos-header-admin-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #ffffff !important;
+  border: 1px solid #fbbf24;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.momentos-header-admin-pill:hover {
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.4);
+}
+
+/* Floating Bottom-Left Toolbar (Identical to LiveEditorToolbar.jsx in Momentos Spa) */
+.momentos-live-toolbar {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: var(--font-sans);
+  max-width: calc(100vw - 44px);
+}
+
+.momentos-main-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  background: #18181b;
+  color: #ffffff;
+  border: 2px solid #fbbf24;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  transition: all 0.25s ease;
+}
+
+.momentos-main-toggle-pill.active {
+  background: #d97706;
+  color: #ffffff;
+  border-color: #fde68a;
+  box-shadow: 0 10px 26px rgba(217, 119, 6, 0.45), 0 0 0 4px rgba(251, 191, 36, 0.28);
+}
+
+.momentos-main-toggle-pill:hover {
+  transform: scale(1.04);
+}
+
+.momentos-pill-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fde68a;
+  font-size: 11px;
+}
+
+.momentos-main-toggle-pill.active .momentos-pill-icon {
+  background: #ffffff;
+  color: #d97706;
+}
+
+.momentos-pill-badge {
+  background: #fde68a;
+  color: #78350f;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.momentos-secondary-bar {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid #fcd34d;
+  border-radius: 999px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+}
+
+.momentos-hint-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #44403c;
+  border-right: 1px solid #e7e5e4;
+}
+
+.momentos-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  display: inline-block;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+}
+
+.momentos-action-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.momentos-action-pill.add-prod {
+  background: #fdf2f8;
+  color: #db2777;
+  border: 1px solid #fbcfe8;
+}
+
+.momentos-action-pill.add-prod:hover {
+  background: #db2777;
+  color: #ffffff;
+}
+
+.momentos-action-pill.stats-btn {
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.momentos-action-pill.stats-btn:hover {
+  background: #f59e0b;
+  color: #ffffff;
+}
+
+.momentos-action-pill.save-btn {
+  background: #059669;
+  color: #ffffff;
+}
+
+.momentos-action-pill.save-btn:hover {
+  background: #047857;
+}
+
+.momentos-action-pill.exit-btn {
+  background: #f5f5f4;
+  color: #44403c;
+}
+
+.momentos-action-pill.exit-btn:hover {
+  background: #e7e5e4;
+}
+
+.momentos-action-pill.logout-btn {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 6px 10px;
+}
+
+.momentos-action-pill.logout-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+/* Editable Text Highlights when Momentos Edit Mode is ON */
+body.momentos-edit-mode [data-edit-key] {
+  outline: 1.5px dashed rgba(245, 158, 11, 0.78) !important;
+  outline-offset: 3px;
+  border-radius: 4px;
+  cursor: pointer !important;
+  transition: outline-color 0.18s ease, background-color 0.18s ease;
+}
+
+body.momentos-edit-mode [data-edit-key]:hover {
+  outline: 2px solid #d97706 !important;
+  background-color: rgba(254, 243, 199, 0.25) !important;
+}
+
+/* Floating Image Edit Buttons on Hero Slides & Brand Architecture Cards */
+.momentos-img-edit-btn {
+  display: none;
+  position: absolute;
+  z-index: 35;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(217, 119, 6, 0.95);
+  color: #ffffff !important;
+  border: 1.5px solid #fde68a;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.momentos-img-edit-btn:hover {
+  background: #b45309;
+  transform: scale(1.05);
+}
+
+.momentos-slide-img-btn {
+  top: 20px;
+  right: 24px;
+}
+
+.momentos-brand-img-btn {
+  top: 14px;
+  right: 14px;
+}
+
+body.momentos-edit-mode .momentos-img-edit-btn {
+  display: inline-flex;
+}
+
+/* Product Card Quick Photo Button */
+.admin-photo-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #d97706;
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.admin-photo-btn:hover {
+  background: #b45309;
+  transform: scale(1.1);
+}
+
+/* Momentos Inline Editor Modal & Full Admin Dashboard Modal */
+.momentos-inline-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100005;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.momentos-inline-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border: 2px solid #f59e0b;
+  border-radius: 18px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  font-family: var(--font-sans);
+  animation: modalFadeIn 0.2s ease;
+}
+
+.momentos-inline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: #fffbeb;
+  border-bottom: 1px solid #fde68a;
+}
+
+.momentos-inline-badge {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #b45309;
+}
+
+.momentos-inline-custom-tag {
+  font-size: 10px;
+  font-weight: 700;
+  background: #d1fae5;
+  color: #065f46;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+.momentos-inline-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.momentos-inline-body {
+  padding: 18px;
+}
+
+.momentos-field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.momentos-field-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  color: #0f172a;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.momentos-field-input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+}
+
+.momentos-inline-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.momentos-btn-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #d97706;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.momentos-btn-save:hover {
+  background: #b45309;
+}
+
+.momentos-btn-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.momentos-btn-upload:hover {
+  background: #db2777;
+}
+
+.momentos-btn-cancel {
+  padding: 8px 14px;
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.momentos-btn-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: transparent;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.momentos-btn-reset:hover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+/* Momentos In-Page Full Dashboard Modal */
+.momentos-dashboard-modal {
+  width: 100%;
+  max-width: 920px;
+  max-height: 88vh;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+.momentos-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.momentos-dashboard-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 10px 24px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  overflow-x: auto;
+}
+
+.momentos-dash-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.momentos-dash-tab.active {
+  background: #ffffff;
+  color: #d97706;
+  border-color: #fde68a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.momentos-dashboard-body {
+  padding: 22px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.momentos-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.momentos-stat-box {
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.momentos-stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+}
+
+.momentos-stat-val {
+  font-size: 22px;
+  font-weight: 900;
+  color: #0f172a;
+  margin: 6px 0 4px 0;
+}
+
+.momentos-stat-sub {
+  font-size: 11px;
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* Momentos Toast Notification */
+.momentos-live-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100010;
+  background: #059669;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 16px 32px rgba(5, 150, 105, 0.35);
+  animation: modalFadeIn 0.25s ease;
+}
+
+@media (max-width: 768px) {
+  .momentos-hint-pill {
+    display: none;
+  }
+  .momentos-live-toolbar {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+  }
+}
+
+
 
 

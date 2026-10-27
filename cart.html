@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Bag | 13th Avenue</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-top">
+        <button class="menu-toggle-btn" id="menu-toggle-btn"><i class="fas fa-bars"></i></button>
+        <div class="search-bar-container">
+          <button class="search-icon-btn"><i class="fas fa-search"></i></button>
+          <input type="text" id="search-input" class="search-input" placeholder="Search brands, abayas, wigs, home...">
+        </div>
+        <div class="logo-container">
+          <a href="index.html" class="brand-logo">
+            13th Avenue
+            <span>Lifestyle Brand House</span>
+          </a>
+        </div>
+        <div class="header-actions">
+          <a href="category.html" class="action-icon-btn" title="Shop All"><i class="fas fa-store"></i></a>
+          <a href="#" class="action-icon-btn" id="cart-toggle-btn" title="Shopping Bag">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="badge-count" id="cart-badge" style="display: none;">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <nav class="main-nav" id="main-nav">
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="category.html?brand=Miss Chloé" class="nav-link active-brand">Miss Chloé</a></li>
+        <li class="nav-item"><a href="category.html?brand=Nella Hair Couture" class="nav-link active-brand">Nella Hair</a></li>
+        <li class="nav-item"><a href="category.html?brand=COCO" class="nav-link active-brand">COCO</a></li>
+        <li class="nav-item"><a href="category.html?brand=13th Avenue" class="nav-link" style="color: var(--accent-pink);">Exclusive</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- --- Main Cart Page Layout --- -->
+  <main class="section-padding">
+    <div class="container">
+      
+      <div style="margin-bottom: 40px; text-align: center;">
+        <h1 class="section-title" style="font-size: 36px; margin-bottom: 8px;">Shopping Bag</h1>
+        <p class="section-subtitle">Review items in your order</p>
+      </div>
+
+      <div class="cart-layout" id="cart-content-wrapper">
+        
+        <!-- Left: Cart Items Table -->
+        <div class="cart-table-container">
+          <div class="cart-table-header">
+            <span>Product Details</span>
+            <span>Price</span>
+            <span>Quantity</span>
+            <span>Total</span>
+          </div>
+          
+          <div id="cart-table-rows">
+            <!-- Injected via app.js -->
+          </div>
+        </div>
+
+        <!-- Right: Summary Sidebar Panel -->
+        <aside>
+          <div class="cart-drawer-footer" style="border: 1px solid var(--border-color); border-radius: var(--rounded-default); background-color: var(--bg-card); padding: 32px;">
+            <h3 class="checkout-section-title" style="border-bottom: none; margin-bottom: 20px; padding-bottom: 0;">Order Summary</h3>
+            
+            <div class="promo-code-box" style="margin-bottom: 24px;">
+              <input type="text" class="promo-input" id="cart-page-promo-input" placeholder="Promo Code (AVENUE13)">
+              <button class="btn-promo-apply" id="cart-page-promo-apply">Apply</button>
+            </div>
+
+            <div class="summary-row" style="font-size: 14px; margin-bottom: 12px;">
+              <span>Subtotal</span>
+              <span id="page-subtotal">0.00 AED</span>
+            </div>
+            <div class="summary-row" id="page-discount-row" style="display: none; color: var(--sale-red); font-size: 14px; margin-bottom: 12px;">
+              <span>Discount (15%)</span>
+              <span id="page-discount">0.00 AED</span>
+            </div>
+            <div class="summary-row" style="font-size: 14px; margin-bottom: 12px;">
+              <span>Shipping</span>
+              <span id="page-shipping">FREE</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 24px;">VAT included. Free standard shipping on orders over 150 AED.</div>
+
+            <div class="summary-row total-row" style="font-size: 20px; border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px; margin-bottom: 24px;">
+              <span>Total</span>
+              <span id="page-total">0.00 AED</span>
+            </div>
+
+            <a href="checkout.html" class="btn-premium" style="display: block; text-align: center; font-size: 14px; padding: 18px;">Proceed To Checkout</a>
+            <a href="category.html" style="display: block; text-align: center; font-size: 12px; margin-top: 16px; text-decoration: underline; color: var(--text-muted);">Continue Shopping</a>
+          </div>
+        </aside>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footers -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 13th Avenue. All rights reserved. Style and functionality matched to PrettyLittleThing.</p>
+        <div class="payment-methods-icons">
+          <span class="payment-badge">Tabby</span>
+          <span class="payment-badge">Visa</span>
+          <span class="payment-badge">Mastercard</span>
+          <span class="payment-badge">Apple Pay</span>
+          <span class="payment-badge">PayPal</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="products.js"></script>
+  <script src="content.js"></script>
+  <script src="header-footer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

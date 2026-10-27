@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: 13th-avenue
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: "python server.py"
+    healthCheckPath: /healthz
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: SUPABASE_URL
+        value: https://airegckdbjounyoubmqr.supabase.co

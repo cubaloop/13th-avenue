@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed | 13th Avenue</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Minimal Header -->
+  <header class="main-header" style="padding: 10px 0;">
+    <div class="container d-flex justify-between align-center">
+      <div class="logo-container" style="text-align: left;">
+        <a href="index.html" class="brand-logo" style="font-size: 26px;">
+          13th Avenue
+          <span>Order Confirmed</span>
+        </a>
+      </div>
+      <div>
+        <a href="index.html" style="font-size: 13px; font-weight: 600; text-decoration: underline; color: var(--text-muted);"><i class="fas fa-home"></i> Return Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- --- Main Confirmation Panel --- -->
+  <main class="section-padding">
+    <div class="container" style="max-width: 680px;">
+      
+      <div class="checkout-section text-center" style="padding: 48px;">
+        <div style="font-size: 56px; color: var(--accent-pink); margin-bottom: 20px;"><i class="far fa-check-circle"></i></div>
+        <h1 style="font-family: var(--font-serif); font-size: 36px; text-transform: uppercase; margin-bottom: 12px;">Thank You for Your Order!</h1>
+        <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 30px;">Your payment was successful and your order has been placed securely. We have sent a confirmation email with tracking details to your inbox.</p>
+        
+        <!-- Order details card -->
+        <div style="background-color: var(--bg-dim); padding: 24px; border-radius: var(--rounded-default); margin-bottom: 36px; text-align: left;">
+          <div class="d-flex justify-between" style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 12px; font-size: 14px;">
+            <span><strong>Order Number:</strong></span>
+            <span id="order-number-val" style="font-weight: 700; color: var(--accent-pink);">AV123456</span>
+          </div>
+          <div class="d-flex justify-between" style="font-size: 14px;">
+            <span><strong>Estimated Delivery:</strong></span>
+            <span id="delivery-est-val" style="font-weight: 700;">Wednesday, July 2nd</span>
+          </div>
+        </div>
+
+        <!-- Receipt items list -->
+        <div style="text-align: left; margin-bottom: 36px;">
+          <h3 class="checkout-section-title" style="border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 16px; font-size: 14px;">Order Summary</h3>
+          <ul id="receipt-items-list" style="list-style: none; margin-bottom: 20px;">
+            <!-- Injected via app.js -->
+          </ul>
+          
+          <div class="summary-row" style="font-size: 13.5px; margin-bottom: 8px;">
+            <span>Subtotal</span>
+            <span id="receipt-subtotal">0.00 AED</span>
+          </div>
+          <div class="summary-row" id="receipt-discount-row" style="display: none; color: var(--sale-red); font-size: 13.5px; margin-bottom: 8px;">
+            <span>Discount (15%)</span>
+            <span id="receipt-discount">0.00 AED</span>
+          </div>
+          <div class="summary-row" style="font-size: 13.5px; margin-bottom: 8px;">
+            <span>Shipping</span>
+            <span id="receipt-shipping">FREE</span>
+          </div>
+          <div class="summary-row total-row" style="font-size: 18px; border-top: 1px solid var(--border-color); padding-top: 14px; margin-top: 14px;">
+            <span>Total Paid (inc. VAT)</span>
+            <span id="receipt-total" style="color: var(--accent-pink); font-weight: 900;">0.00 AED</span>
+          </div>
+        </div>
+
+        <a href="category.html" class="btn-premium" style="display: inline-block; width: 100%; padding: 18px;">Continue Shopping</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footers -->
+  <footer class="main-footer" style="padding: 40px 0 20px;">
+    <div class="container text-center">
+      <p style="font-size: 12px;">&copy; 2026 13th Avenue. Secure checkout confirmed. Thank you.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="products.js"></script>
+  <script src="content.js"></script>
+  <script src="header-footer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

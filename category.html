@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Directory | 13th Avenue</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-top">
+        <button class="menu-toggle-btn" id="menu-toggle-btn"><i class="fas fa-bars"></i></button>
+        <div class="search-bar-container">
+          <button class="search-icon-btn"><i class="fas fa-search"></i></button>
+          <input type="text" id="search-input" class="search-input" placeholder="Search brands, abayas, wigs, home...">
+        </div>
+        <div class="logo-container">
+          <a href="index.html" class="brand-logo">
+            13th Avenue
+            <span>Lifestyle Brand House</span>
+          </a>
+        </div>
+        <div class="header-actions">
+          <a href="category.html" class="action-icon-btn" title="Shop All"><i class="fas fa-store"></i></a>
+          <a href="#" class="action-icon-btn" id="cart-toggle-btn" title="Shopping Bag">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="badge-count" id="cart-badge" style="display: none;">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <nav class="main-nav" id="main-nav">
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="category.html?brand=Miss Chloé" class="nav-link active-brand">Miss Chloé</a></li>
+        <li class="nav-item"><a href="category.html?brand=Nella Hair Couture" class="nav-link active-brand">Nella Hair</a></li>
+        <li class="nav-item"><a href="category.html?brand=COCO" class="nav-link active-brand">COCO</a></li>
+        <li class="nav-item"><a href="category.html?brand=13th Avenue" class="nav-link" style="color: var(--accent-pink);">Exclusive</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- --- Category Content Area --- -->
+  <main class="section-padding">
+    <div class="container">
+      
+      <!-- Page Header -->
+      <div style="margin-bottom: 30px;">
+        <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">
+          <a href="index.html">Home</a> &nbsp;/&nbsp; <span style="color: var(--primary-color);">Browse</span>
+        </div>
+        <h1 id="category-display-title" class="section-title" style="text-align: left; font-size: 36px; margin-bottom: 8px;">All Collections</h1>
+      </div>
+
+      <div class="category-wrapper">
+        
+        <!-- Sidebar Filters Column -->
+        <aside class="filter-sidebar" id="filter-sidebar">
+          <div class="sidebar-mobile-header">
+            <h3>Filtros</h3>
+            <button id="close-filter-btn"><i class="fas fa-times"></i></button>
+          </div>
+          
+          <!-- Brand Accordion -->
+          <div class="filter-widget">
+            <h3 class="filter-widget-title">Brands <i class="fas fa-chevron-up"></i></h3>
+            <div class="filter-options">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="brand-filter-check" value="Miss Chloé"> Miss Chloé
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="brand-filter-check" value="Nella Hair Couture"> Nella Hair Couture
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="brand-filter-check" value="COCO Beauty"> COCO Beauty
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="brand-filter-check" value="COCO Mini"> COCO Mini
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="brand-filter-check" value="Wedding Collection"> Wedding Collection
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="brand-filter-check" value="13th Avenue"> 13th Avenue Exclusive
+              </label>
+            </div>
+          </div>
+
+          <!-- Category Accordion -->
+          <div class="filter-widget">
+            <h3 class="filter-widget-title">Categories <i class="fas fa-chevron-up"></i></h3>
+            <div class="filter-options">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="cat-filter-check" value="Fashion"> Fashion
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="cat-filter-check" value="Hair & Wigs"> Hair & Wigs
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="cat-filter-check" value="Beauty"> Beauty
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="cat-filter-check" value="Kids & Baby"> Kids & Baby
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="cat-filter-check" value="Wedding"> Wedding
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="cat-filter-check" value="Exclusive Collections"> Exclusive Collections
+              </label>
+            </div>
+          </div>
+
+          <!-- Sizes Accordion -->
+          <div class="filter-widget">
+            <h3 class="filter-widget-title">Size Options <i class="fas fa-chevron-up"></i></h3>
+            <div class="filter-options" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px;">
+              <label class="filter-checkbox-label" style="width: 45%;">
+                <input type="checkbox" class="size-filter-check" value="XS"> XS
+              </label>
+              <label class="filter-checkbox-label" style="width: 45%;">
+                <input type="checkbox" class="size-filter-check" value="S"> S
+              </label>
+              <label class="filter-checkbox-label" style="width: 45%;">
+                <input type="checkbox" class="size-filter-check" value="M"> M
+              </label>
+              <label class="filter-checkbox-label" style="width: 45%;">
+                <input type="checkbox" class="size-filter-check" value="L"> L
+              </label>
+              <label class="filter-checkbox-label" style="width: 45%;">
+                <input type="checkbox" class="size-filter-check" value="XL"> XL
+              </label>
+              <label class="filter-checkbox-label" style="width: 45%;">
+                <input type="checkbox" class="size-filter-check" value="22 Inches"> 22" Wig
+              </label>
+              <label class="filter-checkbox-label" style="width: 45%;">
+                <input type="checkbox" class="size-filter-check" value="One Size"> O/S
+              </label>
+            </div>
+          </div>
+
+          <!-- Price Accordion -->
+          <div class="filter-widget">
+            <h3 class="filter-widget-title">Price Range <i class="fas fa-chevron-up"></i></h3>
+            <div class="filter-options">
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="price-filter-check" value="0-100"> Under 100 AED
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="price-filter-check" value="100-250"> 100 AED - 250 AED
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="price-filter-check" value="250-500"> 250 AED - 500 AED
+              </label>
+              <label class="filter-checkbox-label">
+                <input type="checkbox" class="price-filter-check" value="500+"> Over 500 AED
+              </label>
+            </div>
+          </div>
+
+        </aside>
+
+        <!-- Main Product Columns -->
+        <section class="category-main">
+          
+          <div class="category-top-controls">
+            <button class="btn-filter-toggle" id="filter-toggle-btn">
+              <i class="fas fa-sliders-h" style="margin-right:6px;"></i> <span>Filtrar</span>
+            </button>
+            <div class="results-count" id="category-results-count">0 products found</div>
+            <div class="sort-select-container">
+              <span style="font-size: 13px; font-weight: 700; text-transform: uppercase;">Sort By:</span>
+              <select id="sort-select" class="sort-select">
+                <option value="popularity">Popularity / Rating</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="newest">Newest Arrivals</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="products-grid" id="category-products-grid">
+            <!-- Loaded dynamically via app.js -->
+          </div>
+
+        </section>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footers -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 13th Avenue. All rights reserved. Style and functionality matched to PrettyLittleThing.</p>
+        <div class="payment-methods-icons">
+          <span class="payment-badge">Tabby</span>
+          <span class="payment-badge">Visa</span>
+          <span class="payment-badge">Mastercard</span>
+          <span class="payment-badge">Apple Pay</span>
+          <span class="payment-badge">PayPal</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sliding Cart Drawer -->
+  <div class="cart-drawer-backdrop" id="cart-drawer-backdrop"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-drawer-header">
+      <span class="cart-drawer-title">Your Bag</span>
+      <button class="cart-drawer-close" id="cart-drawer-close"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-drawer-body" id="cart-drawer-items"></div>
+    <div class="cart-drawer-footer">
+      <div class="promo-code-box">
+        <input type="text" class="promo-input" id="promo-input" placeholder="Promo Code (AVENUE13)">
+        <button class="btn-promo-apply" id="promo-apply-btn">Apply</button>
+      </div>
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="drawer-subtotal">0.00 AED</span>
+      </div>
+      <div class="summary-row" id="drawer-discount-row" style="display: none; color: var(--sale-red);">
+        <span>Discount (15%)</span>
+        <span id="drawer-discount">0.00 AED</span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span id="drawer-shipping">FREE</span>
+      </div>
+      <div class="summary-row total-row">
+        <span>Total (inc. VAT)</span>
+        <span id="drawer-total">0.00 AED</span>
+      </div>
+      <a href="checkout.html" class="btn-premium" style="display: block; text-align: center; font-size: 13px;">Proceed to Checkout</a>
+      <a href="cart.html" style="display: block; text-align: center; font-size: 11px; margin-top: 14px; text-decoration: underline; color: var(--text-muted);">View Detailed Bag</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="products.js"></script>
+  <script src="content.js"></script>
+  <script src="header-footer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

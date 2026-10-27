@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.netlify/
+.DS_Store
+generate_gateway_pdf.py
+generate_logos.py
+Payment_Gateway_Integration_Guide_13th_Avenue.pdf

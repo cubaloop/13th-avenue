@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Collections | 13th Avenue</title>
+  <meta name="description" content="Browse all premium fashion, beauty, wigs, and lifestyle collections by brand.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Main Header (Dynamic) -->
+  <header class="main-header"></header>
+
+  <!-- Mega Menu Navigation (Dynamic) -->
+  <nav class="main-nav" id="main-nav"></nav>
+
+  <!-- All Collections Content -->
+  <main class="all-collections-page" style="padding: 40px 0; background-color: var(--bg-color);">
+    <div class="container" style="display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start;">
+      
+      <!-- Left Sidebar Filters Widget (Accordion Layout) -->
+      <aside class="sidebar-filters" style="border-right: 1px solid var(--border-color); padding-right: 30px;">
+        <h3 style="font-family: var(--font-serif); font-size: 20px; text-transform: uppercase; margin-bottom: 24px; letter-spacing:0.05em;">Filters</h3>
+        
+        <!-- Brands Accordion -->
+        <div class="filter-widget" style="margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+          <div class="filter-widget-title" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing:0.05em;">
+            <span>Brands</span>
+            <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+          </div>
+          <div class="filter-widget-options" style="margin-top: 14px;">
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="brand-filter" value="Miss Chloé"> Miss Chloé (Fashion)
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="brand-filter" value="Nella Hair Couture"> Nella Hair Couture (Hair & Wigs)
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="brand-filter" value="COCO Beauty"> COCO Beauty (Beauty)
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="brand-filter" value="COCO Mini"> COCO Mini (Kids & Baby)
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="brand-filter" value="Wedding Collection"> Wedding Collection (Wedding)
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="brand-filter" value="13th Avenue"> 13th Avenue Exclusive (Exclusive)
+            </label>
+          </div>
+        </div>
+
+        <!-- Categories Accordion -->
+        <div class="filter-widget" style="margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+          <div class="filter-widget-title" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing:0.05em;">
+            <span>Categories</span>
+            <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+          </div>
+          <div class="filter-widget-options" style="margin-top: 14px;">
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="cat-filter" value="All"> All Categories
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="cat-filter" value="Fashion"> Fashion
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="cat-filter" value="Hair & Wigs"> Hair & Wigs
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="cat-filter" value="Beauty"> Beauty
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="cat-filter" value="Kids & Baby"> Kids & Baby
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="cat-filter" value="Wedding"> Wedding
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:10px; font-size:13px; margin-bottom:8px; cursor:pointer;">
+              <input type="checkbox" name="cat-filter" value="Exclusive Collections"> Exclusive
+            </label>
+          </div>
+        </div>
+
+        <!-- Size Options Accordion -->
+        <div class="filter-widget" style="margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+          <div class="filter-widget-title" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing:0.05em;">
+            <span>Size Options</span>
+            <i class="fas fa-chevron-down" style="font-size:10px;"></i>
+          </div>
+          <div class="filter-widget-options" style="margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:6px; font-size:12px; cursor:pointer;">
+              <input type="checkbox" name="size-filter" value="XS"> XS
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:6px; font-size:12px; cursor:pointer;">
+              <input type="checkbox" name="size-filter" value="S"> S
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:6px; font-size:12px; cursor:pointer;">
+              <input type="checkbox" name="size-filter" value="M"> M
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:6px; font-size:12px; cursor:pointer;">
+              <input type="checkbox" name="size-filter" value="L"> L
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:6px; font-size:12px; cursor:pointer;">
+              <input type="checkbox" name="size-filter" value="XL"> XL
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:6px; font-size:12px; cursor:pointer;">
+              <input type="checkbox" name="size-filter" value="22 Inches"> 22" Wig
+            </label>
+            <label class="filter-checkbox-label" style="display:flex; align-items:center; gap:6px; font-size:12px; cursor:pointer; grid-column: 1 / span 2;">
+              <input type="checkbox" name="size-filter" value="One Size"> O/S (One Size)
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Directory Columns -->
+      <section class="directory-main-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:16px; margin-bottom:30px;">
+          <div>
+            <h1 style="font-family:var(--font-serif); font-size:36px; text-transform:uppercase; letter-spacing:0.05em; line-height:1.1; margin-bottom:4px;">All Collections</h1>
+            <div style="font-size:12px; color:var(--text-muted);">
+              <a href="index.html">Home</a> &nbsp;&gt;&nbsp; <span style="color:var(--text-main);">All Collections</span>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px; font-size:13px;">
+            <span id="collection-results-count" style="color:var(--text-muted);">6 brands found</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span>Sort by:</span>
+              <select style="border:1px solid var(--border-color); padding:6px 12px; font-size:13px; font-family:inherit;">
+                <option value="featured">Featured</option>
+                <option value="name">Name A-Z</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Collections Grid -->
+        <div class="directory-columns-grid" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; margin-bottom: 60px;">
+          
+          <!-- Column 1: Miss Chloe -->
+          <div class="directory-column" style="text-align:left;">
+            <div style="text-align:center; padding: 14px 10px; border-bottom: 2px solid var(--primary-color); margin-bottom:14px; background-color: var(--bg-dim);">
+              <i class="fas fa-shirt" style="font-size:24px; color:var(--text-main); margin-bottom:8px;"></i>
+              <h4 style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">FASHION</h4>
+              <h3 style="font-family:var(--font-serif); font-size:14px; text-transform:uppercase; margin-top:2px;">MISS CHLOÉ</h3>
+            </div>
+            <ul class="directory-links-list" style="list-style:none; padding:0; margin:0 0 16px; font-size:12px; line-height:2.0;">
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Dresses">Dresses</a></li>
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Abayas">Abayas</a></li>
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Sets">Sets</a></li>
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Casual Wear">Tops</a></li>
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Casual Wear">Bottoms</a></li>
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Casual Wear">Outerwear</a></li>
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Heels">Shoes</a></li>
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Shoulder Bags">Bags</a></li>
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Earrings">Jewelry</a></li>
+              <li><a href="category.html?brand=Miss Chloé&subcategory=Accessories">Accessories</a></li>
+            </ul>
+            <a href="category.html?brand=Miss Chloé" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid black; padding-bottom:2px; display:inline-block; margin-bottom:14px;">VIEW ALL &nbsp; <i class="fas fa-arrow-right"></i></a>
+            <img src="assets/cat_fashion.png" alt="Miss Chloé" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:var(--rounded-sm);">
+          </div>
+
+          <!-- Column 2: Nella Hair -->
+          <div class="directory-column" style="text-align:left;">
+            <div style="text-align:center; padding: 14px 10px; border-bottom: 2px solid var(--primary-color); margin-bottom:14px; background-color: var(--bg-dim);">
+              <i class="fas fa-scissors" style="font-size:24px; color:var(--text-main); margin-bottom:8px;"></i>
+              <h4 style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">HAIR & WIGS</h4>
+              <h3 style="font-family:var(--font-serif); font-size:14px; text-transform:uppercase; margin-top:2px;">NELLA HAIR COUTURE</h3>
+            </div>
+            <ul class="directory-links-list" style="list-style:none; padding:0; margin:0 0 16px; font-size:12px; line-height:2.0;">
+              <li><a href="category.html?brand=Nella Hair Couture&subcategory=Wigs">Wigs</a></li>
+              <li><a href="category.html?brand=Nella Hair Couture&subcategory=Extensions">Extensions</a></li>
+              <li><a href="category.html?brand=Nella Hair Couture&subcategory=Hair Care">Hair Care</a></li>
+              <li><a href="category.html?brand=Nella Hair Couture&subcategory=Hair Accessories">Hair Accessories</a></li>
+              <li><a href="category.html?brand=Nella Hair Couture&subcategory=Hair Tools">Hair Tools</a></li>
+              <li><a href="category.html?brand=Nella Hair Couture&search=Straight">Shop by Style</a></li>
+              <li><a href="category.html?brand=Nella Hair Couture&search=HD">Shop by Lace</a></li>
+            </ul>
+            <a href="category.html?brand=Nella Hair Couture" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid black; padding-bottom:2px; display:inline-block; margin-bottom:14px;">VIEW ALL &nbsp; <i class="fas fa-arrow-right"></i></a>
+            <img src="assets/lace_wig.png" alt="Nella Hair" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:var(--rounded-sm);">
+          </div>
+
+          <!-- Column 3: COCO Beauty -->
+          <div class="directory-column" style="text-align:left;">
+            <div style="text-align:center; padding: 14px 10px; border-bottom: 2px solid var(--primary-color); margin-bottom:14px; background-color: var(--bg-dim);">
+              <i class="fas fa-palette" style="font-size:24px; color:var(--text-main); margin-bottom:8px;"></i>
+              <h4 style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">BEAUTY</h4>
+              <h3 style="font-family:var(--font-serif); font-size:14px; text-transform:uppercase; margin-top:2px;">COCO BEAUTY</h3>
+            </div>
+            <ul class="directory-links-list" style="list-style:none; padding:0; margin:0 0 16px; font-size:12px; line-height:2.0;">
+              <li><a href="category.html?brand=COCO Beauty&subcategory=Makeup">Makeup</a></li>
+              <li><a href="category.html?brand=COCO Beauty&subcategory=Skincare">Skincare</a></li>
+              <li><a href="category.html?brand=COCO Beauty&subcategory=Fragrances">Fragrances</a></li>
+              <li><a href="category.html?brand=COCO Beauty&subcategory=Nails">Nails</a></li>
+              <li><a href="category.html?brand=COCO Beauty&subcategory=Beauty Tools">Beauty Tools</a></li>
+              <li><a href="category.html?brand=COCO Beauty&subcategory=Bath & Body">Bath & Body</a></li>
+            </ul>
+            <a href="category.html?brand=COCO Beauty" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid black; padding-bottom:2px; display:inline-block; margin-bottom:14px;">VIEW ALL &nbsp; <i class="fas fa-arrow-right"></i></a>
+            <img src="assets/cat_beauty.png" alt="COCO Beauty" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:var(--rounded-sm);">
+          </div>
+
+          <!-- Column 4: COCO Mini -->
+          <div class="directory-column" style="text-align:left;">
+            <div style="text-align:center; padding: 14px 10px; border-bottom: 2px solid var(--primary-color); margin-bottom:14px; background-color: var(--bg-dim);">
+              <i class="fas fa-baby" style="font-size:24px; color:var(--text-main); margin-bottom:8px;"></i>
+              <h4 style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">KIDS & BABY</h4>
+              <h3 style="font-family:var(--font-serif); font-size:14px; text-transform:uppercase; margin-top:2px;">COCO MINI</h3>
+            </div>
+            <ul class="directory-links-list" style="list-style:none; padding:0; margin:0 0 16px; font-size:12px; line-height:2.0;">
+              <li><a href="category.html?brand=COCO Mini&subcategory=Baby Clothing">Baby Clothing</a></li>
+              <li><a href="category.html?brand=COCO Mini&subcategory=Kids Fashion">Kids Fashion</a></li>
+              <li><a href="category.html?brand=COCO Mini&subcategory=Toys">Toys</a></li>
+              <li><a href="category.html?brand=COCO Mini&subcategory=Baby Essentials">Baby Essentials</a></li>
+              <li><a href="category.html?brand=COCO Mini&subcategory=Accessories">Accessories</a></li>
+              <li><a href="category.html?brand=COCO Mini&subcategory=Gifts">Gifts</a></li>
+            </ul>
+            <a href="category.html?brand=COCO Mini" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid black; padding-bottom:2px; display:inline-block; margin-bottom:14px;">VIEW ALL &nbsp; <i class="fas fa-arrow-right"></i></a>
+            <img src="assets/cat_lifestyle.png" alt="COCO Mini" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:var(--rounded-sm);">
+          </div>
+
+          <!-- Column 5: Wedding -->
+          <div class="directory-column" style="text-align:left;">
+            <div style="text-align:center; padding: 14px 10px; border-bottom: 2px solid var(--primary-color); margin-bottom:14px; background-color: var(--bg-dim);">
+              <i class="fas fa-venus-double" style="font-size:24px; color:var(--text-main); margin-bottom:8px;"></i>
+              <h4 style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">WEDDING</h4>
+              <h3 style="font-family:var(--font-serif); font-size:14px; text-transform:uppercase; margin-top:2px;">WEDDING COLLECTION</h3>
+            </div>
+            <ul class="directory-links-list" style="list-style:none; padding:0; margin:0 0 16px; font-size:12px; line-height:2.0;">
+              <li><a href="category.html?brand=Wedding Collection&subcategory=Bridal Fashion">Bridal Fashion</a></li>
+              <li><a href="category.html?brand=Wedding Collection&subcategory=Bridal Accessories">Bridal Accessories</a></li>
+              <li><a href="category.html?brand=Wedding Collection&subcategory=Wedding Jewelry">Wedding Jewelry</a></li>
+              <li><a href="category.html?brand=Wedding Collection&subcategory=Wedding Shoes">Wedding Shoes</a></li>
+              <li><a href="category.html?brand=Wedding Collection&subcategory=Flowers & Accessories">Flowers & Accessories</a></li>
+              <li><a href="category.html?brand=Wedding Collection&subcategory=Wedding Essentials">Wedding Essentials</a></li>
+            </ul>
+            <a href="category.html?brand=Wedding Collection" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid black; padding-bottom:2px; display:inline-block; margin-bottom:14px;">VIEW ALL &nbsp; <i class="fas fa-arrow-right"></i></a>
+            <img src="assets/cat_exclusive.png" alt="Wedding" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:var(--rounded-sm);">
+          </div>
+
+          <!-- Column 6: Exclusive -->
+          <div class="directory-column" style="text-align:left;">
+            <div style="text-align:center; padding: 14px 10px; border-bottom: 2px solid var(--primary-color); margin-bottom:14px; background-color: var(--bg-dim);">
+              <i class="far fa-star" style="font-size:24px; color:var(--text-main); margin-bottom:8px;"></i>
+              <h4 style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">EXCLUSIVE</h4>
+              <h3 style="font-family:var(--font-serif); font-size:14px; text-transform:uppercase; margin-top:2px;">13TH AVENUE EXCLUSIVE</h3>
+            </div>
+            <ul class="directory-links-list" style="list-style:none; padding:0; margin:0 0 16px; font-size:12px; line-height:2.0;">
+              <li><a href="category.html?brand=13th Avenue&subcategory=Limited Edition">Limited Edition</a></li>
+              <li><a href="category.html?brand=13th Avenue&sort=newest">New Arrivals</a></li>
+              <li><a href="category.html?brand=13th Avenue&sort=popular">Best Sellers</a></li>
+              <li><a href="category.html?brand=13th Avenue&subcategory=Gifts">Gift Sets</a></li>
+              <li><a href="category.html?brand=13th Avenue">Seasonal Collections</a></li>
+              <li><a href="category.html?brand=13th Avenue&subcategory=Sale" style="color:var(--sale-red); font-weight:700;">Sale</a></li>
+            </ul>
+            <a href="category.html?brand=13th Avenue" style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; border-bottom:1px solid black; padding-bottom:2px; display:inline-block; margin-bottom:14px;">VIEW ALL &nbsp; <i class="fas fa-arrow-right"></i></a>
+            <img src="assets/exclusive_jacket.png" alt="Exclusive" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:var(--rounded-sm);">
+          </div>
+        </div>
+
+        <!-- Shop by Brand (Visual Banner Showcase) -->
+        <div style="border-top:1px solid var(--border-color); padding-top:40px;">
+          <h2 style="font-family:var(--font-serif); font-size:24px; text-align:center; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:30px;">Shop By Brand</h2>
+          
+          <div class="shop-by-brand-row-wrapper" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:16px;">
+            
+            <!-- Banner Miss Chloe -->
+            <div class="brand-bar-banner" style="position:relative; height:120px; overflow:hidden; border-radius:var(--rounded-sm); cursor:pointer;" onclick="window.location.href='category.html?brand=Miss Chloé'">
+              <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4); z-index:1;"></div>
+              <img src="assets/cat_fashion.png" style="width:100%; height:100%; object-fit:cover;">
+              <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:2; text-align:center; color:white;">
+                <h4 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">Miss Chloé</h4>
+                <span style="font-size:10px; border-bottom:1px solid white; padding-bottom:2px; margin-top:6px; display:inline-block;">SHOP NOW</span>
+              </div>
+            </div>
+
+            <!-- Banner Nella Hair -->
+            <div class="brand-bar-banner" style="position:relative; height:120px; overflow:hidden; border-radius:var(--rounded-sm); cursor:pointer;" onclick="window.location.href='category.html?brand=Nella Hair Couture'">
+              <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4); z-index:1;"></div>
+              <img src="assets/lace_wig.png" style="width:100%; height:100%; object-fit:cover;">
+              <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:2; text-align:center; color:white;">
+                <h4 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">Nella Hair</h4>
+                <span style="font-size:10px; border-bottom:1px solid white; padding-bottom:2px; margin-top:6px; display:inline-block;">SHOP NOW</span>
+              </div>
+            </div>
+
+            <!-- Banner COCO Beauty -->
+            <div class="brand-bar-banner" style="position:relative; height:120px; overflow:hidden; border-radius:var(--rounded-sm); cursor:pointer;" onclick="window.location.href='category.html?brand=COCO Beauty'">
+              <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4); z-index:1;"></div>
+              <img src="assets/cat_beauty.png" style="width:100%; height:100%; object-fit:cover;">
+              <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:2; text-align:center; color:white;">
+                <h4 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">COCO Beauty</h4>
+                <span style="font-size:10px; border-bottom:1px solid white; padding-bottom:2px; margin-top:6px; display:inline-block;">SHOP NOW</span>
+              </div>
+            </div>
+
+            <!-- Banner COCO Mini -->
+            <div class="brand-bar-banner" style="position:relative; height:120px; overflow:hidden; border-radius:var(--rounded-sm); cursor:pointer;" onclick="window.location.href='category.html?brand=COCO Mini'">
+              <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4); z-index:1;"></div>
+              <img src="assets/cat_lifestyle.png" style="width:100%; height:100%; object-fit:cover;">
+              <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:2; text-align:center; color:white;">
+                <h4 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">COCO Mini</h4>
+                <span style="font-size:10px; border-bottom:1px solid white; padding-bottom:2px; margin-top:6px; display:inline-block;">SHOP NOW</span>
+              </div>
+            </div>
+
+            <!-- Banner Exclusive -->
+            <div class="brand-bar-banner" style="position:relative; height:120px; overflow:hidden; border-radius:var(--rounded-sm); cursor:pointer;" onclick="window.location.href='category.html?brand=13th Avenue'">
+              <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.4); z-index:1;"></div>
+              <img src="assets/exclusive_jacket.png" style="width:100%; height:100%; object-fit:cover;">
+              <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:2; text-align:center; color:white;">
+                <h4 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">13th Avenue</h4>
+                <span style="font-size:10px; border-bottom:1px solid white; padding-bottom:2px; margin-top:6px; display:inline-block;">SHOP NOW</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Persistent Sliding Cart Drawer (Dynamic) -->
+  <div class="cart-drawer-backdrop" id="cart-drawer-backdrop"></div>
+  <div class="cart-drawer" id="cart-drawer"></div>
+
+  <footer class="main-footer"></footer>
+
+  <!-- Injected Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="products.js"></script>
+  <script src="content.js"></script>
+  <script src="header-footer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

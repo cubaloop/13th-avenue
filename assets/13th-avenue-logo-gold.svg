@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4AF37"/>
+      <stop offset="35%" stop-color="#F3E5AB"/>
+      <stop offset="70%" stop-color="#C5A059"/>
+      <stop offset="100%" stop-color="#AA771C"/>
+    </linearGradient>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&amp;family=Outfit:wght@400;500;600&amp;display=swap');
+      .logo-title-gold {
+        font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+        font-size: 82px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        fill: url(#goldGradient);
+        text-anchor: middle;
+      }
+      .logo-sub-gold {
+        font-family: 'Outfit', -apple-system, sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.48em;
+        text-transform: uppercase;
+        fill: #C5A059;
+        text-anchor: middle;
+      }
+      .divider-line-gold {
+        stroke: url(#goldGradient);
+        stroke-width: 1.5;
+      }
+    </style>
+  </defs>
+
+  <!-- Main Brand Title in Metallic Gold -->
+  <text x="400" y="115" class="logo-title-gold">13TH AVENUE</text>
+
+  <!-- Elegant Decorative Accent Lines -->
+  <line x1="280" y1="145" x2="330" y2="145" class="divider-line-gold" />
+  <circle cx="400" cy="145" r="3" fill="#D4AF37" />
+  <line x1="470" y1="145" x2="520" y2="145" class="divider-line-gold" />
+
+  <!-- Subtitle -->
+  <text x="400" y="180" class="logo-sub-gold">LIFESTYLE BRAND HOUSE</text>
+</svg>

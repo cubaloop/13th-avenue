@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Gateway Integration Guide - 13th Avenue</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #27272a;
+      background-color: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .header-container {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .brand-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #09090b;
+    }
+
+    .brand-sub {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      color: #71717a;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .doc-meta {
+      text-align: right;
+      font-size: 11px;
+      color: #71717a;
+    }
+
+    .doc-meta strong {
+      color: #18181b;
+    }
+
+    h1.doc-main-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 19px;
+      color: #0f172a;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: #52525b;
+      margin-bottom: 18px;
+    }
+
+    .alert-box {
+      background: #f8fafc;
+      border-left: 4px solid #0284c7;
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin-bottom: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #0f172a;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 5px;
+      margin-top: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-blue {
+      background-color: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-purple {
+      background-color: #f3e8ff;
+      color: #7e22ce;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: #475569;
+      margin-bottom: 10px;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      margin-top: 6px;
+      margin-bottom: 4px;
+    }
+
+    .custom-table th {
+      background-color: #f1f5f9;
+      color: #334155;
+      text-align: left;
+      padding: 6px 10px;
+      font-weight: 600;
+      border: 1px solid #cbd5e1;
+    }
+
+    .custom-table td {
+      padding: 6px 10px;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      vertical-align: top;
+    }
+
+    .custom-table tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .checklist {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: #f8fafc;
+      padding: 8px 10px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      font-size: 11.5px;
+      color: #334155;
+    }
+
+    .check-icon {
+      color: #10b981;
+      font-weight: 800;
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .steps-list {
+      list-style-type: none;
+      counter-reset: step-counter;
+      margin-top: 6px;
+    }
+
+    .steps-list li {
+      counter-increment: step-counter;
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #334155;
+    }
+
+    .steps-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 19px;
+      height: 19px;
+      background-color: #0f172a;
+      color: #ffffff;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 19px;
+      text-align: center;
+    }
+
+    .footer-note {
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5px;
+      color: #94a3b8;
+    }
+
+    .portal-link {
+      color: #0284c7;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header / Branding -->
+  <div class="header-container">
+    <div>
+      <div class="brand-title">13th Avenue</div>
+      <div class="brand-sub">Luxury Fashion & Hair Extension House</div>
+    </div>
+    <div class="doc-meta">
+      <div><strong>Project:</strong> Online Store Payments</div>
+      <div><strong>Date:</strong> September 2026</div>
+      <div><strong>Region:</strong> UAE & GCC (AED)</div>
+    </div>
+  </div>
+
+  <h1 class="doc-main-title">Payment Gateway Integration Guide: Tamara & CCAvenue</h1>
+  <p class="subtitle">Confirmation, technical requirements, corporate documentation, and credentials needed for seamless integration into 13th Avenue.</p>
+
+  <div class="alert-box">
+    <strong>Technical Feasibility Confirmed:</strong> Both Tamara (Buy Now, Pay Later) and CCAvenue UAE (Credit / Debit Cards) can be integrated directly into your online store checkout with no disruption to current operations.
+  </div>
+
+  <!-- Phase 1: Corporate Documents Required -->
+  <div class="section-title">1. Required Documents for Merchant Registration</div>
+  <p style="font-size: 12px; color: #475569; margin-bottom: 8px;">To expedite corporate onboarding with both Tamara and CCAvenue compliance teams, please prepare digital copies of the following documents:</p>
+  
+  <ul class="checklist">
+    <li class="checklist-item">
+      <span class="check-icon">&#10003;</span>
+      <div><strong>Valid UAE Trade License</strong><br><span style="color:#64748b; font-size:10.5px;">Commercial registration of your entity</span></div>
+    </li>
+    <li class="checklist-item">
+      <span class="check-icon">&#10003;</span>
+      <div><strong>Passport & Emirates ID</strong><br><span style="color:#64748b; font-size:10.5px;">Of the business owner / signatory</span></div>
+    </li>
+    <li class="checklist-item">
+      <span class="check-icon">&#10003;</span>
+      <div><strong>Company Bank Statement</strong><br><span style="color:#64748b; font-size:10.5px;">Last 3 months or Bank Certificate with IBAN</span></div>
+    </li>
+    <li class="checklist-item">
+      <span class="check-icon">&#10003;</span>
+      <div><strong>Active Website URL</strong><br><span style="color:#64748b; font-size:10.5px;">Live store address with terms & refund policies</span></div>
+    </li>
+  </ul>
+
+  <!-- Phase 2: Provider Details & Credentials -->
+  <div class="section-title">2. Merchant Registration & Credentials Needed</div>
+
+  <!-- CCAvenue Card -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">A. CCAvenue UAE (Credit & Debit Cards)</div>
+      <span class="badge badge-blue">Direct Card Gateway</span>
+    </div>
+    <div class="card-desc">
+      Processes Visa, MasterCard, and American Express in AED. Funds settle directly into your UAE corporate bank account.
+      <br><strong>Registration Portal:</strong> <a class="portal-link" href="https://www.ccavenue.ae">https://www.ccavenue.ae</a>
+    </div>
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th style="width: 32%;">Credential Name</th>
+          <th>Description & Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Merchant ID</strong></td>
+          <td>Your unique merchant account identifier assigned by CCAvenue UAE.</td>
+        </tr>
+        <tr>
+          <td><strong>Access Code</strong></td>
+          <td>Public authorization key enabling the checkout form to initiate card charges.</td>
+        </tr>
+        <tr>
+          <td><strong>Working Key (Secret)</strong></td>
+          <td>256-bit encryption key used to securely sign and verify transactions.</td>
+        </tr>
+        <tr>
+          <td><strong>Environment</strong></td>
+          <td>Confirmation of whether the keys belong to <em>Staging (Test)</em> or <em>Live (Production)</em>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Tamara Card -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">B. Tamara (Buy Now, Pay Later - 3 or 4 Split Payments)</div>
+      <span class="badge badge-purple">BNPL Solution</span>
+    </div>
+    <div class="card-desc">
+      Allows shoppers to pay in 3 or 4 interest-free installments. <strong>Tamara pays you 100% of the purchase upfront</strong>, increasing conversion rates and average basket sizes.
+      <br><strong>Registration Portal:</strong> <a class="portal-link" href="https://partners.tamara.co">https://partners.tamara.co</a>
+    </div>
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th style="width: 32%;">Credential Name</th>
+          <th>Description & Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>API Merchant Token</strong></td>
+          <td>Secure bearer token required for server-side order and capture authorization.</td>
+        </tr>
+        <tr>
+          <td><strong>Notification Key / Webhook</strong></td>
+          <td>Verifies real-time payment success notifications from Tamara to our database.</td>
+        </tr>
+        <tr>
+          <td><strong>Public Key</strong></td>
+          <td>Used to render dynamic installment banners on product and cart pages.</td>
+        </tr>
+        <tr>
+          <td><strong>Account Currency & Country</strong></td>
+          <td>United Arab Emirates (AED) confirmation.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Phase 3: Integration Timeline & Next Steps -->
+  <div class="section-title">3. Implementation Roadmap (Our Commitment)</div>
+  <ol class="steps-list">
+    <li><strong>Credential Setup:</strong> Once you submit the applications and receive your keys, share them securely with our development team.</li>
+    <li><strong>SDK & Widget Integration:</strong> We embed Tamara installment badges on product pages and connect the secure card form for CCAvenue.</li>
+    <li><strong>Sandbox Testing:</strong> We execute full test orders (success, refund, 3D Secure verification) to guarantee zero downtime.</li>
+    <li><strong>Live Production Launch:</strong> Immediate switch to live processing with real-time settlement tracking in your merchant dashboards.</li>
+  </ol>
+
+  <!-- Footer -->
+  <div class="footer-note">
+    <div>13th Avenue • E-Commerce Technical Infrastructure & Payment Operations</div>
+    <div>Page 1 of 1 • Confidential</div>
+  </div>
+
+</body>
+</html>

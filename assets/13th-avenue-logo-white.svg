@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&amp;family=Outfit:wght@400;500;600&amp;display=swap');
+      .logo-title-white {
+        font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+        font-size: 82px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        fill: #ffffff;
+        text-anchor: middle;
+      }
+      .logo-sub-white {
+        font-family: 'Outfit', -apple-system, sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.48em;
+        text-transform: uppercase;
+        fill: #e4e4e7;
+        text-anchor: middle;
+      }
+      .divider-line-white {
+        stroke: #C5A059;
+        stroke-width: 1.5;
+      }
+    </style>
+  </defs>
+
+  <!-- Main Brand Title in Pure White -->
+  <text x="400" y="115" class="logo-title-white">13TH AVENUE</text>
+
+  <!-- Elegant Decorative Accent Lines -->
+  <line x1="280" y1="145" x2="330" y2="145" class="divider-line-white" />
+  <circle cx="400" cy="145" r="3" fill="#C5A059" />
+  <line x1="470" y1="145" x2="520" y2="145" class="divider-line-white" />
+
+  <!-- Subtitle -->
+  <text x="400" y="180" class="logo-sub-white">LIFESTYLE BRAND HOUSE</text>
+</svg>

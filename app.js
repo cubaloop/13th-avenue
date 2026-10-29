@@ -516,11 +516,28 @@ function initHomePage() {
   // Render Trending Feed (10 items for horizontal left-to-right carousel per Requirement 6)
   renderProductGrid(products.slice(0, 10), "trending-products-grid");
 
+  // Render Curated Multi-Column Fashion Edit Grid (2-col mobile / 4-col desktop)
+  if (document.getElementById("curated-edit-grid")) {
+    renderProductGrid(products.slice(0, 8), "curated-edit-grid");
+  }
+
+  window.filterHomeEditGrid = function(brandFilter, btnEl) {
+    document.querySelectorAll("#home-brand-filter-pills .home-filter-pill").forEach(b => b.classList.remove("active"));
+    if (btnEl) btnEl.classList.add("active");
+    if (!document.getElementById("curated-edit-grid")) return;
+    if (!brandFilter || brandFilter === "all") {
+      renderProductGrid(products.slice(0, 8), "curated-edit-grid");
+    } else {
+      const filtered = products.filter(p => (p.brand || "").toLowerCase() === brandFilter.toLowerCase());
+      renderProductGrid(filtered.slice(0, 8), "curated-edit-grid");
+    }
+  };
+
   // Horizontal Left-to-Right Carousel Controls & Auto-Slide (Requirement 6)
   window.scrollTrendingCarousel = function(direction) {
     const track = document.getElementById("trending-products-grid");
     if (!track) return;
-    const scrollAmount = 300;
+    const scrollAmount = window.innerWidth <= 768 ? 190 : 300;
     const maxScroll = track.scrollWidth - track.clientWidth;
     if (direction > 0 && track.scrollLeft >= maxScroll - 10) {
       track.scrollTo({ left: 0, behavior: "smooth" });
@@ -546,6 +563,8 @@ function initHomePage() {
     }, 4000);
   }
 }
+
+window.toggleCartDrawer = toggleCartDrawer;
 
 // --- Category Page Interactive Features ---
 let activeFilters = {

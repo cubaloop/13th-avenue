@@ -271,7 +271,16 @@ const countriesList = [
 function initLocalization() {
   const savedLocale = localStorage.getItem("user_locale");
   if (savedLocale) {
-    currentLocale = JSON.parse(savedLocale);
+    try {
+      const parsed = JSON.parse(savedLocale);
+      if (parsed && typeof parsed === "object") {
+        currentLocale = {
+          ...currentLocale,
+          ...parsed,
+          language: (parsed.language === "en" || parsed.language === "fr") ? parsed.language : "en"
+        };
+      }
+    } catch (e) {}
   } else {
     // Attempt Auto-Detection via Geo IP lookup
     fetch("https://ipapi.co/json/")
@@ -296,15 +305,16 @@ function initLocalization() {
         }
       })
       .catch(err => {
-        console.warn("Geo IP detection failed. Falling back to default UAE / French.", err);
+        console.warn("Geo IP detection failed. Falling back to default UAE.", err);
       });
   }
 }
 
 // Render dynamic components: Header, Navigation Mega Menus, Footer, Localization Popup, Cart Drawer
 function renderAllDynamicComponents() {
-  const lang = currentLocale.language;
-  const trans = t[lang];
+  const lang = (currentLocale && (currentLocale.language === "en" || currentLocale.language === "fr")) ? currentLocale.language : "en";
+  const trans = t[lang] || t.en;
+  const isFr = lang === "fr";
 
   // 1. Announcement Bar (Removed per Requirement 1)
   const announceEl = document.querySelector(".announcement-bar");
@@ -317,12 +327,12 @@ function renderAllDynamicComponents() {
   if (headerContainer) {
     headerContainer.innerHTML = `
       <div class="header-top">
-        <button class="menu-toggle-btn" id="menu-toggle-btn">
+        <button type="button" class="menu-toggle-btn" id="menu-toggle-btn" aria-label="Open Menu">
           <i class="fas fa-bars"></i>
         </button>
         
         <div class="search-bar-container">
-          <button class="search-icon-btn"><i class="fas fa-search"></i></button>
+          <button type="button" class="search-icon-btn" id="search-submit-btn" aria-label="Search"><i class="fas fa-search"></i></button>
           <input type="text" id="search-input" class="search-input" placeholder="${trans.searchPlaceholder}" value="${getSearchQuery()}">
         </div>
 
@@ -335,23 +345,23 @@ function renderAllDynamicComponents() {
 
         <div class="header-actions">
           <!-- Small EN/FR Language Toggle Switch (White & Grey per Requirement 13) -->
-          <div class="lang-switch-toggle" onclick="toggleLanguage()" title="Switch Language / Changer de langue" style="display: inline-flex; align-items: center; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 2px; border-radius: 14px; cursor: pointer; user-select: none; gap: 2px; font-family: var(--font-sans); margin-right: 4px; vertical-align: middle;">
-            <span style="padding: 2px 7px; font-size: 10px; font-weight: 800; border-radius: 11px; transition: all 0.2s ease; ${currentLocale.language === 'en' ? 'background: #ffffff; color: #52525b; box-shadow: 0 1px 2px rgba(0,0,0,0.08);' : 'color: #a1a1aa;'}">EN</span>
-            <span style="padding: 2px 7px; font-size: 10px; font-weight: 800; border-radius: 11px; transition: all 0.2s ease; ${currentLocale.language === 'fr' ? 'background: #ffffff; color: #52525b; box-shadow: 0 1px 2px rgba(0,0,0,0.08);' : 'color: #a1a1aa;'}">FR</span>
+          <div class="lang-switch-toggle" onclick="toggleLanguage()" title="Switch Language / Changer de langue" style="display: inline-flex; align-items: center; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 2px; border-radius: 14px; cursor: pointer; user-select: none; gap: 2px; font-family: var(--font-sans); margin-right: 2px; vertical-align: middle;">
+            <span style="padding: 2px 6px; font-size: 10px; font-weight: 800; border-radius: 11px; transition: all 0.2s ease; ${lang === 'en' ? 'background: #ffffff; color: #52525b; box-shadow: 0 1px 2px rgba(0,0,0,0.08);' : 'color: #a1a1aa;'}">EN</span>
+            <span style="padding: 2px 6px; font-size: 10px; font-weight: 800; border-radius: 11px; transition: all 0.2s ease; ${lang === 'fr' ? 'background: #ffffff; color: #52525b; box-shadow: 0 1px 2px rgba(0,0,0,0.08);' : 'color: #a1a1aa;'}">FR</span>
           </div>
 
           <!-- Localization Trigger -->
-          <button class="action-icon-btn" id="locale-modal-trigger" title="${trans.regionsTitle}">
-            <img src="https://flagcdn.com/w20/${currentLocale.country.toLowerCase()}.png" 
+          <button type="button" class="action-icon-btn" id="locale-modal-trigger" title="${trans.regionsTitle}">
+            <img src="https://flagcdn.com/w20/${(currentLocale.country || 'AE').toLowerCase()}.png" 
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';" 
                  style="width: 20px; height: 14px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.15); vertical-align: middle; object-fit: cover; display: inline-block;">
-            <span class="flag-fallback" style="display: none; font-size: 10px; font-weight: 700; background: #e2e8f0; color: #475569; padding: 1px 4px; border-radius: 3px; vertical-align: middle; text-transform: uppercase; margin-right: 2px;">${currentLocale.country}</span>
-            <span class="action-label" style="font-size:11px; margin-left:4px; font-weight:700;">${currentLocale.currency}</span>
-            <i class="fas fa-chevron-down" style="font-size:8px; margin-left:2px;"></i>
+            <span class="flag-fallback" style="display: none; font-size: 10px; font-weight: 700; background: #e2e8f0; color: #475569; padding: 1px 4px; border-radius: 3px; vertical-align: middle; text-transform: uppercase; margin-right: 2px;">${currentLocale.country || 'AE'}</span>
+            <span class="action-label" style="font-size:11px; margin-left:4px; font-weight:700;">${currentLocale.currency || 'AED'}</span>
+            <i class="fas fa-chevron-down action-label" style="font-size:8px; margin-left:2px;"></i>
           </button>
           
           <!-- Recently Viewed Trigger -->
-          <button class="action-icon-btn" id="recently-viewed-trigger" title="${trans.recentlyViewed}">
+          <button type="button" class="action-icon-btn" id="recently-viewed-trigger" title="${trans.recentlyViewed}">
             <i class="far fa-clock"></i>
             <span class="action-label">${trans.recentlyViewed}</span>
           </button>
@@ -371,7 +381,7 @@ function renderAllDynamicComponents() {
 
           <!-- Account/Login Dropdown Trigger -->
           <div class="account-menu-dropdown-container">
-            <button class="action-icon-btn" id="account-dropdown-trigger" title="${trans.login}">
+            <button type="button" class="action-icon-btn" id="account-dropdown-trigger" title="${trans.login}">
               <i class="far fa-user"></i>
               <span class="action-label">${localStorage.getItem("admin_logged_in") === "true" ? "Admin" : (localStorage.getItem("user_logged_in") || trans.login)}</span>
             </button>
@@ -395,27 +405,41 @@ function renderAllDynamicComponents() {
                   <li><a href="#" style="color:#ef4444; font-weight:700;" onclick="window.logoutAdminInPage(); return false;"><span style="margin-right:8px; font-size:14px;">🚪</span> Cerrar Sesión Admin</a></li>
                 </ul>
               ` : `
-                <a href="#" class="btn-signin-popover" onclick="handleAccountAction('signin')">${trans.signInBtn}</a>
-                <a href="#" class="btn-create-popover" onclick="handleAccountAction('create')">${trans.createAccountBtn}</a>
+                <a href="#" class="btn-signin-popover" onclick="handleAccountAction('signin'); return false;">${trans.signInBtn}</a>
+                <a href="#" class="btn-create-popover" onclick="handleAccountAction('create'); return false;">${trans.createAccountBtn}</a>
                 <hr class="popover-divider">
                 <ul class="popover-links-list">
-                  <li><a href="#" onclick="handleAccountAction('account')"><span style="margin-right:8px; font-size:14px;">田</span> ${trans.accountTitle}</a></li>
-                  <li><a href="#" onclick="handleAccountAction('orders')"><span style="margin-right:8px; font-size:14px;">📦</span> ${trans.orderHistory}</a></li>
-                  <li><a href="#" onclick="handleAccountAction('details')"><span style="margin-right:8px; font-size:14px;">👤</span> ${trans.myDetails}</a></li>
-                  <li><a href="#" onclick="handleAccountAction('returns')"><span style="margin-right:8px; font-size:14px;">↺</span> ${trans.returnsInfo}</a></li>
-                  <li><a href="#" onclick="handleAccountAction('delivery')"><span style="margin-right:8px; font-size:14px;">🚚</span> ${trans.deliveryInfo}</a></li>
+                  <li><a href="#" onclick="handleAccountAction('account'); return false;"><span style="margin-right:8px; font-size:14px;">田</span> ${trans.accountTitle}</a></li>
+                  <li><a href="#" onclick="handleAccountAction('orders'); return false;"><span style="margin-right:8px; font-size:14px;">📦</span> ${trans.orderHistory}</a></li>
+                  <li><a href="#" onclick="handleAccountAction('details'); return false;"><span style="margin-right:8px; font-size:14px;">👤</span> ${trans.myDetails}</a></li>
+                  <li><a href="#" onclick="handleAccountAction('returns'); return false;"><span style="margin-right:8px; font-size:14px;">↺</span> ${trans.returnsInfo}</a></li>
+                  <li><a href="#" onclick="handleAccountAction('delivery'); return false;"><span style="margin-right:8px; font-size:14px;">🚚</span> ${trans.deliveryInfo}</a></li>
                 </ul>
               `}
             </div>
           </div>
 
           <!-- Basket (Cart) Toggle -->
-          <button class="action-icon-btn" id="cart-toggle-btn" title="${trans.basket}">
+          <button type="button" class="action-icon-btn" id="cart-toggle-btn" title="${trans.basket}">
             <i class="fas fa-shopping-bag"></i>
             <span class="badge-count" id="cart-badge" style="display: none;">0</span>
             <span class="action-label">${trans.basket}</span>
           </button>
         </div>
+      </div>
+
+      <!-- Mobile Quick-Shop Category & Brand Strip (Reference Online Clothing Store Bar) -->
+      <div class="mobile-quick-cats-bar" aria-label="Quick Categories">
+        <a href="all-collections.html" class="mobile-quick-cat-pill">${isFr ? 'TOUT VOIR' : 'SHOP ALL'}</a>
+        <a href="category.html?brand=Miss Chloé" class="mobile-quick-cat-pill">MISS CHLOÉ</a>
+        <a href="category.html?brand=Miss Chloé&subcategory=Dresses" class="mobile-quick-cat-pill">${isFr ? 'ROBES' : 'DRESSES'}</a>
+        <a href="category.html?brand=Miss Chloé&subcategory=Abayas" class="mobile-quick-cat-pill">ABAYAS</a>
+        <a href="category.html?brand=Nella Hair Couture" class="mobile-quick-cat-pill">NELLA HAIR</a>
+        <a href="category.html?brand=Nella Hair Couture&subcategory=Wigs" class="mobile-quick-cat-pill">${isFr ? 'PERRUQUES HD' : 'HD WIGS'}</a>
+        <a href="category.html?brand=COCO Beauty" class="mobile-quick-cat-pill">COCO BEAUTY</a>
+        <a href="category.html?brand=COCO Mini" class="mobile-quick-cat-pill">COCO MINI</a>
+        <a href="category.html?brand=Wedding Collection" class="mobile-quick-cat-pill">${isFr ? 'MARIAGE' : 'WEDDING'}</a>
+        <a href="category.html?sale=true" class="mobile-quick-cat-pill sale-pill">${isFr ? 'SOLDES -30%' : 'SALE -30%'}</a>
       </div>
     `;
   }
@@ -423,7 +447,6 @@ function renderAllDynamicComponents() {
   // 3. Navigation Mega Menus
   const mainNav = document.getElementById("main-nav");
   if (mainNav) {
-    const isFr = currentLocale.language === 'fr';
     const langLabel = isFr ? 'Français' : 'English';
     const countryLabel = currentLocale.countryName || (isFr ? 'Émirats Arabes Unis' : 'United Arab Emirates');
     const currencyLabel = `${currentLocale.currency} / 🇦🇪`;
@@ -1554,11 +1577,13 @@ function bindHeaderFooterListeners() {
       newMenuBtn.classList.remove("active");
       backdrop.classList.remove("active");
       document.body.classList.remove("menu-open");
+      document.body.style.overflow = "";
       const icon = newMenuBtn.querySelector("i");
       if (icon) icon.className = "fas fa-bars";
     };
 
     newMenuBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       e.stopPropagation();
       const isOpen = mainNav.classList.contains("active");
       const icon = newMenuBtn.querySelector("i");
@@ -1570,6 +1595,7 @@ function bindHeaderFooterListeners() {
         newMenuBtn.classList.add("active");
         backdrop.classList.add("active");
         document.body.classList.add("menu-open");
+        document.body.style.overflow = "hidden";
         if (icon) icon.className = "fas fa-times";
       }
     });
@@ -1577,21 +1603,59 @@ function bindHeaderFooterListeners() {
     backdrop.onclick = closeMenu;
   }
 
-  // Setup Mobile Nav Collapsible Accordions (for sub-brands)
-  if (window.innerWidth <= 768) {
-    document.querySelectorAll(".nav-item").forEach(item => {
-      const link = item.querySelector(".nav-link");
-      const mega = item.querySelector(".mega-menu");
-      if (link && mega) {
-        link.addEventListener("click", (e) => {
-          // Check if already open on mobile
-          if (!item.classList.contains("mobile-open")) {
-            e.preventDefault(); // Don't navigate
-            // Close other items
-            document.querySelectorAll(".nav-item").forEach(o => o.classList.remove("mobile-open"));
-            item.classList.add("mobile-open");
-          }
+  // Desktop Mega Menu Hover & Mobile Nav Collapsible Accordions
+  document.querySelectorAll(".nav-item").forEach(item => {
+    const link = item.querySelector(".nav-link");
+    const mega = item.querySelector(".mega-menu");
+    if (!link || !mega) return;
+
+    let hoverTimer = null;
+
+    item.addEventListener("mouseenter", () => {
+      if (window.innerWidth > 1024) {
+        if (hoverTimer) clearTimeout(hoverTimer);
+        document.querySelectorAll(".nav-item.mega-hover").forEach(other => {
+          if (other !== item) other.classList.remove("mega-hover");
         });
+        item.classList.add("mega-hover");
+      }
+    });
+
+    item.addEventListener("mouseleave", () => {
+      if (window.innerWidth > 1024) {
+        hoverTimer = setTimeout(() => {
+          item.classList.remove("mega-hover");
+        }, 90);
+      }
+    });
+
+    // Mobile Drawer Accordion Toggle (<= 1024px)
+    link.addEventListener("click", (e) => {
+      if (window.innerWidth <= 1024) {
+        e.preventDefault();
+        e.stopPropagation();
+        const isAlreadyOpen = item.classList.contains("mobile-open");
+        document.querySelectorAll(".nav-item").forEach(o => o.classList.remove("mobile-open"));
+        if (!isAlreadyOpen) {
+          item.classList.add("mobile-open");
+        }
+      }
+    });
+  });
+
+  // Cart Drawer Toggle Button (Re-bound whenever Header re-renders)
+  const cartToggleBtn = document.getElementById("cart-toggle-btn");
+  if (cartToggleBtn) {
+    cartToggleBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof window.toggleCartDrawer === "function") {
+        window.toggleCartDrawer(true);
+      } else {
+        const drawer = document.getElementById("cart-drawer");
+        const backdrop = document.getElementById("cart-drawer-backdrop");
+        if (drawer) drawer.classList.add("active");
+        if (backdrop) backdrop.classList.add("active");
       }
     });
   }
@@ -1611,16 +1675,27 @@ function bindHeaderFooterListeners() {
     });
   }
 
-  // Search Submit Listener
+  // Search Submit Listener (Enter key & Search Icon Button)
   const searchInput = document.getElementById("search-input");
+  const searchSubmitBtn = document.getElementById("search-submit-btn");
+  const executeSearch = () => {
+    if (!searchInput) return;
+    const query = searchInput.value.trim();
+    if (query) {
+      window.location.href = `category.html?search=${encodeURIComponent(query)}`;
+    }
+  };
   if (searchInput) {
     searchInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
-        const query = searchInput.value.trim();
-        if (query) {
-          window.location.href = `category.html?search=${encodeURIComponent(query)}`;
-        }
+        executeSearch();
       }
+    });
+  }
+  if (searchSubmitBtn) {
+    searchSubmitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      executeSearch();
     });
   }
 
@@ -1646,14 +1721,7 @@ function bindHeaderFooterListeners() {
   if (mobileRecentBtn) {
     mobileRecentBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const mainNav = document.getElementById("main-nav");
-      if (mainNav) mainNav.classList.remove("active");
-      const backdrop = document.querySelector(".menu-backdrop");
-      if (backdrop) backdrop.classList.remove("active");
-      const menuIcon = document.getElementById("menu-toggle-btn")?.querySelector("i");
-      if (menuIcon) menuIcon.className = "fas fa-bars";
-      document.body.style.overflow = "";
-      
+      window.closeMobileDrawer();
       openRecentlyViewedDrawer();
     });
   }
@@ -1662,14 +1730,7 @@ function bindHeaderFooterListeners() {
   if (mobileLocaleBtn) {
     mobileLocaleBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const mainNav = document.getElementById("main-nav");
-      if (mainNav) mainNav.classList.remove("active");
-      const backdrop = document.querySelector(".menu-backdrop");
-      if (backdrop) backdrop.classList.remove("active");
-      const menuIcon = document.getElementById("menu-toggle-btn")?.querySelector("i");
-      if (menuIcon) menuIcon.className = "fas fa-bars";
-      document.body.style.overflow = "";
-      
+      window.closeMobileDrawer();
       openLocalizationModal();
     });
   }
@@ -2267,10 +2328,14 @@ function trackRealSiteVisit() {
   localStorage.setItem("avenue13_analytics", JSON.stringify(analytics));
 
   if (typeof window.supabaseClient !== "undefined" && window.supabaseClient) {
-    window.supabaseClient
-      .from("site_settings")
-      .upsert([{ key: "real_analytics", value: analytics }])
-      .catch(() => {});
+    try {
+      const q = window.supabaseClient
+        .from("site_settings")
+        .upsert([{ key: "real_analytics", value: analytics }]);
+      if (q && typeof q.then === "function") {
+        q.then(() => {}, () => {});
+      }
+    } catch (e) {}
   }
 }
 
@@ -3565,6 +3630,9 @@ async function fetchSupabaseLiveStoreData() {
         if (typeof renderProductGrid === "function" && document.getElementById("trending-products-grid")) {
           renderProductGrid(products.slice(0, 10), "trending-products-grid");
         }
+        if (typeof renderProductGrid === "function" && document.getElementById("curated-edit-grid")) {
+          renderProductGrid(products.slice(4, 12), "curated-edit-grid");
+        }
         if (typeof applyFiltersAndRender === "function" && document.getElementById("category-products-grid")) {
           applyFiltersAndRender();
         }
@@ -3598,9 +3666,16 @@ async function fetchSupabaseLiveStoreData() {
 // 24/7 Wake-Lock Pulse for Render & Supabase (Every 5 minutes per Rule 2.2)
 function startWakeLockPulse() {
   const pulse = () => {
-    fetch("/healthz", { method: "GET", cache: "no-store" }).catch(() => {});
+    try {
+      fetch("/healthz", { method: "GET", cache: "no-store" }).catch(() => {});
+    } catch (e) {}
     if (typeof window.supabaseClient !== "undefined" && window.supabaseClient) {
-      window.supabaseClient.from("products").select("id", { count: "exact", head: true }).catch(() => {});
+      try {
+        const q = window.supabaseClient.from("products").select("id", { count: "exact", head: true });
+        if (q && typeof q.then === "function") {
+          q.then(() => {}, () => {});
+        }
+      } catch (e) {}
     }
   };
   setInterval(pulse, 5 * 60 * 1000);
@@ -3612,13 +3687,36 @@ async function bootstrapAvenue13App() {
   if (avenue13Bootstrapped) return;
   avenue13Bootstrapped = true;
 
-  trackRealSiteVisit();
-  initLocalization();
-  renderAllDynamicComponents();
-  initAdminInPageSystem();
+  try {
+    initLocalization();
+  } catch (e) {
+    console.warn("initLocalization error:", e);
+  }
+
+  try {
+    renderAllDynamicComponents();
+  } catch (e) {
+    console.error("renderAllDynamicComponents error:", e);
+  }
+
+  try {
+    trackRealSiteVisit();
+  } catch (e) {
+    console.warn("trackRealSiteVisit error:", e);
+  }
+
+  try {
+    initAdminInPageSystem();
+  } catch (e) {
+    console.warn("initAdminInPageSystem error:", e);
+  }
+
   startWakeLockPulse();
   await fetchSupabaseLiveStoreData();
-  initAdminInPageSystem();
+
+  try {
+    initAdminInPageSystem();
+  } catch (e) {}
 }
 
 if (document.readyState === "loading") {
@@ -3626,5 +3724,3 @@ if (document.readyState === "loading") {
 } else {
   bootstrapAvenue13App();
 }
-
-

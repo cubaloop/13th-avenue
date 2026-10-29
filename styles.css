@@ -2721,6 +2721,12 @@ a[href*="wishlist=true"] {
     z-index: 1060 !important;
   }
 
+  .main-header .header-top,
+  .main-header .mobile-quick-cats-bar {
+    position: relative;
+    z-index: 1;
+  }
+
   /* Off-canvas mobile menu drawer - Reference Layout (Missguided / PLT style) */
   .main-nav {
     position: fixed !important;
@@ -2731,7 +2737,7 @@ a[href*="wishlist=true"] {
     height: 100vh !important;
     height: 100dvh !important;
     background-color: #ffffff !important;
-    z-index: 1070 !important;
+    z-index: 1085 !important;
     box-shadow: 0 10px 30px rgba(0,0,0,0.18) !important;
     transform: translateX(-100%);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -2739,10 +2745,13 @@ a[href*="wishlist=true"] {
     flex-direction: column !important;
     padding: 0 !important;
     overflow: hidden !important;
+    pointer-events: auto !important;
+    isolation: isolate;
   }
 
   .main-nav.active {
     transform: translateX(0) !important;
+    pointer-events: auto !important;
   }
 
   .mobile-drawer-header {
@@ -3008,23 +3017,30 @@ a[href*="wishlist=true"] {
     justify-content: center;
   }
 
-  /* Menu drawer backdrop overlay */
+  /* Menu drawer backdrop overlay (strictly below .main-nav z-index 1085) */
   .menu-backdrop {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(15,15,16,0.5);
-    z-index: 1065;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background-color: rgba(15,15,16,0.48);
+    z-index: 1045;
     opacity: 0;
     visibility: hidden;
-    transition: var(--transition);
+    pointer-events: none !important;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+
+  .main-header > .menu-backdrop {
+    z-index: 1065 !important;
   }
 
   .menu-backdrop.active {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto !important;
   }
 
   /* Prevent horizontal scroll globally */

@@ -289,19 +289,23 @@ function initLocalization() {
         const countryCode = data.country_code || "AE";
         const matched = countriesList.find(c => c.code === countryCode);
         if (matched) {
+          const frenchSpeaking = ["FR", "CI", "SN", "ML", "BF", "NE", "TG", "BJ", "CG", "CD", "CM", "CF", "TD", "GA"];
+          const detectedLang = frenchSpeaking.includes(matched.code) ? "fr" : "en";
+          const changed = (currentLocale.country !== matched.code) || (currentLocale.language !== detectedLang);
+
           currentLocale.country = matched.code;
           currentLocale.countryName = matched.name;
           currentLocale.flag = matched.flag;
           currentLocale.currency = matched.currency;
           currentLocale.rate = exchangeRates[matched.currency] || 1.0;
-          
-          // French-speaking defaults
-          const frenchSpeaking = ["FR", "CI", "SN", "ML", "BF", "NE", "TG", "BJ", "CG", "CD", "CM", "CF", "TD", "GA"];
-          currentLocale.language = frenchSpeaking.includes(matched.code) ? "fr" : "en";
+          currentLocale.language = detectedLang;
           
           localStorage.setItem("user_locale", JSON.stringify(currentLocale));
-          // Refresh components that depend on currency/language
-          renderAllDynamicComponents();
+          // Refresh components only if locale changed and mobile drawer is not actively open
+          const navOpen = document.getElementById("main-nav")?.classList.contains("active");
+          if (changed && !navOpen) {
+            renderAllDynamicComponents();
+          }
         }
       })
       .catch(err => {
@@ -454,18 +458,18 @@ function renderAllDynamicComponents() {
     mainNav.innerHTML = `
       <!-- Mobile Drawer Top Header (Photo 1 reference: Close X button) -->
       <div class="mobile-drawer-header">
-        <button class="mobile-drawer-close-btn" onclick="closeMobileDrawer()" aria-label="Close menu">
+        <button type="button" class="mobile-drawer-close-btn" id="mobile-drawer-close-btn" onclick="window.closeMobileDrawer()" aria-label="Close menu">
           <i class="fas fa-times"></i>
         </button>
-        <a href="index.html" style="font-family: var(--font-serif); font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-main); text-decoration: none;">13TH AVENUE</a>
+        <a href="index.html" onclick="window.closeMobileDrawer()" style="font-family: var(--font-serif); font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-main); text-decoration: none;">13TH AVENUE</a>
         <div style="width: 28px;"></div>
       </div>
 
       <!-- Scrollable Navigation Body -->
       <div class="mobile-drawer-scroll-body">
         <ul class="nav-links">
-          <li class="nav-item">
-            <a href="index.html" class="nav-link">${trans.home}</a>
+          <li class="nav-item no-chevron">
+            <a href="index.html" class="nav-link" onclick="window.closeMobileDrawer()">${trans.home}</a>
           </li>
           
           <!-- Miss Chloé Mega Menu -->
@@ -849,12 +853,18 @@ function renderAllDynamicComponents() {
               </div>
               <div class="mega-col">
                 <div class="mega-col-title" style="color: var(--accent-pink); border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.star('var(--accent-pink)')} NEW ARRIVALS</div>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">Latest products from all brands</p>
+                <ul>
+                  <li><a href="category.html?sort=newest">Shop New Arrivals</a></li>
+                  <li><a href="all-collections.html">All Collections</a></li>
+                </ul>
                 <img src="assets/cat_beauty.png" class="mega-col-bottom-img" style="aspect-ratio:1/1;">
               </div>
               <div class="mega-col">
                 <div class="mega-col-title" style="color: var(--accent-pink); border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.trophy('var(--accent-pink)')} BEST SELLERS</div>
-                <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">Our most loved and top-rated items</p>
+                <ul>
+                  <li><a href="category.html?sort=rating">Top Rated Pieces</a></li>
+                  <li><a href="category.html?search=Dress">Most Loved</a></li>
+                </ul>
                 <img src="assets/lace_wig.png" class="mega-col-bottom-img" style="aspect-ratio:1/1;">
               </div>
               <div class="mega-col">
@@ -899,13 +909,13 @@ function renderAllDynamicComponents() {
 
           <!-- SALE Item (Matching Red Text in Photo 1 Reference) -->
           <li class="nav-item no-chevron">
-            <a href="category.html?search=Sale" class="nav-link" style="color:#e11d48; font-weight:800;">${isFr ? 'SOLDES' : 'SALE'}</a>
+            <a href="category.html?sale=true" class="nav-link" onclick="window.closeMobileDrawer()" style="color:#e11d48; font-weight:800;">${isFr ? 'SOLDES' : 'SALE'}</a>
           </li>
         </ul>
 
         <!-- Settings Group (Photo 1 reference: Shop In, Currency, Language) -->
         <div class="mobile-drawer-settings-group">
-          <div class="mobile-drawer-setting-row" onclick="closeMobileDrawer(); openLocalizationModal();">
+          <div class="mobile-drawer-setting-row" data-drawer-action="locale" role="button" tabindex="0" onclick="window.closeMobileDrawer(); window.openLocalizationModal();">
             <span class="mobile-drawer-setting-left">${isFr ? "Pays d'achat" : "Shop In"}</span>
             <span class="mobile-drawer-setting-right">
               ${countryLabel}
@@ -913,7 +923,7 @@ function renderAllDynamicComponents() {
             </span>
           </div>
 
-          <div class="mobile-drawer-setting-row" onclick="closeMobileDrawer(); openLocalizationModal();">
+          <div class="mobile-drawer-setting-row" data-drawer-action="locale" role="button" tabindex="0" onclick="window.closeMobileDrawer(); window.openLocalizationModal();">
             <span class="mobile-drawer-setting-left">${isFr ? "Devise" : "Currency"}</span>
             <span class="mobile-drawer-setting-right">
               ${currencyLabel}
@@ -921,7 +931,7 @@ function renderAllDynamicComponents() {
             </span>
           </div>
 
-          <div class="mobile-drawer-setting-row" onclick="toggleLanguage();">
+          <div class="mobile-drawer-setting-row" data-drawer-action="language" role="button" tabindex="0" onclick="window.toggleLanguage();">
             <span class="mobile-drawer-setting-left">${isFr ? "Langue" : "Language"}</span>
             <span class="mobile-drawer-setting-right">
               ${langLabel}
@@ -934,19 +944,19 @@ function renderAllDynamicComponents() {
       <!-- Sticky / Fixed Bottom Icon Bar (Home, Support, Sign In — Favorite removed per Requirement 2) -->
       <div class="mobile-drawer-footer-bar">
         <!-- HOME -->
-        <a href="index.html" class="drawer-icon-btn" onclick="closeMobileDrawer();">
+        <a href="index.html" class="drawer-icon-btn" data-drawer-action="home" onclick="window.closeMobileDrawer();">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           <span class="icon-label">${isFr ? "Accueil" : "Home"}</span>
         </a>
 
         <!-- SUPPORT -->
-        <a href="#" class="drawer-icon-btn" onclick="closeMobileDrawer(); openSupportModal(); return false;">
+        <a href="javascript:void(0)" class="drawer-icon-btn" data-drawer-action="support" onclick="window.closeMobileDrawer(); window.openSupportModal(); return false;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
           <span class="icon-label">${isFr ? "Support" : "Support"}</span>
         </a>
 
         <!-- SIGN IN -->
-        <a href="#" class="drawer-icon-btn" onclick="closeMobileDrawer(); handleAccountAction('signin'); return false;">
+        <a href="javascript:void(0)" class="drawer-icon-btn" data-drawer-action="signin" onclick="window.closeMobileDrawer(); window.handleAccountAction('signin'); return false;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <span class="icon-label">${isFr ? "Connexion" : "Sign In"}</span>
         </a>
@@ -1563,13 +1573,17 @@ function bindHeaderFooterListeners() {
     // Clean old listeners
     menuBtn.replaceWith(menuBtn.cloneNode(true));
     const newMenuBtn = document.getElementById("menu-toggle-btn");
-    
-    // Dynamically inject mobile backdrop overlay if not present
-    let backdrop = document.querySelector(".menu-backdrop");
+
+    // Remove any legacy body-level .menu-backdrop that caused stacking-context dimming
+    document.querySelectorAll("body > .menu-backdrop").forEach(el => el.remove());
+
+    // Ensure mobile backdrop overlay lives inside .main-header right before #main-nav
+    const headerParent = mainNav.parentNode || document.body;
+    let backdrop = headerParent.querySelector(".menu-backdrop");
     if (!backdrop) {
       backdrop = document.createElement("div");
       backdrop.className = "menu-backdrop";
-      document.body.appendChild(backdrop);
+      headerParent.insertBefore(backdrop, mainNav);
     }
 
     const closeMenu = () => {
@@ -1581,6 +1595,8 @@ function bindHeaderFooterListeners() {
       const icon = newMenuBtn.querySelector("i");
       if (icon) icon.className = "fas fa-bars";
     };
+
+    window.closeMobileDrawer = closeMenu;
 
     newMenuBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -1600,14 +1616,81 @@ function bindHeaderFooterListeners() {
       }
     });
 
-    backdrop.onclick = closeMenu;
+    backdrop.onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeMenu();
+    };
+
+    const drawerCloseBtn = document.getElementById("mobile-drawer-close-btn") || mainNav.querySelector(".mobile-drawer-close-btn");
+    if (drawerCloseBtn) {
+      drawerCloseBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeMenu();
+      };
+    }
+
+    // Bind all subcategory / CTA links inside .mega-menu so tapping them on mobile closes the drawer & navigates
+    mainNav.querySelectorAll(".mega-menu a").forEach(subLink => {
+      subLink.addEventListener("click", () => {
+        if (window.innerWidth <= 1024) {
+          closeMenu();
+        }
+      });
+    });
+
+    // Bind Settings Rows (Shop In, Currency, Language) programmatically in addition to inline onclick
+    mainNav.querySelectorAll(".mobile-drawer-setting-row").forEach(row => {
+      row.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const action = row.getAttribute("data-drawer-action");
+        if (action === "language") {
+          window.toggleLanguage();
+        } else {
+          closeMenu();
+          window.openLocalizationModal();
+        }
+      };
+    });
+
+    // Bind Sticky Bottom Bar Buttons (Home, Support, Sign In) programmatically
+    mainNav.querySelectorAll(".drawer-icon-btn").forEach(btn => {
+      btn.onclick = (e) => {
+        const action = btn.getAttribute("data-drawer-action");
+        if (action === "support") {
+          e.preventDefault();
+          e.stopPropagation();
+          closeMenu();
+          window.openSupportModal();
+        } else if (action === "signin") {
+          e.preventDefault();
+          e.stopPropagation();
+          closeMenu();
+          window.handleAccountAction("signin");
+        } else {
+          closeMenu();
+        }
+      };
+    });
   }
 
   // Desktop Mega Menu Hover & Mobile Nav Collapsible Accordions
   document.querySelectorAll(".nav-item").forEach(item => {
     const link = item.querySelector(".nav-link");
     const mega = item.querySelector(".mega-menu");
-    if (!link || !mega) return;
+    if (!link) return;
+
+    // Direct navigation items without a mega-menu (e.g., HOME, SALE)
+    if (!mega) {
+      link.addEventListener("click", () => {
+        if (window.innerWidth <= 1024 && typeof window.closeMobileDrawer === "function") {
+          window.closeMobileDrawer();
+        }
+      });
+      return;
+    }
 
     let hoverTimer = null;
 
@@ -1742,7 +1825,7 @@ function openLocalizationModal() {
   const existing = document.getElementById("locale-modal-overlay");
   if (existing) existing.remove();
 
-  const trans = t[currentLocale.language];
+  const trans = t[currentLocale.language] || t.en;
 
   const overlay = document.createElement("div");
   overlay.id = "locale-modal-overlay";
@@ -1793,6 +1876,9 @@ function closeLocaleModal() {
   const overlay = document.getElementById("locale-modal-overlay");
   if (overlay) overlay.remove();
 }
+
+window.openLocalizationModal = openLocalizationModal;
+window.closeLocaleModal = closeLocaleModal;
 
 // Global Language Toggle Handler (EN / FR)
 window.toggleLanguage = function() {
@@ -2964,8 +3050,15 @@ function attachMomentosGlobalClickListener() {
     const isEditMode = localStorage.getItem("avenue13_live_edit_mode") !== "false";
     if (!isAdmin || !isEditMode) return;
 
-    // Ignore clicks inside editor modals, toolbars, or admin buttons
+    // Ignore clicks inside editor modals, toolbars, navigation drawers, or admin buttons
     if (
+      e.target.closest("#main-nav") ||
+      e.target.closest("#menu-toggle-btn") ||
+      e.target.closest(".menu-backdrop") ||
+      e.target.closest(".mobile-quick-cats-bar") ||
+      e.target.closest("#locale-modal-overlay") ||
+      e.target.closest("#support-modal-overlay") ||
+      e.target.closest("#auth-modal-overlay") ||
       e.target.closest("#momentos-live-toolbar") ||
       e.target.closest("#momentos-inline-editor-overlay") ||
       e.target.closest("#admin-inpage-modal-overlay") ||

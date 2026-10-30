@@ -447,7 +447,7 @@ function renderAllDynamicComponents() {
         <button type="button" class="mobile-drawer-close-btn" id="mobile-drawer-close-btn" onclick="window.closeMobileDrawer()" aria-label="Close menu">
           <i class="fas fa-times"></i>
         </button>
-        <a href="index.html" onclick="window.closeMobileDrawer()" style="font-family: var(--font-serif); font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-main); text-decoration: none;">13TH AVENUE</a>
+        <a href="index.html" onclick="window.closeMobileDrawer()" style="font-family: var(--font-serif); font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #000000; text-decoration: none;">13TH AVENUE</a>
         <div style="width: 28px;"></div>
       </div>
 
@@ -950,13 +950,13 @@ function renderAllDynamicComponents() {
     `;
   }
 
-  // 4. Main Footer Inner Content (Updated per Requirements 7, 8, 9, 10, 11, 12, 13 & Imagen 1, 2, 3)
+  // 4. Main Footer Inner Content (Updated per Client Annotations in Images 1, 2, 3, 4)
   const footerEl = document.querySelector(".main-footer");
   if (footerEl && typeof siteContent !== "undefined") {
     const fData = siteContent.footer;
     const isFrFooter = currentLocale.language === "fr";
     footerEl.innerHTML = `
-      <!-- 1. ABOUT US Section (White Background & Grey Typography - Imagen 3 / Req 7) -->
+      <!-- 1. ABOUT US Section (White Background & Grey Typography) -->
       <div class="footer-hero-about">
         <div class="container">
           <h2>${isFrFooter ? "À PROPOS DE NOUS" : "ABOUT US"}</h2>
@@ -964,24 +964,35 @@ function renderAllDynamicComponents() {
         </div>
       </div>
 
-      <!-- 2. SUBSCRIBE Section (White Background, Black Button ONLY, Policy Text Below - Imagen 2 & 3 / Req 9 & 13) -->
+      <!-- 2. SUBSCRIBE Section (Original JOIN THE AVENUE Text + Policy Text + Social Media Icons Below per Images 3 & 4) -->
       <div class="footer-newsletter-section">
         <div class="container" style="max-width:600px; text-align:center;">
-          <h2>${isFrFooter ? "Faisons connaissance" : "Let's get to know each other"}</h2>
-          <p class="newsletter-subtitle">${isFrFooter ? "Inscrivez-vous pour recevoir nos e-mails et ne jamais manquer nos nouveautés et offres exclusives." : "Sign up to receive emails from us, so you never miss out on the good stuff."}</p>
+          <h2 style="font-family: var(--font-serif); font-size: 32px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #4b5563; margin-bottom: 10px;">${trans.joinAvenue}</h2>
+          <p class="newsletter-subtitle" style="font-size: 14px; color: #6b7280; margin-bottom: 22px; line-height: 1.6;">${trans.joinAvenueDesc}</p>
           <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
-            <input type="email" class="newsletter-input" required placeholder="${isFrFooter ? "Veuillez saisir votre adresse e-mail" : "Please enter your email address"}">
-            <button type="submit" class="btn-subscribe">${isFrFooter ? "S'ABONNER" : "SUBSCRIBE"}</button>
+            <input type="email" class="newsletter-input" required placeholder="${trans.emailPlaceholder}">
+            <button type="submit" class="btn-subscribe">${trans.subscribeBtn}</button>
           </form>
           <p class="subscribe-policy-text">
             ${isFrFooter
               ? 'En soumettant vos coordonnées, vous acceptez de recevoir des communications marketing de 13th Avenue et de notre <a href="all-collections.html">famille de marques</a> par e-mail. Vous pouvez vous désabonner à tout moment. Vous consentez également à l\'utilisation de vos données conformément à notre <a href="#" onclick="openInfoPolicyModal(\'privacy\'); return false;">Politique de Confidentialité.</a>'
               : 'By submitting your details, you agree to receive marketing communications from 13th Avenue &amp; our <a href="all-collections.html">family of brands</a> by email. You can unsubscribe at any point. You also consent to the use of your details in accordance with our <a href="#" onclick="openInfoPolicyModal(\'privacy\'); return false;">Privacy Policy.</a>'}
           </p>
+
+          <!-- Position 1 (Image 3 & 4): Social Media Icons right below the Subscribe policy text -->
+          <div class="footer-social-title">${isFrFooter ? "Suivez-nous sur les réseaux sociaux" : "Follow Us On Social Media"}</div>
+          <div class="footer-social-minimal">
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://x.com" target="_blank" rel="noopener" aria-label="X"><i class="fab fa-x-twitter"></i><span style="font-family:sans-serif; font-weight:800; font-size:16px; display:none;">X</span></a>
+            <a href="https://wa.me/971501234567" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
         </div>
       </div>
 
-      <!-- 3. Brand Family Presentation Strip (Imagen 2 / Req 2 & 5) -->
+      <!-- 3. Brand Family Presentation Strip (Below Social Media Icons per Image 3) -->
       <div class="footer-brands-strip">
         <a href="category.html?brand=Miss Chloé" class="footer-brand-logo-item">MISS CHLOÉ</a>
         <a href="category.html?brand=Nella Hair Couture" class="footer-brand-logo-item serif-italic">Nella Hair</a>
@@ -990,28 +1001,7 @@ function renderAllDynamicComponents() {
         <a href="category.html?brand=Wedding Collection" class="footer-brand-logo-item serif-italic">Wedding</a>
       </div>
 
-      <!-- 4. Payment Methodology Strip (Imagen 1 & 2 / Req 11 & 12 — Security Payment removed) -->
-      <div class="footer-payments-strip">
-        <div class="payment-methods-icons">
-          <span class="payment-badge" style="color:#1a1f71; font-style:italic; font-weight:900; font-size:13px;">VISA</span>
-          <span class="payment-badge" style="display:inline-flex; align-items:center; gap:2px;">
-            <span style="width:12px; height:12px; border-radius:50%; background:#eb001b; display:inline-block;"></span>
-            <span style="width:12px; height:12px; border-radius:50%; background:#f79e1b; margin-left:-5px; display:inline-block;"></span>
-          </span>
-          <span class="payment-badge" style="display:inline-flex; align-items:center; gap:2px;">
-            <span style="width:12px; height:12px; border-radius:50%; background:#0099df; display:inline-block;"></span>
-            <span style="width:12px; height:12px; border-radius:50%; background:#eb001b; margin-left:-5px; display:inline-block;"></span>
-          </span>
-          <span class="payment-badge" style="color:#1a1f71; font-weight:800; font-size:10px;">VISA <span style="font-weight:400;">Electron</span></span>
-          <span class="payment-badge" style="color:#003087; font-style:italic; font-weight:800;">Pay<span style="color:#0079c1;">Pal</span></span>
-          <span class="payment-badge" style="background:#016fd0; color:#ffffff; border-color:#016fd0; font-size:10px;">AMEX</span>
-          <span class="payment-badge" style="color:#374151; font-weight:700;"><i class="fab fa-apple" style="font-size:13px;"></i> Pay</span>
-          <span class="payment-badge" style="background:#f5e1ff; color:#4b5563; border-color:#e9d5ff; font-weight:800;">tamara</span>
-          <span class="payment-badge" style="background:#d1fae5; color:#374151; border-color:#a7f3d0; font-weight:800;">tabby</span>
-        </div>
-      </div>
-
-      <!-- 5. Hidden / Collapsible Information Accordions (Original Netlify Sections: SHOP, CUSTOMER CARE, COMPANY, CONTACT) -->
+      <!-- 4. Hidden / Collapsible Information Accordions (SHOP, CUSTOMER CARE, COMPANY, CONTACT) -->
       <div class="footer-accordions-wrapper">
         <!-- Row 1: SHOP -->
         <div class="footer-accordion-item" id="footer-acc-shop">
@@ -1066,7 +1056,7 @@ function renderAllDynamicComponents() {
           </div>
         </div>
 
-        <!-- Row 4: CONTACT -->
+        <!-- Row 4: CONTACT (Includes +971 501234567 per Image 3) -->
         <div class="footer-accordion-item" id="footer-acc-contact">
           <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-contact')">
             <span>${trans.contactColTitle}</span>
@@ -1076,6 +1066,7 @@ function renderAllDynamicComponents() {
             <ul style="flex-direction: column; gap: 8px; color: #6b7280; font-size: 13px; line-height: 1.7;">
               <li style="color: #4b5563; font-weight: 700;"><i class="fas fa-map-marker-alt" style="width: 20px;"></i> ${fData.contactName}</li>
               <li style="padding-left: 20px; font-size: 12px; margin-top: -4px; margin-bottom: 4px;">${trans.contactSub}<br>${trans.contactAddress}</li>
+              <li><a href="tel:+971501234567" style="text-decoration: none;"><i class="fas fa-phone" style="width: 20px;"></i> +971 501234567</a></li>
               <li><a href="mailto:${fData.contactEmail}" style="text-decoration: none;"><i class="far fa-envelope" style="width: 20px;"></i> ${fData.contactEmail}</a></li>
               <li><i class="far fa-clock" style="width: 20px;"></i> ${trans.contactHours}</li>
             </ul>
@@ -1083,7 +1074,7 @@ function renderAllDynamicComponents() {
         </div>
       </div>
 
-      <!-- 6. Country Selector & Social Media Icons (Imagen 1 Bottom Reference / Req 1, 2, 13) -->
+      <!-- 5. Country Selector -->
       <div class="footer-bottom-extras">
         <div class="footer-country-label">${isFrFooter ? "Pays" : "Country"}</div>
         <div class="footer-country-box" onclick="openLocalizationModal()">
@@ -1098,15 +1089,27 @@ function renderAllDynamicComponents() {
             <i class="fas fa-chevron-down" style="font-size:10px;"></i>
           </span>
         </div>
+      </div>
 
-        <div class="footer-social-title">${isFrFooter ? "Suivez-nous sur les réseaux sociaux" : "Follow Us On Social Media"}</div>
-        <div class="footer-social-minimal">
-          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-          <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-          <a href="https://x.com" target="_blank" rel="noopener" aria-label="X"><i class="fab fa-x-twitter"></i><span style="font-family:sans-serif; font-weight:800; font-size:16px; display:none;">X</span></a>
-          <a href="https://wa.me/971501234567" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <!-- 6. Position 2 (Image 2 & 3): Payment Methods with Title at the End After Hidden Texts -->
+      <div class="footer-payments-strip">
+        <div class="payment-methods-title">${isFrFooter ? "NOUS ACCEPTONS :" : "WE ACCEPT:"}</div>
+        <div class="payment-methods-icons">
+          <span class="payment-badge" style="color:#1a1f71; font-style:italic; font-weight:900; font-size:13px;">VISA</span>
+          <span class="payment-badge" style="display:inline-flex; align-items:center; gap:2px;">
+            <span style="width:12px; height:12px; border-radius:50%; background:#eb001b; display:inline-block;"></span>
+            <span style="width:12px; height:12px; border-radius:50%; background:#f79e1b; margin-left:-5px; display:inline-block;"></span>
+          </span>
+          <span class="payment-badge" style="display:inline-flex; align-items:center; gap:2px;">
+            <span style="width:12px; height:12px; border-radius:50%; background:#0099df; display:inline-block;"></span>
+            <span style="width:12px; height:12px; border-radius:50%; background:#eb001b; margin-left:-5px; display:inline-block;"></span>
+          </span>
+          <span class="payment-badge" style="color:#1a1f71; font-weight:800; font-size:10px;">VISA <span style="font-weight:400;">Electron</span></span>
+          <span class="payment-badge" style="color:#003087; font-style:italic; font-weight:800;">Pay<span style="color:#0079c1;">Pal</span></span>
+          <span class="payment-badge" style="background:#016fd0; color:#ffffff; border-color:#016fd0; font-size:10px;">AMEX</span>
+          <span class="payment-badge" style="color:#374151; font-weight:700;"><i class="fab fa-apple" style="font-size:13px;"></i> Pay</span>
+          <span class="payment-badge" style="background:#f5e1ff; color:#4b5563; border-color:#e9d5ff; font-weight:800;">tamara</span>
+          <span class="payment-badge" style="background:#d1fae5; color:#374151; border-color:#a7f3d0; font-weight:800;">tabby</span>
         </div>
       </div>
 
@@ -1195,7 +1198,7 @@ function applyPageDOMTranslations() {
   const lang = (currentLocale && currentLocale.language) ? currentLocale.language : "fr";
   const isFr = lang === "fr";
 
-  // 1. Homepage Hero Slides (Requirement 3: Only "30% OFF" centered + "Shop Now" button)
+  // 1. Homepage Hero Slides (Image 1: "30% off" change by: "30% OFF ALMOST EVERYTHING", "Shop now" button in same position)
   document.querySelectorAll(".slide").forEach((slide) => {
     const title = slide.querySelector(".slide-title");
     const subtitle = slide.querySelector(".slide-subtitle");
@@ -1203,7 +1206,7 @@ function applyPageDOMTranslations() {
     const brandTag = slide.querySelector(".slide-brand");
 
     if (brandTag) brandTag.textContent = "";
-    if (title) title.textContent = isFr ? "30% DE RÉDUCTION" : "30% OFF";
+    if (title) title.textContent = isFr ? "30% DE RÉDUCTION SUR PRESQUE TOUT" : "30% OFF ALMOST EVERYTHING";
     if (subtitle) subtitle.textContent = "";
     if (btn) btn.textContent = isFr ? "ACHETER MAINTENANT" : "SHOP NOW";
   });

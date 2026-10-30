@@ -431,20 +431,6 @@ function renderAllDynamicComponents() {
           </button>
         </div>
       </div>
-
-      <!-- Mobile Quick-Shop Category & Brand Strip (Reference Online Clothing Store Bar) -->
-      <div class="mobile-quick-cats-bar" aria-label="Quick Categories">
-        <a href="all-collections.html" class="mobile-quick-cat-pill">${isFr ? 'TOUT VOIR' : 'SHOP ALL'}</a>
-        <a href="category.html?brand=Miss Chloé" class="mobile-quick-cat-pill">MISS CHLOÉ</a>
-        <a href="category.html?brand=Miss Chloé&subcategory=Dresses" class="mobile-quick-cat-pill">${isFr ? 'ROBES' : 'DRESSES'}</a>
-        <a href="category.html?brand=Miss Chloé&subcategory=Abayas" class="mobile-quick-cat-pill">ABAYAS</a>
-        <a href="category.html?brand=Nella Hair Couture" class="mobile-quick-cat-pill">NELLA HAIR</a>
-        <a href="category.html?brand=Nella Hair Couture&subcategory=Wigs" class="mobile-quick-cat-pill">${isFr ? 'PERRUQUES HD' : 'HD WIGS'}</a>
-        <a href="category.html?brand=COCO Beauty" class="mobile-quick-cat-pill">COCO BEAUTY</a>
-        <a href="category.html?brand=COCO Mini" class="mobile-quick-cat-pill">COCO MINI</a>
-        <a href="category.html?brand=Wedding Collection" class="mobile-quick-cat-pill">${isFr ? 'MARIAGE' : 'WEDDING'}</a>
-        <a href="category.html?sale=true" class="mobile-quick-cat-pill sale-pill">${isFr ? 'SOLDES -30%' : 'SALE -30%'}</a>
-      </div>
     `;
   }
 
@@ -472,9 +458,9 @@ function renderAllDynamicComponents() {
             <a href="index.html" class="nav-link" onclick="window.closeMobileDrawer()">${trans.home}</a>
           </li>
           
-          <!-- Miss Chloé Mega Menu -->
+          <!-- Fashion (Miss Chloé) Mega Menu -->
           <li class="nav-item">
-            <a href="category.html?brand=Miss Chloé" class="nav-link">MISS CHLOÉ</a>
+            <a href="category.html?brand=Miss Chloé" class="nav-link">${isFr ? 'Mode' : 'Fashion'}</a>
             <div class="mega-menu miss-chloe-menu">
               <div class="mega-col mega-col-brand">
                 <div class="mega-brand-name">Miss Chloé</div>
@@ -551,9 +537,9 @@ function renderAllDynamicComponents() {
             </div>
           </li>
 
-          <!-- Nella Hair Couture Mega Menu -->
+          <!-- Hair (Nella Hair Couture) Mega Menu -->
           <li class="nav-item">
-            <a href="category.html?brand=Nella Hair Couture" class="nav-link">NELLA HAIR</a>
+            <a href="category.html?brand=Nella Hair Couture" class="nav-link">${isFr ? 'Cheveux' : 'Hair'}</a>
             <div class="mega-menu nella-hair-menu">
               <div class="mega-col mega-col-brand">
                 <div class="mega-brand-name" style="font-size:20px;">Nella Hair Couture</div>
@@ -609,9 +595,9 @@ function renderAllDynamicComponents() {
             </div>
           </li>
 
-          <!-- COCO Beauty Mega Menu -->
+          <!-- Beauty (COCO Beauty) Mega Menu -->
           <li class="nav-item">
-            <a href="category.html?brand=COCO Beauty" class="nav-link">COCO BEAUTY</a>
+            <a href="category.html?brand=COCO Beauty" class="nav-link">${isFr ? 'Beauté' : 'Beauty'}</a>
             <div class="mega-menu coco-beauty-menu">
               <div class="mega-col mega-col-brand">
                 <div class="mega-brand-name">COCO Beauty</div>
@@ -705,9 +691,9 @@ function renderAllDynamicComponents() {
             </div>
           </li>
 
-          <!-- COCO Mini Mega Menu -->
+          <!-- Kids (COCO Mini) Mega Menu -->
           <li class="nav-item">
-            <a href="category.html?brand=COCO Mini" class="nav-link">COCO MINI</a>
+            <a href="category.html?brand=COCO Mini" class="nav-link">${isFr ? 'Enfants' : 'Kids'}</a>
             <div class="mega-menu coco-mini-menu">
               <div class="mega-col mega-col-brand">
                 <div class="mega-brand-name">COCO Mini</div>
@@ -754,9 +740,9 @@ function renderAllDynamicComponents() {
             </div>
           </li>
 
-          <!-- Wedding Collection Mega Menu -->
+          <!-- Wedding (Wedding Collection) Mega Menu -->
           <li class="nav-item">
-            <a href="category.html?brand=Wedding Collection" class="nav-link">WEDDING COLLECTION</a>
+            <a href="category.html?brand=Wedding Collection" class="nav-link">${isFr ? 'Mariage' : 'Wedding'}</a>
             <div class="mega-menu wedding-menu">
               <div class="mega-col mega-col-brand">
                 <div class="mega-brand-name">Wedding Collection</div>
@@ -1025,33 +1011,33 @@ function renderAllDynamicComponents() {
         </div>
       </div>
 
-      <!-- 5. Hidden / Collapsible Information Accordions (Imagen 1 & 2 / Req 10) -->
+      <!-- 5. Hidden / Collapsible Information Accordions (Original Netlify Sections: SHOP, CUSTOMER CARE, COMPANY, CONTACT) -->
       <div class="footer-accordions-wrapper">
-        <!-- Row 1: LET US HELP YOU -->
-        <div class="footer-accordion-item" id="footer-acc-help">
-          <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-help')">
-            <span>${isFrFooter ? "LAISSEZ-NOUS VOUS AIDER" : "LET US HELP YOU"}</span>
+        <!-- Row 1: SHOP -->
+        <div class="footer-accordion-item" id="footer-acc-shop">
+          <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-shop')">
+            <span>${trans.shopColTitle}</span>
             <i class="fas fa-chevron-down"></i>
           </button>
           <div class="footer-accordion-content">
-            <div class="footer-acc-info-grid">
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Expédition & Livraison" : "Shipping & Delivery"}</h5>
-                <p>${isFrFooter ? "Livraison Express 24h aux Émirats Arabes Unis (Gratuite dès 150 AED d'achat, sinon 25 AED). Livraison internationale et CCG sous 2 à 5 jours ouvrables avec suivi en direct." : "Express Next-Day Delivery across the UAE (Free on orders over 150 AED, flat rate 25 AED). GCC & International shipping within 2–5 business days with real-time tracking."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Retours & Échanges Gratuits" : "Returns & Exchanges"}</h5>
-                <p>${isFrFooter ? "Vous disposez de 14 jours après réception pour retourner ou échanger tout article non porté dans son emballage d'origine. Ramassage retour gratuit aux ÉAU." : "Enjoy a hassle-free 14-day return and exchange policy on all unworn items in their original packaging, including complimentary return pickup across the UAE."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Guide des Tailles & Perruques" : "Size & Wig Care Guide"}</h5>
-                <p>${isFrFooter ? "Nos coupes Miss Chloé vont du XS au XL. Nos perruques Nella Hair sont 100% cheveux humains Remy avec bonnets ajustables HD Lace sans colle." : "Miss Chloé apparel ranges from XS to XL with tailored modest fits. Nella Hair wigs are 100% Virgin Remy Human Hair with adjustable glueless HD lace caps."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Service Client 24/7" : "24/7 Customer Care"}</h5>
-                <p>${isFrFooter ? "Notre équipe dédiée est disponible 7j/7 de 9h00 à 21h00 (GST) par e-mail à support@13thavenue.com ou via notre assistance en direct." : "Our dedicated concierge team is available Monday – Sunday, 9:00 AM – 9:00 PM (GST) via support@13thavenue.com or live support."}</p>
-              </div>
-            </div>
+            <ul>
+              <li><a href="category.html?brand=Miss Chloé">Miss Chloé</a></li>
+              <li><a href="category.html?brand=Nella Hair Couture">Nella Hair Couture</a></li>
+              <li><a href="category.html?brand=COCO Beauty">COCO Beauty</a></li>
+              <li><a href="category.html?brand=COCO Mini">COCO Mini</a></li>
+              <li><a href="category.html?brand=Wedding Collection">${trans.weddingCollection}</a></li>
+              <li><a href="category.html?sort=newest">${trans.trending}</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Row 2: CUSTOMER CARE -->
+        <div class="footer-accordion-item" id="footer-acc-care">
+          <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-care')">
+            <span>${trans.customerCareColTitle}</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="footer-accordion-content">
             <ul>
               <li><a href="#" onclick="openSupportModal(); return false;">${trans.contactUs}</a></li>
               <li><a href="#" onclick="openInfoPolicyModal('faq'); return false;">${trans.faqs}</a></li>
@@ -1063,104 +1049,35 @@ function renderAllDynamicComponents() {
           </div>
         </div>
 
-        <!-- Row 2: ABOUT US -->
-        <div class="footer-accordion-item" id="footer-acc-about">
-          <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-about')">
-            <span>${isFrFooter ? "À PROPOS DE NOUS" : "ABOUT US"}</span>
+        <!-- Row 3: COMPANY -->
+        <div class="footer-accordion-item" id="footer-acc-company">
+          <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-company')">
+            <span>${trans.companyColTitle}</span>
             <i class="fas fa-chevron-down"></i>
           </button>
           <div class="footer-accordion-content">
-            <p style="margin-bottom:14px;">
-              ${isFrFooter
-                ? "Basée à Dubaï, 13th Avenue Lifestyle Brand House réunit sous un même toit des maisons de mode, de haute coiffure, de beauté biologique et d'art de vivre pour toute la famille, alliant savoir-faire artisanal et élégance contemporaine."
-                : "Headquartered in Dubai, UAE, 13th Avenue Lifestyle Brand House brings together curated fashion, couture human hair, organic beauty, and family lifestyle under one roof — uniting timeless elegance with uncompromising quality."}
-            </p>
-            <div class="footer-acc-info-grid">
-              <div class="footer-acc-info-block">
-                <h5>Miss Chloé</h5>
-                <p>${isFrFooter ? "Prêt-à-porter féminin, robes de soirée, abayas sur mesure, ensembles coordonnés et maroquinerie." : "Contemporary modest fashion, evening dresses, tailored abayas, coordinates, shoes, and leather handbags."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>Nella Hair Couture</h5>
-                <p>${isFrFooter ? "Perruques HD Lace 100% cheveux humains vierges Remy, frontales sans colle, extensions et soins capillaires." : "100% Virgin Remy Human Hair HD lace frontals, glueless closure wigs, clip-in extensions, and styling tools."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>COCO Beauty</h5>
-                <p>${isFrFooter ? "Soins du visage biologiques, maquillage de luxe, gommages corporels botaniques et parfums d'Oud." : "Organic facial skincare, luxury makeup, botanical bath & body scrubs, beauty devices, and Oud fragrances."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>COCO Mini & Wedding</h5>
-                <p>${isFrFooter ? "Barboteuses en coton bio (0-24M), mode enfant, peluches douces et collection mariée d'exception." : "Organic cotton baby rompers (0–24M), kids' fashion, plush gifts, and breathtaking bridal gowns & veils."}</p>
-              </div>
-            </div>
             <ul>
+              <li><a href="#" onclick="openInfoPolicyModal('about'); return false;">${trans.aboutUs}</a></li>
               <li><a href="all-collections.html">${trans.ourBrands}</a></li>
-              <li><a href="category.html?brand=Miss Chloé">Miss Chloé</a></li>
-              <li><a href="category.html?brand=Nella Hair Couture">Nella Hair Couture</a></li>
-              <li><a href="category.html?brand=COCO Beauty">COCO Beauty</a></li>
-              <li><a href="category.html?brand=COCO Mini">COCO Mini</a></li>
-              <li><a href="category.html?brand=Wedding Collection">${trans.weddingCollection}</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Row 3: INFORMATION -->
-        <div class="footer-accordion-item" id="footer-acc-info">
-          <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-info')">
-            <span>${isFrFooter ? "INFORMATIONS" : "INFORMATION"}</span>
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="footer-accordion-content">
-            <div class="footer-acc-info-grid">
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Confidentialité & Protection des Données" : "Privacy & Data Protection"}</h5>
-                <p>${isFrFooter ? "Vos informations personnelles sont chiffrées (SSL 256 bits) et traitées dans le strict respect des normes internationales de confidentialité." : "Your personal details are protected with 256-bit SSL encryption and processed strictly to fulfill your orders and personalize your experience."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Méthodologie de Paiement" : "Payment Methodology"}</h5>
-                <p>${isFrFooter ? "Paiements sécurisés 3D Secure par Visa, Mastercard, Maestro, AMEX, Apple Pay, PayPal, ainsi qu'en 4 fois sans frais via Tamara et Tabby." : "We support 3D Secure checkout via Visa, Mastercard, Maestro, AMEX, Apple Pay, PayPal, and split-in-4 interest-free payments with Tamara & Tabby."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Conditions Générales de Vente" : "Terms & Conditions"}</h5>
-                <p>${isFrFooter ? "Tous les prix affichés incluent la TVA applicable. Chaque commande fait l'objet d'un contrôle qualité rigoureux avant expédition." : "All displayed prices include applicable VAT. Every item undergoes strict quality inspection prior to dispatch from our Dubai fulfillment center."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Siège & Contact Officiel" : "Headquarters & Contact"}</h5>
-                <p>${trans.contactAddress} — ${trans.contactHours} | <a href="mailto:${fData.contactEmail}" style="color:#4b5563;">${fData.contactEmail}</a></p>
-              </div>
-            </div>
-            <ul>
               <li><a href="#" onclick="openInfoPolicyModal('privacy'); return false;">${trans.privacyPolicy}</a></li>
               <li><a href="#" onclick="openInfoPolicyModal('terms'); return false;">${trans.termsConditions}</a></li>
               <li><a href="#" onclick="openInfoPolicyModal('cookies'); return false;">${trans.cookiePolicy}</a></li>
-              <li><a href="mailto:${fData.contactEmail}">${fData.contactEmail}</a></li>
             </ul>
           </div>
         </div>
 
-        <!-- Row 4: MY ACCOUNT -->
-        <div class="footer-accordion-item" id="footer-acc-account">
-          <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-account')">
-            <span>${isFrFooter ? "MON COMPTE" : "MY ACCOUNT"}</span>
+        <!-- Row 4: CONTACT -->
+        <div class="footer-accordion-item" id="footer-acc-contact">
+          <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-contact')">
+            <span>${trans.contactColTitle}</span>
             <i class="fas fa-chevron-down"></i>
           </button>
           <div class="footer-accordion-content">
-            <div class="footer-acc-info-grid">
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Espace Client & Commandes" : "Member Account & Orders"}</h5>
-                <p>${isFrFooter ? "Connectez-vous ou créez un compte gratuit pour suivre vos colis en temps réel, consulter votre historique d'achats et gérer vos retours." : "Sign in or create a complimentary account to track active shipments in real time, view your complete order history, and manage returns effortlessly."}</p>
-              </div>
-              <div class="footer-acc-info-block">
-                <h5>${isFrFooter ? "Coordonnées & Paiement Rapide" : "Saved Details & Fast Checkout"}</h5>
-                <p>${isFrFooter ? "Enregistrez vos adresses de livraison et préférences de devise (AED, USD, EUR) pour un passage en caisse instantané sur toutes nos marques." : "Save your preferred delivery addresses and currency settings (AED, USD, EUR) for instant one-click checkout across all 13th Avenue brands."}</p>
-              </div>
-            </div>
-            <ul>
-              <li><a href="#" onclick="handleAccountAction('signin'); return false;">${trans.signInBtn}</a></li>
-              <li><a href="#" onclick="handleAccountAction('create'); return false;">${trans.createAccountBtn}</a></li>
-              <li><a href="#" onclick="handleAccountAction('orders'); return false;">${trans.orderHistory}</a></li>
-              <li><a href="#" onclick="handleAccountAction('details'); return false;">${trans.myDetails}</a></li>
-              <li><a href="cart.html">${trans.basket}</a></li>
+            <ul style="flex-direction: column; gap: 8px; color: #6b7280; font-size: 13px; line-height: 1.7;">
+              <li style="color: #4b5563; font-weight: 700;"><i class="fas fa-map-marker-alt" style="width: 20px;"></i> ${fData.contactName}</li>
+              <li style="padding-left: 20px; font-size: 12px; margin-top: -4px; margin-bottom: 4px;">${trans.contactSub}<br>${trans.contactAddress}</li>
+              <li><a href="mailto:${fData.contactEmail}" style="text-decoration: none;"><i class="far fa-envelope" style="width: 20px;"></i> ${fData.contactEmail}</a></li>
+              <li><i class="far fa-clock" style="width: 20px;"></i> ${trans.contactHours}</li>
             </ul>
           </div>
         </div>
@@ -1224,6 +1141,7 @@ window.openInfoPolicyModal = function(type) {
   if (existing) existing.remove();
   const isFr = (currentLocale && currentLocale.language) === "fr";
   const titles = {
+    about: isFr ? "À Propos de Nous" : "About Us",
     privacy: isFr ? "Politique de Confidentialité" : "Privacy Policy",
     terms: isFr ? "Conditions Générales" : "Terms & Conditions",
     cookies: isFr ? "Politique de Cookies" : "Cookie Policy",
@@ -1233,6 +1151,9 @@ window.openInfoPolicyModal = function(type) {
     size: isFr ? "Guide des Tailles" : "Size Guide"
   };
   const bodies = {
+    about: isFr
+      ? "Chez 13TH AVENUE, nous réunissons mode, beauté, cheveux de luxe, enfants et mariage sous une seule destination de shopping d'exception à Dubaï, Émirats Arabes Unis."
+      : "At 13TH AVENUE, we bring together fashion, beauty, luxury hair, kids and weddings under one premium shopping destination in Dubai, United Arab Emirates.",
     privacy: isFr
       ? "13th Avenue respecte votre vie privée. Vos informations personnelles sont utilisées uniquement pour traiter vos commandes et vous envoyer nos offres exclusives si vous y êtes abonné. Vous pouvez vous désabonner à tout moment."
       : "13th Avenue & our family of brands respect your privacy. Your personal details are securely processed in accordance with international data protection standards and used solely to fulfill your orders and deliver curated communications when subscribed.",

@@ -919,8 +919,7 @@ img {
 }
 @media (max-width: 768px) {
   .brand-showcase-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 8px !important;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -2534,55 +2533,13 @@ a[href*="wishlist=true"] {
   font-weight: 700;
 }
 
-/* --- Quick Category Bar & Home Brand Filter Pills --- */
-.mobile-quick-cats-bar {
-  display: none;
-}
-
-.home-brand-filter-pills {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.home-filter-pill {
-  padding: 7px 16px;
-  border-radius: 999px;
-  border: 1px solid #d4d4d8;
-  background-color: #ffffff;
-  color: #52525b;
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  white-space: nowrap;
-}
-
-.home-filter-pill:hover {
-  border-color: #71717a;
-  color: #27272a;
-}
-
-.home-filter-pill.active {
-  background-color: #52525b;
-  color: #ffffff;
-  border-color: #52525b;
-}
-
 /* Hide Mobile Drawer specific elements on Desktop screens */
 @media (min-width: 1025px) {
   .mobile-drawer-header,
   .mobile-drawer-settings-group,
   .mobile-drawer-footer-bar,
   .mobile-drawer-close-btn,
-  .mobile-only-item,
-  .mobile-quick-cats-bar {
+  .mobile-only-item {
     display: none !important;
   }
 }
@@ -2594,8 +2551,8 @@ a[href*="wishlist=true"] {
 
   .header-top {
     flex-wrap: wrap;
-    padding: 10px 0 6px 0 !important;
-    gap: 8px !important;
+    padding: 12px 0;
+    gap: 12px;
   }
 
   .menu-toggle-btn {
@@ -2603,7 +2560,7 @@ a[href*="wishlist=true"] {
     align-items: center;
     justify-content: center;
     order: 1;
-    font-size: 20px;
+    font-size: 22px;
     color: var(--primary-color);
     width: 34px;
     height: 34px;
@@ -2626,18 +2583,16 @@ a[href*="wishlist=true"] {
 
   .brand-logo {
     font-size: 20px !important;
-    line-height: 1.05;
   }
 
   .brand-logo span {
-    font-size: 6.5px !important;
-    letter-spacing: 0.22em !important;
-    margin-top: 1px !important;
+    font-size: 7px !important;
+    letter-spacing: 0.2em !important;
   }
 
   .header-actions {
     order: 3;
-    gap: 6px !important;
+    gap: 8px !important;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -2649,80 +2604,34 @@ a[href*="wishlist=true"] {
 
   .header-actions #recently-viewed-trigger,
   .header-actions a[href="all-collections.html"],
-  .header-actions a[href="category.html?wishlist=true"] {
+  .header-actions .account-menu-dropdown-container,
+  .header-actions a[href="category.html?wishlist=true"],
+  .header-actions #locale-modal-trigger {
     display: none !important;
   }
 
   .action-icon-btn {
-    font-size: 16px !important;
-    padding: 4px !important;
+    font-size: 18px !important;
+    padding: 6px !important;
   }
 
   .search-bar-container {
     order: 4;
     flex: 0 0 100%;
     width: 100%;
-    margin-top: 4px;
+    margin-top: 8px;
   }
 
   .search-input {
-    padding: 8px 12px 8px 34px !important;
+    padding: 8px 12px 8px 36px !important;
     font-size: 12px !important;
-    border-radius: 999px !important;
-    background-color: #f4f4f5 !important;
-    border: 1px solid #e4e4e7 !important;
-  }
-
-  /* Horizontal Quick-Shop Category & Brand Strip (Reference Online Clothing Store Bar) */
-  .mobile-quick-cats-bar {
-    display: flex !important;
-    align-items: center;
-    gap: 6px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 6px 0 8px 0;
-    margin-top: 2px;
-    border-top: 1px solid #f4f4f5;
-  }
-
-  .mobile-quick-cats-bar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .mobile-quick-cat-pill {
-    flex: 0 0 auto;
-    font-size: 10.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #52525b;
-    background-color: #f4f4f5;
-    border: 1px solid #e4e4e7;
-    padding: 5px 11px;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: all 0.15s ease;
-  }
-
-  .mobile-quick-cat-pill:active,
-  .mobile-quick-cat-pill:hover {
-    background-color: #52525b;
-    color: #ffffff;
-  }
-
-  .mobile-quick-cat-pill.sale-pill {
-    background-color: #fdf2f8;
-    color: var(--accent-pink);
-    border-color: #fbcfe8;
   }
 
   .main-header {
     z-index: 1060 !important;
   }
 
-  .main-header .header-top,
-  .main-header .mobile-quick-cats-bar {
+  .main-header .header-top {
     position: relative;
     z-index: 1;
   }
@@ -3079,215 +2988,12 @@ a[href*="wishlist=true"] {
   }
 }
 
-/* --- High-Density Mobile Fashion E-Commerce Layout (<= 768px: PrettyLittleThing / Missguided / Zara Mobile UX) --- */
+/* --- Mobile View Enhancements (max-width: 768px — Identical to Netlify) --- */
 @media (max-width: 768px) {
-  .container {
-    padding: 0 10px !important;
-  }
-
-  .section-padding {
-    padding: 20px 0 !important;
-  }
-
-  .section-header {
-    margin-bottom: 14px !important;
-  }
-
-  .section-title {
-    font-size: 18px !important;
-    letter-spacing: 0.06em !important;
-    margin-bottom: 2px !important;
-  }
-
-  .section-subtitle {
-    font-size: 10px !important;
-    letter-spacing: 0.12em !important;
-  }
-
-  /* Compact Hero Banner on Mobile so Brand Architecture is visible immediately below */
-  .hero-slider {
-    height: 210px !important;
-  }
-
-  .slide-content {
-    padding: 12px 18px !important;
-    max-width: 78% !important;
-    background-color: rgba(255, 255, 255, 0.86) !important;
-  }
-
-  .slide-title {
-    font-size: 22px !important;
-    margin-bottom: 8px !important;
-  }
-
-  .slide-content .btn-premium {
-    padding: 8px 18px !important;
-    font-size: 10px !important;
-    letter-spacing: 0.12em !important;
-  }
-
-  .slider-controls {
-    right: 10px !important;
-    bottom: 10px !important;
-    gap: 6px !important;
-  }
-
-  .slider-btn {
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 10px !important;
-  }
-
-  /* Brand Architecture: 2x2 High-Density Grid on Mobile (All 4 Brands visible on 1 screen) */
-  .brand-showcase-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 8px !important;
-  }
-
+  /* Reduce padding inside showcase cards to avoid text clip */
   .brand-showcase-card {
-    padding: 8px 7px !important;
-    height: 232px !important;
-    border-radius: 8px !important;
-  }
-
-  .brand-showcase-header {
-    padding: 6px 6px !important;
-    border-radius: 6px !important;
-  }
-
-  .brand-card-emblem {
-    width: 24px !important;
-    height: 24px !important;
-    font-size: 9px !important;
-    margin: 0 auto 3px auto !important;
-  }
-
-  .brand-card-logo {
-    font-size: 13px !important;
-    letter-spacing: 0.04em !important;
-    margin-bottom: 2px !important;
-  }
-
-  .brand-showcase-desc {
-    font-size: 9px !important;
-    line-height: 1.2 !important;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .brand-links-list {
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 3px !important;
-    margin: 4px 0 !important;
-  }
-
-  .brand-links-list li a {
-    font-size: 8.5px !important;
-    padding: 2px 6px !important;
-    line-height: 1.2 !important;
-  }
-
-  .btn-brand-explore {
-    font-size: 8.5px !important;
-    padding: 6px 8px !important;
-    letter-spacing: 0.06em !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Trending Now Horizontal Carousel on Mobile: Show 2.2 Product Cards at Once (Reference Image 5) */
-  .trending-carousel-wrapper {
-    gap: 0 !important;
-  }
-
-  .trending-nav-btn {
-    display: none !important;
-  }
-
-  #trending-products-grid {
-    gap: 10px !important;
-    padding: 4px 2px 12px 2px !important;
-  }
-
-  #trending-products-grid .product-card {
-    flex: 0 0 45.5% !important;
-    max-width: 45.5% !important;
-  }
-
-  /* Home Brand Filter Pills on Mobile */
-  .home-brand-filter-pills {
-    justify-content: flex-start !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    scrollbar-width: none;
-    padding-bottom: 4px;
-    margin-bottom: 12px !important;
-    gap: 6px !important;
-  }
-
-  .home-brand-filter-pills::-webkit-scrollbar {
-    display: none;
-  }
-
-  .home-filter-pill {
-    padding: 6px 12px !important;
-    font-size: 10px !important;
-  }
-
-  /* 2-Column Product Grids & Compact Cards on Mobile (Reference Image 5) */
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-  }
-
-  .product-image-container {
-    border-radius: 4px;
-  }
-
-  .product-tag {
-    top: 8px !important;
-    left: 8px !important;
-    font-size: 8px !important;
-    padding: 3px 6px !important;
-  }
-
-  .quick-add-cart-btn {
-    top: 8px !important;
-    right: 8px !important;
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 12px !important;
-  }
-
-  .product-info {
-    padding: 8px 2px 6px 2px !important;
-  }
-
-  .product-brand {
-    font-size: 9.5px !important;
-    margin-bottom: 2px !important;
-  }
-
-  .product-title {
-    font-size: 11.5px !important;
-    margin-bottom: 3px !important;
-  }
-
-  .current-price {
-    font-size: 12.5px !important;
-  }
-
-  .original-price {
-    font-size: 10.5px !important;
-  }
-
-  .product-rating {
-    font-size: 9.5px !important;
-    margin-top: 2px !important;
+    padding: 24px 16px !important;
+    height: 400px !important;
   }
 
   /* Mobile Filters Drawer & Backdrop Overlay */

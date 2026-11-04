@@ -958,7 +958,7 @@ function renderAllDynamicComponents() {
       <!-- 2. SUBSCRIBE Section (JOIN THE AVENUE + Policy Text + Social Media Icons Below) -->
       <div class="footer-newsletter-section">
         <div class="container" style="max-width:600px; text-align:center;">
-          <h2 style="font-family: var(--font-serif); font-size: 32px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #4b5563; margin-bottom: 10px;">${trans.joinAvenueTitle || (isFrFooter ? "REJOIGNEZ THE AVENUE" : "JOIN THE AVENUE")}</h2>
+          <h2 style="font-family: var(--font-serif); font-size: 32px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.05em; color: #4b5563; margin-bottom: 12px;">${trans.joinAvenueTitle || (isFrFooter ? "REJOIGNEZ THE AVENUE" : "JOIN THE AVENUE")}</h2>
           <p class="newsletter-subtitle" style="font-size: 14px; color: #6b7280; margin-bottom: 22px; line-height: 1.6;">${trans.joinAvenueDesc}</p>
           <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
             <input type="email" class="newsletter-input" required placeholder="${trans.emailPlaceholder || (isFrFooter ? "Entrez votre adresse e-mail" : "Enter your email address")}">
@@ -970,14 +970,12 @@ function renderAllDynamicComponents() {
               : 'By submitting your details, you agree to receive marketing communications from 13th Avenue &amp; our <a href="all-collections.html">family of brands</a> by email. You can unsubscribe at any point. You also consent to the use of your details in accordance with our <a href="#" onclick="openInfoPolicyModal(\'privacy\'); return false;">Privacy Policy.</a>'}
           </p>
 
-          <!-- Position 1: Social Media Icons right below the Subscribe policy text -->
-          <div class="footer-social-title">${isFrFooter ? "Suivez-nous sur les réseaux sociaux" : "Follow Us On Social Media"}</div>
+          <!-- Social Media Icons right below the Subscribe policy text (no title text, no X icon) -->
           <div class="footer-social-minimal">
             <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
             <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-            <a href="https://x.com" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:block;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
             <a href="https://wa.me/971501234567" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
           </div>
         </div>
@@ -2447,12 +2445,13 @@ window.bindMomentosLiveEditorElements = function() {
           el.dataset.defaultHref = el.getAttribute("href") || "";
         }
       }
-      // Apply saved text override if present
+      // Apply saved text override if present (ignore stale 'undefined')
       if (customTexts[key] !== undefined && customTexts[key] !== null) {
         if (typeof customTexts[key] === "object") {
-          if (customTexts[key].text !== undefined) el.textContent = customTexts[key].text;
+          const val = customTexts[key].text;
+          if (val !== undefined && String(val).trim().toLowerCase() !== "undefined") el.textContent = val;
           if (customTexts[key].href && el.tagName === "A") el.setAttribute("href", customTexts[key].href);
-        } else {
+        } else if (String(customTexts[key]).trim().toLowerCase() !== "undefined") {
           el.textContent = customTexts[key];
         }
       }

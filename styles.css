@@ -11,7 +11,7 @@
   --accent-pink: #FF007F; /* PLT Hot Pink */
   --accent-pink-hover: #E60072;
   
-  --gold-brand: #C5A059; /* Miss Chloé & Nella Hair Gold */
+  --gold-brand: #6b7280; /* Grey typography per client instruction */
   
   --bg-color: #ffffff;
   --bg-dim: #ffffff;
@@ -961,7 +961,7 @@ img {
 .brand-showcase-header {
   position: relative;
   z-index: 2;
-  color: #ffffff;
+  color: #d1d5db;
 }
 
 .brand-card-logo {
@@ -971,11 +971,11 @@ img {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 8px;
-  color: #ffffff !important;
+  color: #d1d5db !important;
 }
 
 .brand-card-logo.gold-logo {
-  color: var(--gold-brand) !important;
+  color: #d1d5db !important;
 }
 
 .brand-showcase-desc {
@@ -998,17 +998,17 @@ img {
 
 .brand-links-list li a {
   display: inline-block;
-  color: #ffffff;
+  color: #d1d5db;
   font-size: 15px;
   font-weight: 500;
-  border-bottom: 1px dashed rgba(255, 255, 255, 0.4);
+  border-bottom: 1px dashed rgba(209, 213, 219, 0.5);
   padding-bottom: 2px;
   transition: var(--transition-fast);
 }
 
 .brand-links-list li a:hover {
-  color: var(--accent-pink);
-  border-bottom-color: var(--accent-pink);
+  color: #ffffff;
+  border-bottom-color: #ffffff;
 }
 
 .brand-showcase-footer {
@@ -1019,7 +1019,7 @@ img {
 .btn-brand-explore {
   display: inline-block;
   background-color: #ffffff;
-  color: #0f0f10;
+  color: #52525b !important;
   border: none;
   font-size: 11px;
   font-weight: 700;
@@ -3358,13 +3358,13 @@ body.admin-inpage-active {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c5a880;
+  color: #6b7280;
 }
 
 .category-banner-title {
   font-size: 14px;
   font-weight: 700;
-  color: #0f0f10;
+  color: #52525b;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 4px;

@@ -4,7 +4,7 @@
 let currentLocale = {
   country: "AE",
   countryName: "United Arab Emirates",
-  flag: "🇦🇪",
+  flag: "",
   language: "fr",
   currency: "AED",
   rate: 1.0 // 1 AED = 1.0 AED
@@ -96,7 +96,7 @@ const t = {
     aboutDesc: "Chez 13TH AVENUE, nous réunissons mode, beauté, cheveux de luxe, enfants et mariage sous une seule destination de shopping d'exception.",
     joinAvenueTitle: "REJOIGNEZ THE AVENUE",
     joinAvenueDesc: "Abonnez-vous pour débloquer 15% de réduction sur votre première commande et recevoir les notifications de nos collections exclusives.",
-    announcementText: "⭐ -15% EXTRA POUR LES NOUVEAUX CLIENTS &bull; CODE : <span style=\"color:#db2777; font-weight:900;\">NEW15</span>",
+    announcementText: "⭐ -15% EXTRA POUR LES NOUVEAUX CLIENTS &bull; CODE : <span style=\"color:#6b7280; font-weight:900;\">NEW15</span>",
     discoverStory: "Découvrir notre histoire",
     stayInKnow: "RESTEZ INFORMÉ",
     stayInKnowSub: "Inscrivez-vous pour des offres exclusives, nouveautés et inspirations.",
@@ -179,7 +179,7 @@ const t = {
     aboutDesc: "At 13TH AVENUE, we bring together fashion, beauty, luxury hair, kids and weddings under one premium shopping destination.",
     joinAvenueTitle: "JOIN THE AVENUE",
     joinAvenueDesc: "Subscribe to unlock 15% discount on your first purchase and receive notifications of exclusive collection drops.",
-    announcementText: "⭐ EXTRA 15% OFF FOR NEW CUSTOMERS &bull; USE CODE: <span style=\"color:#db2777; font-weight:900;\">NEW15</span>",
+    announcementText: "⭐ EXTRA 15% OFF FOR NEW CUSTOMERS &bull; USE CODE: <span style=\"color:#6b7280; font-weight:900;\">NEW15</span>",
     discoverStory: "Discover Our Story",
     stayInKnow: "STAY IN THE KNOW",
     stayInKnowSub: "Sign up for exclusive offers, new arrivals and lifestyle inspiration.",
@@ -244,27 +244,27 @@ function formatPrice(priceInAED) {
   }
 }
 
-// Country lists for selector modal
+// Country lists for selector modal (flags removed per client request)
 const countriesList = [
-  { code: "AE", name: "United Arab Emirates", flag: "🇦🇪", currency: "AED", recommended: true },
-  { code: "FR", name: "France", flag: "🇫🇷", currency: "EUR" },
-  { code: "DE", name: "Germany", flag: "🇩🇪", currency: "EUR" },
-  { code: "ES", name: "Spain", flag: "🇪🇸", currency: "EUR" },
-  { code: "IT", name: "Italy", flag: "🇮🇹", currency: "EUR" },
-  { code: "US", name: "United States", flag: "🇺🇸", currency: "USD" },
-  { code: "CI", name: "Côte d'Ivoire", flag: "🇨🇮", currency: "XOF" },
-  { code: "SN", name: "Sénégal", flag: "🇸🇳", currency: "XOF" },
-  { code: "ML", name: "Mali", flag: "🇲🇱", currency: "XOF" },
-  { code: "BF", name: "Burkina Faso", flag: "🇧🇫", currency: "XOF" },
-  { code: "NE", name: "Niger", flag: "🇳🇪", currency: "XOF" },
-  { code: "TG", name: "Togo", flag: "🇹🇬", currency: "XOF" },
-  { code: "BJ", name: "Bénin", flag: "🇧🇯", currency: "XOF" },
-  { code: "CG", name: "Congo (Brazzaville)", flag: "🇨🇬", currency: "XAF" },
-  { code: "CD", name: "République Démocratique du Congo", flag: "🇨🇩", currency: "USD" }, // CDF/USD
-  { code: "CM", name: "Cameroun", flag: "🇨🇲", currency: "XAF" },
-  { code: "CF", name: "République Centrafricaine", flag: "🇨🇫", currency: "XAF" },
-  { code: "TD", name: "Tchad", flag: "🇹🇩", currency: "XAF" },
-  { code: "GA", name: "Gabon", flag: "🇬🇦", currency: "XAF" }
+  { code: "AE", name: "United Arab Emirates", flag: "", currency: "AED", recommended: true },
+  { code: "FR", name: "France", flag: "", currency: "EUR" },
+  { code: "DE", name: "Germany", flag: "", currency: "EUR" },
+  { code: "ES", name: "Spain", flag: "", currency: "EUR" },
+  { code: "IT", name: "Italy", flag: "", currency: "EUR" },
+  { code: "US", name: "United States", flag: "", currency: "USD" },
+  { code: "CI", name: "Côte d'Ivoire", flag: "", currency: "XOF" },
+  { code: "SN", name: "Sénégal", flag: "", currency: "XOF" },
+  { code: "ML", name: "Mali", flag: "", currency: "XOF" },
+  { code: "BF", name: "Burkina Faso", flag: "", currency: "XOF" },
+  { code: "NE", name: "Niger", flag: "", currency: "XOF" },
+  { code: "TG", name: "Togo", flag: "", currency: "XOF" },
+  { code: "BJ", name: "Bénin", flag: "", currency: "XOF" },
+  { code: "CG", name: "Congo (Brazzaville)", flag: "", currency: "XAF" },
+  { code: "CD", name: "République Démocratique du Congo", flag: "", currency: "USD" },
+  { code: "CM", name: "Cameroun", flag: "", currency: "XAF" },
+  { code: "CF", name: "République Centrafricaine", flag: "", currency: "XAF" },
+  { code: "TD", name: "Tchad", flag: "", currency: "XAF" },
+  { code: "GA", name: "Gabon", flag: "", currency: "XAF" }
 ];
 
 // Initialize Localization
@@ -277,6 +277,7 @@ function initLocalization() {
         currentLocale = {
           ...currentLocale,
           ...parsed,
+          flag: "",
           language: (parsed.language === "en" || parsed.language === "fr") ? parsed.language : "en"
         };
       }
@@ -295,7 +296,7 @@ function initLocalization() {
 
           currentLocale.country = matched.code;
           currentLocale.countryName = matched.name;
-          currentLocale.flag = matched.flag;
+          currentLocale.flag = "";
           currentLocale.currency = matched.currency;
           currentLocale.rate = exchangeRates[matched.currency] || 1.0;
           currentLocale.language = detectedLang;
@@ -353,16 +354,6 @@ function renderAllDynamicComponents() {
             <span style="padding: 2px 6px; font-size: 10px; font-weight: 800; border-radius: 11px; transition: all 0.2s ease; ${lang === 'en' ? 'background: #ffffff; color: #52525b; box-shadow: 0 1px 2px rgba(0,0,0,0.08);' : 'color: #a1a1aa;'}">EN</span>
             <span style="padding: 2px 6px; font-size: 10px; font-weight: 800; border-radius: 11px; transition: all 0.2s ease; ${lang === 'fr' ? 'background: #ffffff; color: #52525b; box-shadow: 0 1px 2px rgba(0,0,0,0.08);' : 'color: #a1a1aa;'}">FR</span>
           </div>
-
-          <!-- Localization Trigger -->
-          <button type="button" class="action-icon-btn" id="locale-modal-trigger" title="${trans.regionsTitle}">
-            <img src="https://flagcdn.com/w20/${(currentLocale.country || 'AE').toLowerCase()}.png" 
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';" 
-                 style="width: 20px; height: 14px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.15); vertical-align: middle; object-fit: cover; display: inline-block;">
-            <span class="flag-fallback" style="display: none; font-size: 10px; font-weight: 700; background: #e2e8f0; color: #475569; padding: 1px 4px; border-radius: 3px; vertical-align: middle; text-transform: uppercase; margin-right: 2px;">${currentLocale.country || 'AE'}</span>
-            <span class="action-label" style="font-size:11px; margin-left:4px; font-weight:700;">${currentLocale.currency || 'AED'}</span>
-            <i class="fas fa-chevron-down action-label" style="font-size:8px; margin-left:2px;"></i>
-          </button>
           
           <!-- Recently Viewed Trigger -->
           <button type="button" class="action-icon-btn" id="recently-viewed-trigger" title="${trans.recentlyViewed}">
@@ -439,7 +430,7 @@ function renderAllDynamicComponents() {
   if (mainNav) {
     const langLabel = isFr ? 'Français' : 'English';
     const countryLabel = currentLocale.countryName || (isFr ? 'Émirats Arabes Unis' : 'United Arab Emirates');
-    const currencyLabel = `${currentLocale.currency} / 🇦🇪`;
+    const currencyLabel = `${currentLocale.currency}`;
 
     mainNav.innerHTML = `
       <!-- Mobile Drawer Top Header (Photo 1 reference: Close X button) -->
@@ -469,7 +460,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_fashion.png" alt="Miss Chloé" class="mega-brand-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.hanger('#c5a880')} SHOP BY APPAREL</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.hanger('#6b7280')} SHOP BY APPAREL</div>
                 <ul>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Dresses">Dresses</a></li>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Abayas">Abayas</a></li>
@@ -480,7 +471,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/emerald_dress.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.heel('#c5a880')} SHOES</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.heel('#6b7280')} SHOES</div>
                 <ul>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Heels">Heels</a></li>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Flats">Flats</a></li>
@@ -491,7 +482,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_exclusive.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.handbag('#c5a880')} BAGS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.handbag('#6b7280')} BAGS</div>
                 <ul>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Shoulder Bags">Handbags</a></li>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Shoulder Bags">Clutches</a></li>
@@ -502,7 +493,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/exclusive_jacket.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.diamond('#c5a880')} JEWELRY</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.diamond('#6b7280')} JEWELRY</div>
                 <ul>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Earrings">Earrings</a></li>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Necklaces">Necklaces</a></li>
@@ -514,7 +505,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_lifestyle.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.glasses('#c5a880')} ACCESSORIES</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.glasses('#6b7280')} ACCESSORIES</div>
                 <ul>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Sunglasses">Sunglasses</a></li>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Belts">Belts</a></li>
@@ -525,12 +516,12 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_beauty.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.star('#c5a880')} COLLECTIONS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.star('#6b7280')} COLLECTIONS</div>
                 <ul>
                   <li><a href="category.html?brand=Miss Chloé&sort=newest">${trans.newArrivals}</a></li>
                   <li><a href="category.html?brand=Miss Chloé&sort=popular">${trans.bestSellers}</a></li>
                   <li><a href="category.html?brand=Miss Chloé&subcategory=Limited Edition">${trans.limitedEdition}</a></li>
-                  <li><a href="category.html?brand=Miss Chloé&subcategory=Sale" style="color:var(--sale-red); font-weight:700;">${trans.sale}</a></li>
+                  <li><a href="category.html?brand=Miss Chloé&subcategory=Sale" style="color:#52525b; font-weight:700;">${trans.sale}</a></li>
                 </ul>
                 <img src="assets/black_abaya.png" class="mega-col-bottom-img">
               </div>
@@ -549,7 +540,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/lace_wig.png" alt="Nella Hair" class="mega-brand-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.user('#c5a880')} SHOP BY PRODUCT</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.user('#6b7280')} SHOP BY PRODUCT</div>
                 <ul>
                   <li><a href="category.html?brand=Nella Hair Couture&subcategory=Wigs">Wigs</a></li>
                   <li><a href="category.html?brand=Nella Hair Couture&subcategory=Extensions">Extensions</a></li>
@@ -560,7 +551,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_beauty.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.wind('#c5a880')} SHOP BY STYLE</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.wind('#6b7280')} SHOP BY STYLE</div>
                 <ul>
                   <li><a href="category.html?brand=Nella Hair Couture&search=Straight">Straight</a></li>
                   <li><a href="category.html?brand=Nella Hair Couture&search=Body Wave">Body Wave</a></li>
@@ -571,7 +562,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_lifestyle.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.diamond('#c5a880')} SHOP BY LACE</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.diamond('#6b7280')} SHOP BY LACE</div>
                 <ul>
                   <li><a href="category.html?brand=Nella Hair Couture&search=HD">HD Lace</a></li>
                   <li><a href="category.html?brand=Nella Hair Couture&search=Transparent">Transparent Lace</a></li>
@@ -582,7 +573,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/lace_wig.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #c5a880; border-bottom-color: rgba(197, 168, 128, 0.3);">${svgIcons.book('#c5a880')} HAIR GUIDES</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.book('#6b7280')} HAIR GUIDES</div>
                 <ul>
                   <li><a href="#" onclick="alert('Lace Guide: Melt your lace frontals using organic glues.'); return false;">Lace Guide</a></li>
                   <li><a href="#" onclick="alert('Hair Care: Wash extensions using sulfate-free formulas.'); return false;">Hair Care</a></li>
@@ -606,7 +597,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_beauty.png" alt="COCO Beauty" class="mega-brand-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #db2777; border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.lipstick('#db2777')} MAKEUP</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.lipstick('#6b7280')} MAKEUP</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Makeup">Face</a></li>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Makeup">Eyes</a></li>
@@ -617,7 +608,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_beauty.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #db2777; border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.nailpolish('#db2777')} NAILS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.nailpolish('#6b7280')} NAILS</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Nails">Nail Polish</a></li>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Nails">Gel Polish</a></li>
@@ -629,7 +620,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_exclusive.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #db2777; border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.skincare('#db2777')} SKINCARE</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.skincare('#6b7280')} SKINCARE</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Skincare">Cleansers</a></li>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Skincare">Toners</a></li>
@@ -642,7 +633,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_lifestyle.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #db2777; border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.perfume('#db2777')} FRAGRANCES</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.perfume('#6b7280')} FRAGRANCES</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Fragrances">Perfumes</a></li>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Fragrances">Body Mist</a></li>
@@ -652,7 +643,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/coco_candle.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #db2777; border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.dryer('#db2777')} BEAUTY TOOLS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.dryer('#6b7280')} BEAUTY TOOLS</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Beauty Tools">Hair Tools</a></li>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Beauty Tools">Facial Devices</a></li>
@@ -666,7 +657,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_beauty.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #db2777; border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.soap('#db2777')} BATH & BODY</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.soap('#6b7280')} BATH & BODY</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Bath & Body">Body Lotion</a></li>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Bath & Body">Body Butter</a></li>
@@ -679,12 +670,12 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_lifestyle.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #db2777; border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.star('#db2777')} TRENDING</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.star('#6b7280')} TRENDING</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Beauty&sort=newest">${trans.newArrivals}</a></li>
                   <li><a href="category.html?brand=COCO Beauty&sort=popular">${trans.bestSellers}</a></li>
                   <li><a href="category.html?brand=COCO Beauty&subcategory=Gifts">Gift Sets</a></li>
-                  <li><a href="category.html?brand=COCO Beauty&subcategory=Sale" style="color:var(--sale-red); font-weight:700;">${trans.sale}</a></li>
+                  <li><a href="category.html?brand=COCO Beauty&subcategory=Sale" style="color:#52525b; font-weight:700;">${trans.sale}</a></li>
                 </ul>
                 <img src="assets/cat_exclusive.png" class="mega-col-bottom-img">
               </div>
@@ -702,7 +693,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_lifestyle.png" alt="COCO Mini" class="mega-brand-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #e17a74; border-bottom-color: rgba(225, 122, 116, 0.3);">${svgIcons.baby('#e17a74')} BABY CLOTHING</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.baby('#6b7280')} BABY CLOTHING</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Mini&subcategory=Baby Clothing">Newborn</a></li>
                   <li><a href="category.html?brand=COCO Mini&subcategory=Baby Clothing">Baby Girl</a></li>
@@ -711,7 +702,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_lifestyle.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #e17a74; border-bottom-color: rgba(225, 122, 116, 0.3);">${svgIcons.dress('#e17a74')} KIDS FASHION</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.dress('#6b7280')} KIDS FASHION</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Mini&subcategory=Kids Fashion">Girls</a></li>
                   <li><a href="category.html?brand=COCO Mini&subcategory=Kids Fashion">Boys</a></li>
@@ -720,7 +711,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_fashion.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #e17a74; border-bottom-color: rgba(225, 122, 116, 0.3);">${svgIcons.shapes('#e17a74')} TOYS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.shapes('#6b7280')} TOYS</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Mini&subcategory=Toys">Educational Toys</a></li>
                   <li><a href="category.html?brand=COCO Mini&subcategory=Toys">Plush Toys</a></li>
@@ -729,7 +720,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_lifestyle.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #e17a74; border-bottom-color: rgba(225, 122, 116, 0.3);">${svgIcons.bottle('#e17a74')} BABY ESSENTIALS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.bottle('#6b7280')} BABY ESSENTIALS</div>
                 <ul>
                   <li><a href="category.html?brand=COCO Mini&subcategory=Baby Essentials">Swaddles & Blankets</a></li>
                   <li><a href="category.html?brand=COCO Mini&subcategory=Baby Essentials">Bibs & Accessories</a></li>
@@ -751,7 +742,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_exclusive.png" alt="Wedding" class="mega-brand-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #be123c; border-bottom-color: rgba(190, 18, 60, 0.3);">${svgIcons.ring('#be123c')} BRIDAL GOWNS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.ring('#6b7280')} BRIDAL GOWNS</div>
                 <ul>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Bridal Gowns">Wedding Dresses</a></li>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Bridal Gowns">Reception Dresses</a></li>
@@ -759,7 +750,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/emerald_dress.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #be123c; border-bottom-color: rgba(190, 18, 60, 0.3);">${svgIcons.crown('#be123c')} VEILS & TIARAS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.crown('#6b7280')} VEILS & TIARAS</div>
                 <ul>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Veils & Tiaras">Lace Veils</a></li>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Veils & Tiaras">Tiaras & Hair Combs</a></li>
@@ -767,7 +758,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_exclusive.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #be123c; border-bottom-color: rgba(190, 18, 60, 0.3);">${svgIcons.user('#be123c')} BRIDESMAIDS & GUESTS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.user('#6b7280')} BRIDESMAIDS & GUESTS</div>
                 <ul>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Bridesmaids & Guests">Bridesmaid Dresses</a></li>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Bridesmaids & Guests">Wedding Guest Dresses</a></li>
@@ -775,7 +766,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_fashion.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #be123c; border-bottom-color: rgba(190, 18, 60, 0.3);">${svgIcons.handbag('#be123c')} BRIDAL ACCESSORIES</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.handbag('#6b7280')} BRIDAL ACCESSORIES</div>
                 <ul>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Bridal Accessories">Bridal Jewelry</a></li>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Bridal Accessories">Bridal Shoes</a></li>
@@ -784,7 +775,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_beauty.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #be123c; border-bottom-color: rgba(190, 18, 60, 0.3);">${svgIcons.ring('#be123c')} WEDDING JEWELRY</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.ring('#6b7280')} WEDDING JEWELRY</div>
                 <ul>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Wedding Jewelry">Earrings</a></li>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Wedding Jewelry">Necklaces</a></li>
@@ -795,7 +786,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_lifestyle.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #be123c; border-bottom-color: rgba(190, 18, 60, 0.3);">${svgIcons.heel('#be123c')} WEDDING SHOES</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.heel('#6b7280')} WEDDING SHOES</div>
                 <ul>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Wedding Shoes">Bridal Heels</a></li>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Wedding Shoes">Bridal Flats</a></li>
@@ -804,7 +795,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_exclusive.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #be123c; border-bottom-color: rgba(190, 18, 60, 0.3);">${svgIcons.bouquet('#be123c')} FLOWERS & ACCESSORIES</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.bouquet('#6b7280')} FLOWERS & ACCESSORIES</div>
                 <ul>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Flowers & Accessories">Bridal Bouquets</a></li>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Flowers & Accessories">Flower Crowns</a></li>
@@ -814,7 +805,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_beauty.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: #be123c; border-bottom-color: rgba(190, 18, 60, 0.3);">${svgIcons.gift('#be123c')} WEDDING ESSENTIALS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.gift('#6b7280')} WEDDING ESSENTIALS</div>
                 <ul>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Wedding Essentials">Ring Pillow</a></li>
                   <li><a href="category.html?brand=Wedding Collection&subcategory=Wedding Essentials">Guest Book</a></li>
@@ -829,16 +820,16 @@ function renderAllDynamicComponents() {
 
           <!-- Trending Mega Menu -->
           <li class="nav-item">
-            <a href="category.html?sort=newest" class="nav-link" style="color:var(--accent-pink); font-weight:700;">TRENDING</a>
+            <a href="category.html?sort=newest" class="nav-link" style="color:#52525b; font-weight:700;">TRENDING</a>
             <div class="mega-menu trending-menu">
               <div class="mega-col mega-col-brand" style="border-right: 1px solid var(--border-color);">
-                <div class="mega-brand-name" style="color: var(--accent-pink);">DISCOVER WHAT'S TRENDING</div>
+                <div class="mega-brand-name" style="color: #52525b;">DISCOVER WHAT'S TRENDING</div>
                 <p class="mega-brand-desc">The latest must-haves from all our brands, curated just for you.</p>
-                <a href="category.html?sort=newest" class="btn-mega-action" style="background-color: var(--accent-pink); color: white;">SHOP TRENDING</a>
+                <a href="category.html?sort=newest" class="btn-mega-action">SHOP TRENDING</a>
                 <img src="assets/coco_candle.png" alt="Trending" class="mega-brand-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: var(--accent-pink); border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.star('var(--accent-pink)')} NEW ARRIVALS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.star('#6b7280')} NEW ARRIVALS</div>
                 <ul>
                   <li><a href="category.html?sort=newest">Shop New Arrivals</a></li>
                   <li><a href="all-collections.html">All Collections</a></li>
@@ -846,7 +837,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_beauty.png" class="mega-col-bottom-img" style="aspect-ratio:1/1;">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: var(--accent-pink); border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.trophy('var(--accent-pink)')} BEST SELLERS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.trophy('#6b7280')} BEST SELLERS</div>
                 <ul>
                   <li><a href="category.html?sort=rating">Top Rated Pieces</a></li>
                   <li><a href="category.html?search=Dress">Most Loved</a></li>
@@ -854,7 +845,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/lace_wig.png" class="mega-col-bottom-img" style="aspect-ratio:1/1;">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: var(--accent-pink); border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.tiara('var(--accent-pink)')} LIMITED EDITION</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.tiara('#6b7280')} LIMITED EDITION</div>
                 <ul>
                   <li><a href="category.html?subcategory=Limited Edition">Exclusive collections</a></li>
                   <li><a href="category.html?sort=newest">Seasonal drops</a></li>
@@ -862,7 +853,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_exclusive.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: var(--accent-pink); border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.gift('var(--accent-pink)')} GIFT IDEAS</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.gift('#6b7280')} GIFT IDEAS</div>
                 <ul>
                   <li><a href="category.html?search=Glow">Gifts for Her</a></li>
                   <li><a href="category.html?subcategory=Baby Clothing">Baby Gifts</a></li>
@@ -871,7 +862,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_lifestyle.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: var(--accent-pink); border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.calendar('var(--accent-pink)')} SEASONAL</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.calendar('#6b7280')} SEASONAL</div>
                 <ul>
                   <li><a href="category.html?search=Abaya">Ramadan</a></li>
                   <li><a href="category.html?search=Dress">Eid</a></li>
@@ -882,7 +873,7 @@ function renderAllDynamicComponents() {
                 <img src="assets/cat_exclusive.png" class="mega-col-bottom-img">
               </div>
               <div class="mega-col">
-                <div class="mega-col-title" style="color: var(--accent-pink); border-bottom-color: rgba(219, 39, 119, 0.3);">${svgIcons.tag('var(--accent-pink)')} SALE</div>
+                <div class="mega-col-title" style="color: #6b7280; border-bottom-color: #e4e4e7;">${svgIcons.tag('#6b7280')} SALE</div>
                 <ul>
                   <li><a href="category.html?search=Sale">Promotions</a></li>
                   <li><a href="category.html?search=Sale">Clearance</a></li>
@@ -893,13 +884,13 @@ function renderAllDynamicComponents() {
             </div>
           </li>
 
-          <!-- SALE Item (Matching Red Text in Photo 1 Reference) -->
+          <!-- SALE Item -->
           <li class="nav-item no-chevron">
-            <a href="category.html?sale=true" class="nav-link" onclick="window.closeMobileDrawer()" style="color:#e11d48; font-weight:800;">${isFr ? 'SOLDES' : 'SALE'}</a>
+            <a href="category.html?sale=true" class="nav-link" onclick="window.closeMobileDrawer()" style="color:#52525b; font-weight:800;">${isFr ? 'SOLDES' : 'SALE'}</a>
           </li>
         </ul>
 
-        <!-- Settings Group (Photo 1 reference: Shop In, Currency, Language) -->
+        <!-- Settings Group (Shop In, Currency, Language — without flags) -->
         <div class="mobile-drawer-settings-group">
           <div class="mobile-drawer-setting-row" data-drawer-action="locale" role="button" tabindex="0" onclick="window.closeMobileDrawer(); window.openLocalizationModal();">
             <span class="mobile-drawer-setting-left">${isFr ? "Pays d'achat" : "Shop In"}</span>
@@ -950,7 +941,7 @@ function renderAllDynamicComponents() {
     `;
   }
 
-  // 4. Main Footer Inner Content (Updated per Client Annotations in Images 1, 2, 3, 4)
+  // 4. Main Footer Inner Content (Updated per Client Annotations)
   const footerEl = document.querySelector(".main-footer");
   if (footerEl && typeof siteContent !== "undefined") {
     const fData = siteContent.footer;
@@ -964,14 +955,14 @@ function renderAllDynamicComponents() {
         </div>
       </div>
 
-      <!-- 2. SUBSCRIBE Section (Original JOIN THE AVENUE Text + Policy Text + Social Media Icons Below per Images 3 & 4) -->
+      <!-- 2. SUBSCRIBE Section (JOIN THE AVENUE + Policy Text + Social Media Icons Below) -->
       <div class="footer-newsletter-section">
         <div class="container" style="max-width:600px; text-align:center;">
-          <h2 style="font-family: var(--font-serif); font-size: 32px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #4b5563; margin-bottom: 10px;">${trans.joinAvenue}</h2>
+          <h2 style="font-family: var(--font-serif); font-size: 32px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #4b5563; margin-bottom: 10px;">${trans.joinAvenueTitle || (isFrFooter ? "REJOIGNEZ THE AVENUE" : "JOIN THE AVENUE")}</h2>
           <p class="newsletter-subtitle" style="font-size: 14px; color: #6b7280; margin-bottom: 22px; line-height: 1.6;">${trans.joinAvenueDesc}</p>
           <form class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
-            <input type="email" class="newsletter-input" required placeholder="${trans.emailPlaceholder}">
-            <button type="submit" class="btn-subscribe">${trans.subscribeBtn}</button>
+            <input type="email" class="newsletter-input" required placeholder="${trans.emailPlaceholder || (isFrFooter ? "Entrez votre adresse e-mail" : "Enter your email address")}">
+            <button type="submit" class="btn-subscribe">${trans.subscribe || (isFrFooter ? "S'ABONNER" : "SUBSCRIBE")}</button>
           </form>
           <p class="subscribe-policy-text">
             ${isFrFooter
@@ -979,20 +970,20 @@ function renderAllDynamicComponents() {
               : 'By submitting your details, you agree to receive marketing communications from 13th Avenue &amp; our <a href="all-collections.html">family of brands</a> by email. You can unsubscribe at any point. You also consent to the use of your details in accordance with our <a href="#" onclick="openInfoPolicyModal(\'privacy\'); return false;">Privacy Policy.</a>'}
           </p>
 
-          <!-- Position 1 (Image 3 & 4): Social Media Icons right below the Subscribe policy text -->
+          <!-- Position 1: Social Media Icons right below the Subscribe policy text -->
           <div class="footer-social-title">${isFrFooter ? "Suivez-nous sur les réseaux sociaux" : "Follow Us On Social Media"}</div>
           <div class="footer-social-minimal">
             <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
             <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-            <a href="https://x.com" target="_blank" rel="noopener" aria-label="X"><i class="fab fa-x-twitter"></i><span style="font-family:sans-serif; font-weight:800; font-size:16px; display:none;">X</span></a>
+            <a href="https://x.com" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:block;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
             <a href="https://wa.me/971501234567" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
           </div>
         </div>
       </div>
 
-      <!-- 3. Brand Family Presentation Strip (Below Social Media Icons per Image 3) -->
+      <!-- 3. Brand Family Presentation Strip (Below Social Media Icons) -->
       <div class="footer-brands-strip">
         <a href="category.html?brand=Miss Chloé" class="footer-brand-logo-item">MISS CHLOÉ</a>
         <a href="category.html?brand=Nella Hair Couture" class="footer-brand-logo-item serif-italic">Nella Hair</a>
@@ -1056,7 +1047,7 @@ function renderAllDynamicComponents() {
           </div>
         </div>
 
-        <!-- Row 4: CONTACT (Includes +971 501234567 per Image 3) -->
+        <!-- Row 4: CONTACT (Includes +971 501234567) -->
         <div class="footer-accordion-item" id="footer-acc-contact">
           <button type="button" class="footer-accordion-header" onclick="toggleFooterAccordion('footer-acc-contact')">
             <span>${trans.contactColTitle}</span>
@@ -1074,24 +1065,7 @@ function renderAllDynamicComponents() {
         </div>
       </div>
 
-      <!-- 5. Country Selector -->
-      <div class="footer-bottom-extras">
-        <div class="footer-country-label">${isFrFooter ? "Pays" : "Country"}</div>
-        <div class="footer-country-box" onclick="openLocalizationModal()">
-          <span class="footer-country-box-left">
-            <img src="https://flagcdn.com/w20/${currentLocale.country.toLowerCase()}.png"
-                 onerror="this.style.display='none';"
-                 style="width:20px; height:14px; border-radius:2px; object-fit:cover; border:1px solid #e5e7eb;">
-            <span>13th Avenue ${currentLocale.countryName || 'Mena'}</span>
-          </span>
-          <span class="footer-country-box-right">
-            <span>${currentLocale.country} ${currentLocale.currency}</span>
-            <i class="fas fa-chevron-down" style="font-size:10px;"></i>
-          </span>
-        </div>
-      </div>
-
-      <!-- 6. Position 2 (Image 2 & 3): Payment Methods with Title at the End After Hidden Texts -->
+      <!-- 5. Position 2: Payment Methods with Title at the End After Hidden Texts -->
       <div class="footer-payments-strip">
         <div class="payment-methods-title">${isFrFooter ? "NOUS ACCEPTONS :" : "WE ACCEPT:"}</div>
         <div class="payment-methods-icons">
@@ -1113,7 +1087,7 @@ function renderAllDynamicComponents() {
         </div>
       </div>
 
-      <!-- 7. Subtle Copyright & Mandatory Signature (White Background, Grey Text) -->
+      <!-- 6. Subtle Copyright & Mandatory Signature (White Background, Grey Text) -->
       <div class="footer-copyright-bar">
         <div class="container">
           <p>${fData.copyright}</p>
@@ -1873,10 +1847,7 @@ function renderCountriesList(filterQuery = "") {
       return `
         <div class="country-list-row ${isSelected ? "selected" : ""}" id="country-row-${c.code}" onclick="selectLocaleCountry('${c.code}')" style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--border-color); cursor:pointer; font-size:13px;">
           <div style="display:flex; align-items:center; gap:10px;">
-            <img src="https://flagcdn.com/w32/${c.code.toLowerCase()}.png" 
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';" 
-                 style="width: 24px; height: 16px; border-radius: 2px; border: 1px solid var(--border-color); vertical-align: middle; object-fit: cover; display: inline-block;">
-            <span class="flag-fallback" style="display: none; font-size: 10px; font-weight: 700; background: #e2e8f0; color: #475569; padding: 2px 5px; border-radius: 3px; vertical-align: middle; text-transform: uppercase;">${c.code}</span>
+            <span class="flag-fallback" style="display: inline-block; font-size: 10px; font-weight: 700; background: #e2e8f0; color: #475569; padding: 2px 5px; border-radius: 3px; vertical-align: middle; text-transform: uppercase;">${c.code}</span>
             <span>${c.name} ${c.recommended ? `<span style="font-size:10px; color:var(--text-muted); font-style:italic;">(${trans.recommended})</span>` : ""}</span>
           </div>
           <div style="display:flex; align-items:center; gap:12px;">

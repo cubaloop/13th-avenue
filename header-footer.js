@@ -1067,21 +1067,13 @@ function renderAllDynamicComponents() {
       <div class="footer-payments-strip">
         <div class="payment-methods-title">${isFrFooter ? "NOUS ACCEPTONS :" : "WE ACCEPT:"}</div>
         <div class="payment-methods-icons">
-          <span class="payment-badge" style="color:#1a1f71; font-style:italic; font-weight:900; font-size:13px;">VISA</span>
-          <span class="payment-badge" style="display:inline-flex; align-items:center; gap:2px;">
-            <span style="width:12px; height:12px; border-radius:50%; background:#eb001b; display:inline-block;"></span>
-            <span style="width:12px; height:12px; border-radius:50%; background:#f79e1b; margin-left:-5px; display:inline-block;"></span>
-          </span>
-          <span class="payment-badge" style="display:inline-flex; align-items:center; gap:2px;">
-            <span style="width:12px; height:12px; border-radius:50%; background:#0099df; display:inline-block;"></span>
-            <span style="width:12px; height:12px; border-radius:50%; background:#eb001b; margin-left:-5px; display:inline-block;"></span>
-          </span>
-          <span class="payment-badge" style="color:#1a1f71; font-weight:800; font-size:10px;">VISA <span style="font-weight:400;">Electron</span></span>
-          <span class="payment-badge" style="color:#003087; font-style:italic; font-weight:800;">Pay<span style="color:#0079c1;">Pal</span></span>
-          <span class="payment-badge" style="background:#016fd0; color:#ffffff; border-color:#016fd0; font-size:10px;">AMEX</span>
-          <span class="payment-badge" style="color:#374151; font-weight:700;"><i class="fab fa-apple" style="font-size:13px;"></i> Pay</span>
-          <span class="payment-badge" style="background:#f5e1ff; color:#4b5563; border-color:#e9d5ff; font-weight:800;">tamara</span>
-          <span class="payment-badge" style="background:#d1fae5; color:#374151; border-color:#a7f3d0; font-weight:800;">tabby</span>
+          <span class="payment-badge" style="background-color:#003366; color:#ffffff; border-color:#003366; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">VISA</span>
+          <span class="payment-badge" style="background-color:#FF5F00; color:#ffffff; border-color:#FF5F00; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">MC</span>
+          <span class="payment-badge" style="background-color:#007CC3; color:#ffffff; border-color:#007CC3; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">AMEX</span>
+          <span class="payment-badge" style="background-color:#111827; color:#ffffff; border-color:#111827; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;"><i class="fab fa-apple" style="margin-right:3px;"></i> Pay</span>
+          <span class="payment-badge" style="background-color:#3ec4ae; color:#111827; border-color:#3ec4ae; font-size:10px; font-weight:900; padding:4px 10px; border-radius:3px;">tabby</span>
+          <span class="payment-badge" style="background-color:#e45d4e; color:#ffffff; border-color:#e45d4e; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">tamara</span>
+          <span class="payment-badge" style="background-color:#4CAF50; color:#ffffff; border-color:#4CAF50; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">M-PESA</span>
         </div>
       </div>
 

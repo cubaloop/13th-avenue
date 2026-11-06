@@ -1074,6 +1074,19 @@ function renderAllDynamicComponents() {
           <span class="payment-badge" style="background-color:#3ec4ae; color:#111827; border-color:#3ec4ae; font-size:10px; font-weight:900; padding:4px 10px; border-radius:3px;">tabby</span>
           <span class="payment-badge" style="background-color:#e45d4e; color:#ffffff; border-color:#e45d4e; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">tamara</span>
           <span class="payment-badge" style="background-color:#4CAF50; color:#ffffff; border-color:#4CAF50; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">M-PESA</span>
+          <span class="payment-badge" style="background-color:#ffffff; color:#004F71; border:1px solid #cbd5e1; padding:2px 7px; border-radius:3px; display:inline-flex; align-items:center; gap:5px; height:26px;" title="MTN MoMo (Mobile Money Africa)">
+            <svg width="18" height="18" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0; display:block;">
+              <rect width="36" height="36" rx="6" fill="#004F71"/>
+              <path d="M0 30H36V30C36 33.3137 33.3137 36 30 36H6C2.68629 36 0 33.3137 0 30V30Z" fill="#FFCB05"/>
+              <path d="M8 20.5L18.5 8.5C21.5 14 23 19.5 22.5 25.5C18.5 22.2 13.5 20.8 8 20.5Z" fill="#FFCB05"/>
+              <path d="M21 7C25.2 11.8 27 17.5 26 24C24.8 18.2 23.2 13 20 8.2L21 7Z" fill="#FFCB05"/>
+              <circle cx="16.2" cy="17.2" r="3.3" fill="#004F71"/>
+            </svg>
+            <span style="display:flex; flex-direction:column; align-items:flex-start; justify-content:center; line-height:1;">
+              <span style="font-size:10px; font-weight:900; color:#004F71; letter-spacing:-0.02em;">MoMo</span>
+              <span style="font-size:6px; font-weight:800; color:#004F71; margin-top:1px;">from MTN</span>
+            </span>
+          </span>
         </div>
       </div>
 

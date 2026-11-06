@@ -3606,34 +3606,44 @@ async function fetchSupabaseLiveStoreData() {
       ]);
 
       if (prodRes.status === "fulfilled" && !prodRes.value.error && Array.isArray(prodRes.value.data) && prodRes.value.data.length > 0) {
-        const mapped = prodRes.value.data.map(item => ({
-          id: isNaN(Number(item.id)) ? item.id : Number(item.id),
-          name: item.name,
-          brand: item.brand,
-          price: Number(item.price),
-          originalPrice: item.original_price ? Number(item.original_price) : undefined,
-          category: item.category,
-          subcategory: item.subcategory,
-          image: item.image,
-          description: item.description,
-          sizes: item.sizes || [],
-          colors: item.colors || [],
-          inStock: item.in_stock !== false,
-          rating: Number(item.rating || 5.0)
-        }));
-        window.products = mapped;
-        if (typeof products !== "undefined" && Array.isArray(products)) {
+        let changed = false;
+        const localMap = new Map((typeof products !== "undefined" && Array.isArray(products) ? products : []).map(p => [String(p.id), p]));
+        prodRes.value.data.forEach(item => {
+          const sid = String(item.id);
+          const existing = localMap.get(sid);
+          if (!existing) {
+            localMap.set(sid, {
+              id: isNaN(Number(item.id)) ? item.id : Number(item.id),
+              name: item.name,
+              brand: item.brand,
+              price: Number(item.price),
+              originalPrice: item.original_price ? Number(item.original_price) : undefined,
+              category: item.category,
+              subcategory: item.subcategory,
+              image: item.image,
+              description: item.description,
+              sizes: item.sizes || [],
+              colors: item.colors || [],
+              inStock: item.in_stock !== false,
+              rating: Number(item.rating || 5.0)
+            });
+            changed = true;
+          } else if (item.image && item.image.startsWith("data:image") && existing.image !== item.image) {
+            existing.image = item.image;
+            changed = true;
+          }
+        });
+        if (changed && typeof products !== "undefined" && Array.isArray(products)) {
+          const mergedList = Array.from(localMap.values());
           products.length = 0;
-          products.push(...mapped);
-        }
-        if (typeof renderProductGrid === "function" && document.getElementById("trending-products-grid")) {
-          renderProductGrid(products.slice(0, 10), "trending-products-grid");
-        }
-        if (typeof renderProductGrid === "function" && document.getElementById("curated-edit-grid")) {
-          renderProductGrid(products.slice(4, 12), "curated-edit-grid");
-        }
-        if (typeof applyFiltersAndRender === "function" && document.getElementById("category-products-grid")) {
-          applyFiltersAndRender();
+          products.push(...mergedList);
+          window.products = products;
+          if (typeof renderProductGrid === "function" && document.getElementById("trending-products-grid")) {
+            renderProductGrid(products.slice(0, 10), "trending-products-grid");
+          }
+          if (typeof applyFiltersAndRender === "function" && document.getElementById("category-products-grid")) {
+            applyFiltersAndRender();
+          }
         }
       }
 

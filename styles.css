@@ -1149,6 +1149,8 @@ img {
 .product-image-container img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center top;
   transition: transform 0.5s ease;
 }
 
@@ -3595,13 +3597,21 @@ body.admin-inpage-active {
   color: #ffffff;
 }
 
-/* Editable Text Highlights when Momentos Edit Mode is ON */
+/* Editable Text Highlights & Pencil Indicator when Momentos Edit Mode is ON */
 body.momentos-edit-mode [data-edit-key] {
   outline: 1.5px dashed rgba(245, 158, 11, 0.78) !important;
   outline-offset: 3px;
   border-radius: 4px;
   cursor: pointer !important;
   transition: outline-color 0.18s ease, background-color 0.18s ease;
+}
+
+body.momentos-edit-mode [data-edit-key]::after {
+  content: " ✏️";
+  font-size: 0.78em;
+  vertical-align: middle;
+  opacity: 0.92;
+  pointer-events: none;
 }
 
 body.momentos-edit-mode [data-edit-key]:hover {

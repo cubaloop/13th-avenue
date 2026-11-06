@@ -2419,9 +2419,11 @@ window.bindMomentosLiveEditorElements = function() {
     { selector: ".footer-newsletter-section .newsletter-subtitle", prefix: "footer_news_sub", label: "Subtítulo Suscripción", multiline: true },
     { selector: ".footer-newsletter-section .btn-subscribe", prefix: "footer_news_btn", label: "Botón Subscribe" },
     { selector: ".footer-newsletter-section .subscribe-policy-text", prefix: "footer_news_policy", label: "Texto Políticas Subscribe", multiline: true },
+    { selector: ".footer-brands-strip .footer-brand-logo-item", prefix: "footer_brand_strip", label: "Logo Marca en Footer" },
     { selector: ".footer-accordion-header span", prefix: "footer_acc_title", label: "Título Acordeón Footer" },
-    { selector: ".footer-acc-info-block h5", prefix: "footer_info_h5", label: "Subtítulo Bloque Info" },
-    { selector: ".footer-acc-info-block p", prefix: "footer_info_p", label: "Texto Bloque Info", multiline: true },
+    { selector: ".footer-accordion-content ul li a", prefix: "footer_acc_link", label: "Enlace Acordeón Footer" },
+    { selector: ".payment-methods-title", prefix: "footer_pay_title", label: "Título Métodos de Pago" },
+    { selector: ".footer-copyright-bar p:first-child", prefix: "footer_copyright_txt", label: "Texto Copyright" },
     { selector: "#category-display-title", prefix: "cat_page_title", label: "Título de Categoría" }
   ];
 
@@ -2468,7 +2470,7 @@ window.bindMomentosLiveEditorElements = function() {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "momentos-img-edit-btn momentos-slide-img-btn";
-      btn.innerHTML = `<i class="fas fa-camera"></i> <span>Cambiar Imagen Banner #${idx + 1}</span>`;
+      btn.innerHTML = `<i class="fas fa-pencil-alt"></i> <i class="fas fa-camera"></i> <span>Editar Imagen Banner #${idx + 1}</span>`;
       btn.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -2484,9 +2486,14 @@ window.bindMomentosLiveEditorElements = function() {
   document.querySelectorAll(".brand-showcase-card").forEach((cardEl, idx) => {
     const imgKey = `brand_card_bg_${idx}`;
     const bgImgEl = cardEl.querySelector(".brand-card-bg-img");
+    const extractBgUrl = (el) => {
+      const raw = el.style.backgroundImage || "";
+      const match = raw.match(/url\(['"]?([^'"]+)['"]?\)/i);
+      return match ? match[1] : "";
+    };
     if (!cardEl.dataset.imgKey) {
       cardEl.dataset.imgKey = imgKey;
-      cardEl.dataset.defaultSrc = bgImgEl ? bgImgEl.getAttribute("src") : "";
+      cardEl.dataset.defaultSrc = bgImgEl ? bgImgEl.getAttribute("src") : extractBgUrl(cardEl);
     }
     if (customImages[imgKey]) {
       if (bgImgEl) bgImgEl.src = customImages[imgKey];
@@ -2497,11 +2504,11 @@ window.bindMomentosLiveEditorElements = function() {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "momentos-img-edit-btn momentos-brand-img-btn";
-      btn.innerHTML = `<i class="fas fa-camera"></i> <span>Cambiar Fondo</span>`;
+      btn.innerHTML = `<i class="fas fa-pencil-alt"></i> <i class="fas fa-camera"></i> <span>Cambiar Imagen</span>`;
       btn.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const currentSrc = bgImgEl ? bgImgEl.src : "";
+        const currentSrc = bgImgEl ? bgImgEl.src : (extractBgUrl(cardEl) || cardEl.dataset.defaultSrc || "");
         window.openMomentosImageChanger(imgKey, `Fondo Tarjeta de Marca #${idx + 1}`, currentSrc, (newUrl) => {
           if (bgImgEl) bgImgEl.src = newUrl;
           cardEl.style.backgroundImage = `url('${newUrl}')`;
@@ -3124,8 +3131,8 @@ window.switchMomentosDashTab = function(tabName) {
       { key: "hero_slide_img_0", title: "Banner Principal #1 (Moda)", fallback: "assets/hero_fashion.png" },
       { key: "hero_slide_img_1", title: "Banner Principal #2 (Nella Hair)", fallback: "assets/hero_beauty.png" },
       { key: "hero_slide_img_2", title: "Banner Principal #3 (COCO)", fallback: "assets/hero_lifestyle.png" },
-      { key: "brand_card_bg_0", title: "Fondo Marca 1: Miss Chloé", fallback: "assets/emerald_dress.png" },
-      { key: "brand_card_bg_1", title: "Fondo Marca 2: Nella Hair", fallback: "assets/lace_wig.png" },
+      { key: "brand_card_bg_0", title: "Fondo Marca 1: Miss Chloé", fallback: "assets/cat_fashion.png" },
+      { key: "brand_card_bg_1", title: "Fondo Marca 2: Nella Hair", fallback: "assets/cat_beauty.png" },
       { key: "brand_card_bg_2", title: "Fondo Marca 3: COCO Beauty", fallback: "assets/coco_candle.png" },
       { key: "brand_card_bg_3", title: "Fondo Marca 4: COCO Mini", fallback: "assets/cat_lifestyle.png" }
     ];

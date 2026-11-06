@@ -1,14 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | 13th Avenue</title>
-  <link rel="stylesheet" href="styles.css?v=20261106c">
+  <link rel="stylesheet" href="styles.css?v=20261106d">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Supabase JS Client & Config -->
-  <script src="supabase-config.js?v=20261106c"></script>
+  <script src="supabase-config.js?v=20261106d"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" async onload="window.initSupabaseConnection && window.initSupabaseConnection()"></script>
   <style>
     /* Light Theme Overrides for Admin Panel */
@@ -457,7 +457,7 @@
 
         <div class="admin-card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h3 style="margin:0;">Real Sales Analytics — Last 7 Days (AED)</h3>
+            <h3 style="margin:0;">Real Sales Analytics � Last 7 Days (AED)</h3>
             <span style="font-size:12px; color:var(--admin-text-muted);" id="chart-subtitle-range">Live Daily Revenue</span>
           </div>
           <div style="height: 300px; position: relative;">
@@ -601,7 +601,7 @@
       <div id="tab-supabase" class="tab-content">
         <div class="admin-card" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; padding:20px 24px;">
           <div>
-            <h3 style="margin:0; font-size:18px; font-weight:700;">⚡ Supabase Cloud Database Connection</h3>
+            <h3 style="margin:0; font-size:18px; font-weight:700;">? Supabase Cloud Database Connection</h3>
             <p style="margin:4px 0 0 0; font-size:13px; color:var(--admin-text-muted);">Connect your Supabase project URL and Anon Key to enable real-time cloud persistence across all devices without redeploying files.</p>
           </div>
           <div id="supabase-status-badge" style="padding:8px 16px; border-radius:20px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; background-color:#fee2e2; color:#ef4444; display:flex; align-items:center; gap:8px;">
@@ -737,7 +737,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
           <div class="form-group">
             <label class="form-label">Brand</label>
             <select id="form-product-brand" class="form-control" onchange="adjustFormCategories()">
-              <option value="Miss Chloé">Miss Chloé</option>
+              <option value="Miss Chlo�">Miss Chlo�</option>
               <option value="Nella Hair Couture">Nella Hair Couture</option>
               <option value="COCO Beauty">COCO Beauty</option>
               <option value="COCO Mini">COCO Mini</option>
@@ -1010,7 +1010,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
               inStock: item.in_stock !== false,
               rating: Number(item.rating || 5.0)
             }));
-            console.log("⚡ Admin hydrated from Supabase:", localProducts.length, "products");
+            console.log("? Admin hydrated from Supabase:", localProducts.length, "products");
           }
 
           // Hydrate real_analytics and real_orders from site_settings
@@ -1118,7 +1118,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
 
       refreshRealDashboardStats();
       renderOrdersTable();
-      alert("✅ All statistics and order logs have been reset to 0. Real-time tracking is active from this moment.");
+      alert("? All statistics and order logs have been reset to 0. Real-time tracking is active from this moment.");
     };
 
     function initSalesChart(ordersList = null) {
@@ -1226,7 +1226,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
       // Clear form
       document.getElementById("form-product-id").value = "";
       document.getElementById("form-product-name").value = "";
-      document.getElementById("form-product-brand").value = "Miss Chloé";
+      document.getElementById("form-product-brand").value = "Miss Chlo�";
       document.getElementById("form-product-category").value = "Fashion";
       document.getElementById("form-product-subcategory").value = "";
       document.getElementById("form-product-sizes").value = "";
@@ -1267,7 +1267,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
     function adjustFormCategories() {
       const brand = document.getElementById("form-product-brand").value;
       const cat = document.getElementById("form-product-category");
-      if (brand === "Miss Chloé") cat.value = "Fashion";
+      if (brand === "Miss Chlo�") cat.value = "Fashion";
       else if (brand === "Nella Hair Couture") cat.value = "Hair & Wigs";
       else if (brand === "COCO Beauty") cat.value = "Beauty";
       else if (brand === "COCO Mini") cat.value = "Kids & Baby";
@@ -1375,7 +1375,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
             console.error("Supabase Product Save Error:", error);
             alert("Warning: Saved locally, but Supabase sync returned error: " + error.message);
           } else {
-            alert("✅ Product saved successfully and updated LIVE on Supabase for all users!");
+            alert("? Product saved successfully and updated LIVE on Supabase for all users!");
           }
         } catch (err) {
           console.error("Supabase Save Error:", err);
@@ -1394,7 +1394,7 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
             if (error) {
               alert("Error deleting from Supabase: " + error.message);
             } else {
-              alert("✅ Product deleted LIVE from Supabase for all users!");
+              alert("? Product deleted LIVE from Supabase for all users!");
             }
           } catch (err) {
             console.error("Supabase Delete Error:", err);
@@ -1765,12 +1765,12 @@ CREATE POLICY "Allow admin write settings" ON public.site_settings FOR ALL USING
         if (sError) throw sError;
 
         progress.style.color = "#10b981";
-        progress.innerHTML = "✅ Success! All " + localProducts.length + " products & site settings uploaded live to Supabase!";
+        progress.innerHTML = "? Success! All " + localProducts.length + " products & site settings uploaded live to Supabase!";
         alert("Success! Your products database and custom settings are live on Supabase.");
       } catch (err) {
         console.error("Supabase Push Error:", err);
         progress.style.color = "#ef4444";
-        progress.innerHTML = "❌ Sync failed: " + err.message;
+        progress.innerHTML = "? Sync failed: " + err.message;
         alert("Supabase Sync Failed: " + err.message + "\n\n(Make sure you ran the SQL Schema query inside your Supabase SQL Editor!)");
       }
     };

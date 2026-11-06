@@ -1069,11 +1069,6 @@ function renderAllDynamicComponents() {
         <div class="payment-methods-icons">
           <span class="payment-badge" style="background-color:#003366; color:#ffffff; border-color:#003366; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">VISA</span>
           <span class="payment-badge" style="background-color:#FF5F00; color:#ffffff; border-color:#FF5F00; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">MC</span>
-          <span class="payment-badge" style="background-color:#007CC3; color:#ffffff; border-color:#007CC3; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">AMEX</span>
-          <span class="payment-badge" style="background-color:#111827; color:#ffffff; border-color:#111827; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;"><i class="fab fa-apple" style="margin-right:3px;"></i> Pay</span>
-          <span class="payment-badge" style="background-color:#3ec4ae; color:#111827; border-color:#3ec4ae; font-size:10px; font-weight:900; padding:4px 10px; border-radius:3px;">tabby</span>
-          <span class="payment-badge" style="background-color:#e45d4e; color:#ffffff; border-color:#e45d4e; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">tamara</span>
-          <span class="payment-badge" style="background-color:#4CAF50; color:#ffffff; border-color:#4CAF50; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">M-PESA</span>
           <span class="payment-badge" style="background-color:#ffffff; color:#004F71; border:1px solid #cbd5e1; padding:2px 7px; border-radius:3px; display:inline-flex; align-items:center; gap:5px; height:26px;" title="MTN MoMo (Mobile Money Africa)">
             <svg width="18" height="18" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0; display:block;">
               <rect width="36" height="36" rx="6" fill="#004F71"/>
@@ -1087,6 +1082,10 @@ function renderAllDynamicComponents() {
               <span style="font-size:6px; font-weight:800; color:#004F71; margin-top:1px;">from MTN</span>
             </span>
           </span>
+          <span class="payment-badge" style="background-color:#4CAF50; color:#ffffff; border-color:#4CAF50; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">M-PESA</span>
+          <span class="payment-badge" style="background-color:#111827; color:#ffffff; border-color:#111827; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;"><i class="fab fa-apple" style="margin-right:3px;"></i> Pay</span>
+          <span class="payment-badge" style="background-color:#e45d4e; color:#ffffff; border-color:#e45d4e; font-size:10px; font-weight:700; padding:4px 10px; border-radius:3px;">tamara</span>
+          <span class="payment-badge" style="background-color:#3ec4ae; color:#111827; border-color:#3ec4ae; font-size:10px; font-weight:900; padding:4px 10px; border-radius:3px;">tabby</span>
         </div>
       </div>
 

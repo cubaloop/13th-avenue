@@ -600,12 +600,27 @@ function initCategoryPage() {
     const searchHeader = document.getElementById("category-display-title");
     if (searchHeader) searchHeader.textContent = `Search Results for "${searchParam}"`;
   } else {
-    // Set Page Title
+    // Set Page Title + Brand Store Logo when viewing COCO Beauty or COCO Mini
     const displayTitle = document.getElementById("category-display-title");
     if (displayTitle) {
-      displayTitle.textContent = subcategoryParam 
+      const titleText = subcategoryParam 
         ? `${brandParam || 'Featured'} - ${subcategoryParam}`
         : `${categoryParam || brandParam || 'All Collections'}`;
+      const bNorm = (brandParam || "").toLowerCase();
+      let logoSrc = "";
+      if (bNorm.includes("coco beauty") || (categoryParam || "").toLowerCase() === "beauty") {
+        logoSrc = "assets/logo_coco_beauty.jpg";
+      } else if (bNorm.includes("coco mini") || (categoryParam || "").toLowerCase().includes("kids")) {
+        logoSrc = "assets/logo_coco_mini.jpg";
+      }
+      if (logoSrc) {
+        displayTitle.style.display = "flex";
+        displayTitle.style.alignItems = "center";
+        displayTitle.style.gap = "14px";
+        displayTitle.innerHTML = `<img src="${logoSrc}" alt="${brandParam || categoryParam}" style="width:58px; height:58px; border-radius:50%; object-fit:cover; flex-shrink:0; box-shadow:0 3px 10px rgba(0,0,0,0.14);"><span>${titleText}</span>`;
+      } else {
+        displayTitle.textContent = titleText;
+      }
     }
   }
   

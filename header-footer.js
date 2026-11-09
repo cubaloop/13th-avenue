@@ -591,6 +591,7 @@ function renderAllDynamicComponents() {
             <a href="category.html?brand=COCO Beauty" class="nav-link">${isFr ? 'Beauté' : 'Beauty'}</a>
             <div class="mega-menu coco-beauty-menu">
               <div class="mega-col mega-col-brand">
+                <img src="assets/logo_coco_beauty.jpg" alt="COCO Beauty" style="width:58px; height:58px; border-radius:50%; object-fit:cover; margin-bottom:8px; display:block; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
                 <div class="mega-brand-name">COCO Beauty</div>
                 <p class="mega-brand-desc">Premium beauty & self-care essentials for your best self, every day.</p>
                 <a href="category.html?brand=COCO Beauty" class="btn-mega-action">SHOP COCO BEAUTY</a>
@@ -687,6 +688,7 @@ function renderAllDynamicComponents() {
             <a href="category.html?brand=COCO Mini" class="nav-link">${isFr ? 'Enfants' : 'Kids'}</a>
             <div class="mega-menu coco-mini-menu">
               <div class="mega-col mega-col-brand">
+                <img src="assets/logo_coco_mini.jpg" alt="COCO Mini" style="width:58px; height:58px; border-radius:50%; object-fit:cover; margin-bottom:8px; display:block; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
                 <div class="mega-brand-name">COCO Mini</div>
                 <p class="mega-brand-desc">Everything your little ones need, all in one beautiful place.</p>
                 <a href="category.html?brand=COCO Mini" class="btn-mega-action">SHOP COCO MINI</a>
@@ -985,8 +987,12 @@ function renderAllDynamicComponents() {
       <div class="footer-brands-strip">
         <a href="category.html?brand=Miss Chloé" class="footer-brand-logo-item">MISS CHLOÉ</a>
         <a href="category.html?brand=Nella Hair Couture" class="footer-brand-logo-item serif-italic">Nella Hair</a>
-        <a href="category.html?brand=COCO Beauty" class="footer-brand-logo-item bold-condensed">COCO BEAUTY</a>
-        <a href="category.html?brand=COCO Mini" class="footer-brand-logo-item">COCO<span>MINI</span></a>
+        <a href="category.html?brand=COCO Beauty" class="footer-brand-logo-item has-logo-img" title="COCO Beauty">
+          <img src="assets/logo_coco_beauty.jpg" alt="COCO Beauty" style="width:52px; height:52px; border-radius:50%; object-fit:cover; display:block;">
+        </a>
+        <a href="category.html?brand=COCO Mini" class="footer-brand-logo-item has-logo-img" title="COCO Mini">
+          <img src="assets/logo_coco_mini.jpg" alt="COCO Mini" style="width:52px; height:52px; border-radius:50%; object-fit:cover; display:block;">
+        </a>
         <a href="category.html?brand=Wedding Collection" class="footer-brand-logo-item serif-italic">Wedding</a>
       </div>
 
@@ -2431,7 +2437,7 @@ window.bindMomentosLiveEditorElements = function() {
     { selector: ".footer-newsletter-section .newsletter-subtitle", prefix: "footer_news_sub", label: "Subtítulo Suscripción", multiline: true },
     { selector: ".footer-newsletter-section .btn-subscribe", prefix: "footer_news_btn", label: "Botón Subscribe" },
     { selector: ".footer-newsletter-section .subscribe-policy-text", prefix: "footer_news_policy", label: "Texto Políticas Subscribe", multiline: true },
-    { selector: ".footer-brands-strip .footer-brand-logo-item", prefix: "footer_brand_strip", label: "Logo Marca en Footer" },
+    { selector: ".footer-brands-strip .footer-brand-logo-item:not(.has-logo-img)", prefix: "footer_brand_strip", label: "Logo Marca en Footer" },
     { selector: ".footer-accordion-header span", prefix: "footer_acc_title", label: "Título Acordeón Footer" },
     { selector: ".footer-accordion-content ul li a", prefix: "footer_acc_link", label: "Enlace Acordeón Footer" },
     { selector: ".payment-methods-title", prefix: "footer_pay_title", label: "Título Métodos de Pago" },
